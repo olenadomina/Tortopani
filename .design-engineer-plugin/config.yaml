@@ -1,0 +1,67 @@
+schema_version: 1
+
+cost_mode: full
+project_type: existing
+mode: autopilot
+goal: development
+created: 2026-06-18
+
+environment:
+  git: true
+  claude_md: false
+  source_code: true
+  tech_stack: static-html-css-js
+  mcps_found:
+    - Context7
+    - Figma
+    - Playwright
+  mcps_missing:
+    - Figma Console
+  plugins:
+    context7: null
+    figma: null
+    playwright: null
+  mcps:
+    figma_console: null
+
+project:
+  type: existing
+  goal: "Implement the approved Home and Bento launch remediation"
+  mode: autopilot
+  deliverables_path: .design-engineer-plugin/design
+  context:
+    existing_design_system: docs/DESIGN-SYSTEM.md
+    existing_brand_docs: false
+    existing_specs: docs/STATUS.md
+    existing_problem_statement: false
+    existing_personas: false
+    existing_assumptions_log: false
+    existing_competitor_analysis: false
+    existing_business_plan: false
+    existing_story_panels: false
+    shipped_ui: false
+    component_count: 0
+    off_repo_references:
+      - "Figma project (designs / design system live in a Figma file)"
+
+gallery:
+  path: null
+
+dependencies:
+  tracking_file: .design-engineer-plugin/dependencies.yaml
+  auto_suggest: true
+
+resume:
+  active_workflow: null
+  phase: development_complete
+  last_completed_skill: design-engineer-development
+  next_skill: design-engineer-review
+  updated_at: "2026-08-01T22:54:02+02:00"
+  open_questions:
+    - "Who supplies and approves the four missing Bento flavour photos and seven decor-technique photos?"
+    - "What are the approved Bento price, start date, and final sales terms?"
+    - "Which seven techcards complete the 12-item catalog, with which assets and prices?"
+    - "Is checkout required, or is manager-assisted payment the official flow?"
+    - "Which claims and crossed-out prices have verifiable evidence?"
+    - "Who owns Privacy Policy approval and production lead verification?"
+    - "Has the client approved the warm paper/sage palette and image-first mobile tradeoff?"

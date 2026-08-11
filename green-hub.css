@@ -1,0 +1,2138 @@
+/* ===================================================================
+   TORTOPANI — Green Hub (index.html)
+
+   Page-scoped theme layered over styles.css. One botanical green does all
+   the structural work — the plate behind the author, the figures band, the
+   gallery, mentorship and the closing CTA + footer — while the reading
+   surfaces stay cream. The only colour outside that ramp is the warm chip
+   pair on the catalog states; everything else is green, ink and photography.
+
+   Contrast (measured against the surfaces they actually sit on):
+     ink    #16190F on canvas #F9F9F5 ..... 16.9:1
+     soft   #4E5445 on canvas ............. 7.4:1
+     green  #2E7D4F on canvas ............. 4.8:1   (accent text, passes AA body)
+     green  #2E7D4F with white ............ 5.0:1   (primary button)
+     mint   #BFE6C7 on green-900 .......... 5.6:1   (headings on dark)
+     white  #FFFFFF on green-900 .......... 7.2:1   (accent on dark)
+     canvas #F9F9F5 on green-900 .......... 7.2:1   (dark-band body)
+     coral  #FFC0B8 on green-900 .......... 4.9:1   (struck-through price on dark)
+     ink    #16190F on amber  #FFC53D ..... 11.3:1   (every chip label)
+   =================================================================== */
+
+.gh-page{
+  /* ---- Green scale: the only hue with a full ramp ---- */
+  --gh-green-900:#215F3C;
+  --gh-green-800:#28724A;
+  /* Same as 600: one brand green for fills and accent text. */
+  --gh-green-700:#2E7D4F;
+  --gh-green-600:#2E7D4F;
+  --gh-green-500:#3F9A63;
+  /* Hover only: hue 135 against the ramp's 145, so it reads grassier while
+     still holding 4.54:1 with white — #3F9A63 would drop to 3.5:1. */
+  --gh-green-grass:#318646;
+  --gh-green-100:#DCEEDF;
+  --gh-green-50:#F1F8F2;
+  --gh-mint:#BFE6C7;
+
+  /* ---- Warm chips: the one place the page leaves the green ramp, so the
+     catalog states read at a glance the way they do on the live site. ---- */
+  --gh-amber:#FFC53D;
+  --gh-marker:url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20viewBox%3D%270%200%20300%20100%27%20preserveAspectRatio%3D%27none%27%3E%3Cpath%20d%3D%27M3%2026C64%2016%20148%2023%20230%2017c34-3%2062%201%2067%207l-4%2050c-49%2013-137%202-229%209-28%202-56-4-61-9z%27%20fill%3D%27%23FFC53D%27%2F%3E%3Cpath%20d%3D%27M8%2062c82%2010%20194%203%20285-4l2%2013c-49%2013-137%202-229%209-28%202-54-4-59-9z%27%20fill%3D%27%23F2AF1B%27%20opacity%3D%27.5%27%2F%3E%3Cpath%20d%3D%27M6%2025c62-9%20146-2%20228-9%2033-3%2060%201%2065%206l-1%206c-9-5-35-8-66-6-82%207-165%201-226%209z%27%20fill%3D%27%23FFD469%27%20opacity%3D%27.7%27%2F%3E%3C%2Fsvg%3E");
+  /* One amber, #FFC53D, everywhere — but it can only be TYPE on a dark
+     ground. Darkened enough to read on the cream it turns olive, because a
+     yellow is only clean while it is light. So on paper the amber changes
+     role rather than value: it goes behind the words as a highlight and the
+     words stay ink. Same colour on every surface, legible on both. */
+  --gh-amber-type:var(--gh-amber);
+  --gh-orange-display:#E85D0E; /* warm accent at heading sizes — 3.3:1 on canvas */
+  /* Struck-through prices only. Darker than a plain red so it still clears
+     4.5:1 on the cream canvas at the 13.6px the old price runs at. */
+  --gh-red-was:#D92D20;
+  /* Same role on dark green bands. #D92D20 is ~1.5:1 on green-900; this coral
+     keeps the “was” signal and clears ~4.9:1 on #215F3C. */
+  --gh-red-was-on-dark:#FFC0B8;
+
+  /* ---- Paper + ink ---- */
+  --gh-cream:#F9F9F5;
+  /* Warm beige sampled from the hero photo backdrop (#E2D2C7 avg /
+     #E7D6CE mid). Used only in the hero dissolve so cream→photo has no
+     cool-vs-warm vertical step. */
+  --gh-hero-beige:#E7D6CE;
+  --gh-paper:#FFFFFF;
+  --gh-ink:#16190F;
+  --gh-ink-soft:#4E5445;
+  --gh-graphite:#6E7566;
+  --gh-line:rgba(22,25,15,.12);
+  --gh-line-light:rgba(249,249,245,.18);
+
+  /* Same pair as the live site: Lora for display, Montserrat for text.
+     Lora carries a true Cyrillic italic, so the accent is the same family
+     in italic rather than a second serif. */
+  --gh-serif:'Lora', Georgia, 'Times New Roman', serif;
+  --gh-serif-italic:'Lora', Georgia, 'Times New Roman', serif;
+  --gh-sans:'Montserrat', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  /* Scalloped sale badge, 14 semicircular lobes on a 42-radius valley circle.
+     Used as a mask, not a background, so --gh-amber still controls the colour. */
+  --gh-burst:url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Cpath%20d%3D%22M50.00%208.00A9.35%209.35%200%200%201%2068.22%2012.16A9.35%209.35%200%200%201%2082.84%2023.81A9.35%209.35%200%200%201%2090.95%2040.65A9.35%209.35%200%200%201%2090.95%2059.35A9.35%209.35%200%200%201%2082.84%2076.19A9.35%209.35%200%200%201%2068.22%2087.84A9.35%209.35%200%200%201%2050.00%2092.00A9.35%209.35%200%200%201%2031.78%2087.84A9.35%209.35%200%200%201%2017.16%2076.19A9.35%209.35%200%200%201%209.05%2059.35A9.35%209.35%200%200%201%209.05%2040.65A9.35%209.35%200%200%201%2017.16%2023.81A9.35%209.35%200%200%201%2031.78%2012.16A9.35%209.35%200%200%201%2050.00%208.00Z%22%20fill%3D%22%23000%22%2F%3E%3C%2Fsvg%3E");
+
+  --gh-noise:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+
+  /* ---- Remap the shared styles.css tokens onto this theme, so nav,
+     modal, form, footer and buttons inherit it without being re-written ---- */
+  --font-serif:var(--gh-serif);
+  --font-sans:var(--gh-sans);
+  --ink:var(--gh-ink);
+  --ink-soft:var(--gh-ink-soft);
+  --graphite:var(--gh-graphite);
+  --bg:var(--gh-cream);
+  --bg-soft:var(--gh-green-50);
+  --card:var(--gh-paper);
+  --line:var(--gh-line);
+  --green:var(--gh-green-600);
+  --green-d:var(--gh-green-800);
+  --green-ink:var(--gh-green-600);
+  --green-display:var(--gh-green-600);
+  --on-green:#ffffff;
+  --radius-sm:14px;
+  --radius:22px;
+  --radius-lg:30px;
+  --nav-h:76px;
+  /* Distance from the viewport edge to the reading shell — what a block has
+     to pad by when it bleeds to the edge and still wants to line up. */
+  --hero-gutter:max(32px, calc((100vw - 1200px) / 2));
+
+  background:var(--gh-cream);
+  color:var(--gh-ink);
+  font-family:var(--gh-sans);
+}
+
+/* ---------- Layout shell ---------- */
+.gh-shell{width:100%;max-width:1200px;margin-inline:auto;padding-inline:32px}
+
+/* ---------- Bands ---------- */
+.gh-band{padding:clamp(56px,7vw,104px) 0}
+.gh-band--paper{background:var(--gh-paper)}
+.gh-band--tint{background:var(--gh-green-50)}
+.gh-band--dark{
+  position:relative;isolation:isolate;
+  background:var(--gh-green-600);color:var(--gh-cream);
+  --gh-amber-type:var(--gh-amber);
+}
+/* Fine grain keeps the large green fields from reading as flat digital ink. */
+.gh-band--dark::after{
+  content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+  opacity:.055;background-image:var(--gh-noise);
+}
+/* On green: body/heading text is white; the accent is amber — the same
+   yellow as the sale burst — so emphasis still reads against the fill. */
+.gh-band--dark .gh-h2,
+.gh-band--dark .gh-h2--light{color:#fff}
+.gh-band--dark .gh-accent,
+.gh-band--dark .gh-accent--warm,
+.gh-band--dark .mark,
+.gh-band--dark .mark--orange,
+.gh-band--dark strong{color:var(--gh-amber)}
+
+/* ---------- Type scale ---------- */
+.gh-h2{
+  margin-top:16px;
+  font-family:var(--gh-serif);font-weight:700;
+  font-size:clamp(1.9rem,4vw,3.05rem);line-height:1.08;letter-spacing:-.012em;
+  text-wrap:balance;
+}
+.gh-h2--sm{font-size:clamp(1.55rem,3vw,2.25rem)}
+.gh-h2--light{color:var(--gh-mint)}
+.gh-accent,.gh-page .mark{
+  color:var(--gh-green-700);
+  font-family:var(--gh-serif-italic);font-style:italic;font-weight:600;
+}
+
+/* The accent word in a heading is green everywhere now. It used to alternate
+   green and orange from section to section with no rule behind the choice, so
+   neither hue meant anything; one colour for the emphasis is the rule. The
+   `--warm` and `.mark--orange` names are kept because the markup on five
+   pages and the English strings carry them, and because the modifier still
+   does one job — in .gh-chero__title it selects the amber marker below.
+   .mark--orange covers the English strings, which use styles.css names. */
+.gh-accent--warm,.gh-page .mark--orange{color:var(--gh-green-700)}
+
+.gh-lead{
+  margin-top:16px;max-width:46ch;
+  font-size:clamp(1rem,1.1vw,1.06rem);line-height:1.62;color:var(--gh-ink-soft);
+}
+.gh-lead--light{color:rgba(249,249,245,.78);max-width:52ch}
+.gh-lead strong{color:var(--gh-green-700);font-weight:700}
+.gh-lead--light strong{color:var(--gh-mint)}
+
+.gh-head{max-width:64ch}
+/* The launch banner opens the section, so the catalog head needs real air
+   after it — otherwise two serif headlines read as one stack. */
+/* The panel is a solid dark object; the catalogue heading needs clear air
+   after it or it reads as the panel's own caption. */
+.gh-launch + .gh-head{margin-top:clamp(76px,8.4vw,128px)}
+.gh-head--center{text-align:center;margin-inline:auto}
+
+/* ---------- Photo frames ----------
+   One rounded rectangle everywhere; the shape never competes with the
+   photography. */
+.gh-frame{overflow:hidden;border-radius:20px}
+.gh-frame img,.gh-tcard__media img{width:100%;height:100%;object-fit:cover;display:block}
+
+/* ---------- Buttons + links ---------- */
+.gh-page .btn{
+  border-radius:999px;font-weight:700;letter-spacing:.01em;
+  padding:14px 26px;font-size:.92rem;
+  transition:transform .25s cubic-bezier(.22,.61,.36,1),box-shadow .25s ease,background .25s ease,color .25s ease;
+}
+.gh-page .btn--lg{padding:18px 32px;font-size:1rem}
+/* No drop shadow in either state — hover is a colour shift, not a lift. */
+.gh-page .btn--primary{background:var(--gh-green-600);color:#fff;box-shadow:none}
+.gh-page .btn--primary:hover{background:var(--gh-green-grass)}
+/* Pure white, not cream — on the dark green panel the cream reads dulled. */
+.gh-page .btn--cream{background:var(--gh-paper);color:var(--gh-green-900);box-shadow:0 16px 32px -18px rgba(0,0,0,.55)}
+/* Footer layout lives in styles.css — one space-between row
+   (logo → socials → offer → top). Keep theme overrides only. */
+.gh-page .btn--cream:hover{background:var(--gh-cream)}
+.gh-page .btn--cream:focus-visible{outline-color:var(--gh-cream)}
+.gh-page .btn--outline{background:transparent;color:var(--gh-green-700);box-shadow:inset 0 0 0 1.5px rgba(46,125,79,.38)}
+.gh-page .btn--outline:hover{background:var(--gh-green-700);color:var(--gh-cream);box-shadow:inset 0 0 0 1.5px var(--gh-green-700)}
+
+.gh-link{
+  display:inline-flex;align-items:center;gap:8px;
+  font-weight:700;font-size:.92rem;color:var(--gh-green-700);
+  padding-bottom:3px;border-bottom:1.5px solid currentColor;
+  transition:gap .25s ease,color .2s ease,border-color .2s ease;
+}
+.gh-link:hover{gap:13px}
+.gh-link--light{color:var(--gh-cream);border-bottom-color:rgba(249,249,245,.45)}
+.gh-link--light:hover{color:var(--gh-mint);border-bottom-color:var(--gh-mint)}
+
+/* ===================================================================
+   NAV
+   =================================================================== */
+.gh-page .nav{background:rgba(249,249,245,.84);backdrop-filter:blur(12px) saturate(1.1);border-bottom:1px solid transparent}
+.gh-page .nav.is-scrolled{background:rgba(249,249,245,.96);border-color:var(--gh-line);box-shadow:0 10px 30px -24px rgba(33,95,60,.75)}
+.gh-page .nav__links{gap:2px}
+.gh-page .nav__links a{font-size:.9rem;font-weight:600;color:var(--gh-ink)}
+.gh-page .nav__links a:hover,.gh-page .nav__links a.is-active{color:var(--gh-green-700)}
+/* The hub's mark runs 2px taller. Only the ceiling is the theme's; the scaling
+   that keeps the burger's tap target on narrow screens lives in styles.css. */
+.gh-page{--logo-h:44px}
+.gh-page .burger{color:var(--gh-green-900)}
+/* The language switch takes no theme tinting. styles.css already draws it in
+   ink on a hairline, and the tokens remapped on .gh-page carry this page's
+   ink and line into it — so the active pill is near-black here as everywhere,
+   and the control stops competing with the green it used to borrow. Only the
+   surface stays: the nav sits on cream, not white. */
+.gh-page .lang-switch{background:rgba(255,255,255,.72)}
+.gh-page .lang-switch__btn{color:var(--gh-ink-soft)}
+/* Restated, not inherited: the line above and styles.css's own
+   `.lang-switch__btn.is-active` are both two-class selectors, so the later
+   sheet wins and the active pill would take ink-soft on near-black — 2.3:1. */
+.gh-page .lang-switch__btn.is-active{color:#fff}
+
+/* ===================================================================
+   HERO — full-bleed photograph with a cream scrim under the copy.
+   The scrim is a CSS layer, not baked into the image, so swapping the
+   photograph (a real shoot is planned) cannot break legibility: the copy
+   column never leaves the part of the gradient that is >=88% opaque.
+   =================================================================== */
+.gh-hero{
+  position:relative;isolation:isolate;overflow:hidden;
+  /* The photo is scaled to this height, so the floor decides how much width
+     it covers — at 48vw it spans ~72% and the copy keeps the rest. Without a
+     floor a wide window would strand the photo beside a long empty run of
+     cream. Kept below 55vw so the hero does not outgrow a 1080px screen and
+     push the figures band out of sight.
+     The 64vw ceiling is the photograph's own shape: the frame is 1536x1020, so
+     a contained copy of it is only ever 66vw tall. Let the hero grow past that
+     — a tall window on a ~900px screen did, since the svh term then wins — and
+     `contain` runs out of picture, leaving a band of bare cream above a photo
+     pinned to the bottom. Capping under 66vw keeps the crop vertical, which is
+     the intended one: the uncovered strip stays on the LEFT, under the scrim,
+     where it reads as the copy's ground. */
+  min-height:clamp(48vw,clamp(560px,calc(100svh - var(--nav-h)),780px),64vw);
+  display:flex;align-items:center;
+  background:var(--gh-cream);
+}
+.gh-hero__photo{position:absolute;inset:0;z-index:0}
+/* contain, not cover: the portrait fits the hero height on the right; cream
+   scrim fills the left for copy. Mobile keeps cover on a 4:5 band. */
+.gh-hero__photo img{width:100%;height:100%;object-fit:contain;object-position:right center}
+.gh-hero__scrim{
+  position:absolute;inset:0;z-index:1;pointer-events:none;
+  /* Opaque cream under copy. Mid-stops warm toward --gh-hero-beige so a
+     thinning cool cream veil never bands over the photo peach. The blend
+     JPGs already feather the bitmap left edge to exact --gh-cream, so this
+     scrim only protects type — face clears past ~80%. */
+  background:linear-gradient(90deg,
+    var(--gh-cream) 0%,
+    var(--gh-cream) 38%,
+    color-mix(in srgb,var(--gh-cream) 90%,var(--gh-hero-beige)) 44%,
+    color-mix(in srgb,color-mix(in srgb,var(--gh-cream) 62%,var(--gh-hero-beige)) 88%,transparent) 50%,
+    color-mix(in srgb,color-mix(in srgb,var(--gh-cream) 30%,var(--gh-hero-beige)) 62%,transparent) 56%,
+    color-mix(in srgb,var(--gh-hero-beige) 38%,transparent) 63%,
+    color-mix(in srgb,var(--gh-hero-beige) 18%,transparent) 70%,
+    color-mix(in srgb,var(--gh-hero-beige) 7%,transparent) 77%,
+    color-mix(in srgb,var(--gh-hero-beige) 2%,transparent) 84%,
+    transparent 92%);
+}
+.gh-hero__inner{position:relative;z-index:2;padding-block:clamp(40px,6vw,80px)}
+/* Bounded so the last glyph stays inside the opaque part of the scrim. */
+.gh-hero__copy{max-width:min(560px,44%)}
+.gh-hero__title{
+  margin-top:18px;
+  font-family:var(--gh-serif);font-weight:700;
+  /* Capped so the longest of the three lines still fits the copy column at
+     the one shared size the headline is set in. */
+  font-size:clamp(1.7rem,3.3vw,2.85rem);line-height:1.06;letter-spacing:-.022em;
+}
+/* The spans are inline: <br> in the markup sets where the three lines break,
+   so the phrasing is curated rather than left to whatever the column width
+   happens to allow. */
+/* English runs longer than Ukrainian at the same size and would spill the
+   column, so it takes its own cap — the switcher already sets <html lang>,
+   and the primary language keeps its size instead of shrinking to fit a
+   translation. */
+:lang(en) .gh-hero__title{font-size:clamp(1.45rem,2.6vw,2.3rem)}
+.gh-hero__lead{
+  margin-top:clamp(16px,2vw,24px);max-width:32em;
+  font-size:clamp(1rem,1.15vw,1.06rem);line-height:1.6;
+  color:var(--gh-ink-soft);
+}
+.gh-hero__actions{
+  display:flex;flex-wrap:wrap;align-items:center;
+  gap:14px 24px;margin-top:clamp(22px,2.8vw,32px);
+}
+
+/* ---------- Figures band ---------- */
+/* Course pages keep a gap under the film hero so rounded bottom corners
+   stay visible. The home full-bleed hero has no film plate — sit flush. */
+.gh-stats{
+  position:relative;z-index:3;
+  margin-top:clamp(24px,3vw,40px);
+  padding:clamp(40px,4vw,58px) 0 clamp(30px,3.6vw,48px);
+}
+.gh-page .gh-hero + .gh-stats{margin-top:0}
+/* On the course pages the hero and this strip are one screen: their heights,
+   plus the gap that lets the film's bottom corners read as corners, add up to
+   the viewport under the sticky header. The film crops to fit — object-fit:
+   cover already does that — rather than the copy shrinking. Two columns only:
+   stacked below 860px the hero is taller than a screen by design. */
+@media (min-width:861px){
+  .gh-course{--gh-strip-gap:clamp(24px,3vw,40px);--gh-strip-h:clamp(104px,13svh,148px)}
+  .gh-course .gh-chero__grid{
+    min-height:calc(100svh - var(--nav-h) - var(--gh-strip-gap) - var(--gh-strip-h));
+  }
+  .gh-course .gh-stats{
+    margin-top:var(--gh-strip-gap);padding:0;
+    min-height:var(--gh-strip-h);display:grid;align-content:center;
+  }
+}
+.gh-figures{display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
+/* Centred in the cell, not ranged left: the labels differ in length by more
+   than a word, so left-ranged they left each divider at a different distance
+   from its number and the band read as four ragged columns. */
+.gh-figure{
+  padding:clamp(6px,1.4vw,14px) clamp(12px,1.8vw,24px);
+  border-right:1px solid rgba(249,249,245,.14);text-align:center;
+}
+.gh-figure:last-child{border-right:0}
+/* Amber for the count, white for the label — the same split as the green
+   closer, and the same amber as the discount burst. */
+/* One shared size for every figure: a per-cell shrink for «1 000 000+»
+   made that cell shorter than «4+» / «35+» in the 2×2 mobile band. Floor
+   is low enough for the long token in a ~144px phone cell; short tokens
+   match it instead of reading taller. nowrap + word-spacing keep
+   spaced thousands on one line without looking like three numbers. */
+.gh-figure dt{
+  font-family:var(--gh-serif);font-weight:700;
+  font-size:clamp(1.3rem,2.8vw,2.5rem);line-height:1;
+  color:var(--gh-amber-type);
+  white-space:nowrap;word-spacing:-.22em;
+}
+.gh-figure dd{margin-top:10px;font-size:.95rem;line-height:1.4;color:#fff}
+
+/* ===================================================================
+   COURSE CATALOG — the hub's main job, so it sits directly under the hero
+   =================================================================== */
+.gh-launch{
+  display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);
+  gap:clamp(24px,4vw,64px);align-items:start;
+  padding:clamp(28px,3.4vw,52px) clamp(24px,3vw,48px);
+  /* Inverted surface: three white rows sit right below, so the launch has to
+     be a different kind of object, not one more card with a hairline. */
+  position:relative;isolation:isolate;
+  background:var(--gh-green-600);color:var(--gh-cream);
+  border:0;border-radius:clamp(18px,1.8vw,24px);
+  overflow:hidden;
+}
+.gh-launch::after{
+  content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;
+  opacity:.055;background-image:var(--gh-noise);
+}
+/* Amber, the panel's own emphasis — the same one its figures take. White on
+   white left the accent doing nothing but a change of face. */
+.gh-launch .gh-accent{color:var(--gh-amber-type)}
+/* Visual swap only — the DOM keeps title-then-description, so the reading
+   order stays correct. Title and product sit left, the detail column right. */
+.gh-launch__copy{display:flex;flex-direction:column;min-width:0;order:1}
+.gh-launch__side{order:2}
+/* A real cut-out with an alpha channel — the product sits straight on the
+   panel, so no CSS mask is needed to fake the fade. */
+/* The photo bleeds into whichever panel corner its column sits against. */
+.gh-launch__media{
+  display:block;margin-top:auto;padding-top:clamp(16px,2vw,26px);
+  margin-right:0;margin-bottom:0;
+}
+/* The cut-out is whole now, so it is simply centred in its column and given
+   room to read as the product shot it is — right bottom was anchoring it
+   against the copy column it used to sit beside. */
+.gh-launch__media img{
+  display:block;width:100%;height:auto;
+  /* Near-square birthday-box cutout: a touch more height than the old wide
+     cutout so the product keeps a similar presence in the column. */
+  max-height:clamp(260px,30vw,420px);object-fit:contain;object-position:center bottom;
+  /* Two layers because this cutout is a group, not one object: the tight one
+     grounds the loose berries, the soft one lifts the box off the green. A
+     single long shadow would leave each berry floating above its own. */
+  filter:drop-shadow(0 5px 8px rgba(4,22,12,.26)) drop-shadow(0 20px 30px rgba(4,22,12,.34));
+}
+.gh-launch__title{
+  margin-top:18px;
+  font-family:var(--gh-serif);font-weight:700;
+  font-size:clamp(1.8rem,3.4vw,2.7rem);line-height:1.08;letter-spacing:-.012em;
+  /* White throughout. The accent inside stays legible as an accent because
+     it is set in the serif italic, so the distinction survives without a
+     second colour doing the work. */
+  color:var(--on-green);
+}
+.gh-launch__side{display:flex;flex-direction:column;align-items:flex-start}
+.gh-launch__side .gh-lead{margin-top:0;max-width:44ch;color:var(--on-green)}
+/* One figure strip, used on both the offer card and the launch panel: a row of
+   number + label between two hairlines. Only the colours differ by surface. */
+.gh-facts{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:clamp(10px,1.6vw,22px);width:100%;
+  margin-top:clamp(22px,2.6vw,32px);padding:clamp(16px,2vw,22px) 0;
+  border-top:1px solid var(--gh-line);border-bottom:1px solid var(--gh-line);
+}
+.gh-facts dt{font-family:var(--gh-serif);font-weight:700;font-size:clamp(1.4rem,2.2vw,1.85rem);line-height:1;color:var(--gh-ink)}
+/* Body sets overflow-wrap:break-word; that splits Ukrainian caps mid-word
+   (ШО / КОЛАДУ) once letter-spacing makes a label wider than its cell.
+   Keep breaks at spaces only — pair columns stack on narrow viewports. */
+.gh-facts dd{
+  margin-top:8px;font-size:.72rem;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--gh-graphite);line-height:1.35;
+  overflow-wrap:normal;word-break:normal;hyphens:none;-webkit-hyphens:none;
+}
+.gh-launch .gh-facts{border-color:rgba(249,249,245,.22)}
+.gh-launch .gh-facts dt{color:var(--gh-amber-type)}
+.gh-launch .gh-facts dd{color:var(--on-green)}
+/* Mentorship title is the first ink in the panel — no top margin. */
+.gh-mentor .gh-launch__title{margin-top:0}
+/* Italic &amp; opens a hair more than a roman word space; pull it back so
+   Cake and & Business read as one title, not two islands. */
+.gh-mentor .gh-launch__title .gh-accent{margin-inline-start:-0.1em}
+/* Thin format label under the title (DOM order: h2, then kicker). Mint so it
+   stays secondary to Cake & Business. */
+.gh-launch__kicker{
+  margin:0;font-size:.72rem;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--gh-mint);
+}
+.gh-mentor .gh-launch__kicker{
+  margin-top:clamp(4px,0.5vw,8px);
+}
+/* Title + kicker as their own full-width grid row above the gold rail. */
+.gh-mentor .gh-launch__head{
+  grid-column:1 / -1;
+  min-width:0;
+}
+/* Four lines of what the mentorship covers. Grid, not a bullet list, so a label
+   that wraps keeps its second line aligned with the first instead of tucking
+   under the medallion.
+   The row gap is deliberately well above the medallion-to-label gap: when the
+   two are equal the four rows stop reading as four items and blur into one
+   field. Inside a row must always be tighter than between rows. */
+.gh-launch__list{
+  display:grid;gap:clamp(15px,1.9vw,24px);
+  margin:clamp(22px,2.6vw,30px) 0 0;padding:0;list-style:none;
+}
+.gh-launch__list li{
+  display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;
+  column-gap:clamp(11px,1.1vw,14px);
+  color:var(--on-green);font-size:clamp(.95rem,1.05vw,1.02rem);line-height:1.4;
+}
+.gh-launch__mark{--mark-size:clamp(30px,3vw,36px)}
+.gh-launch__mark .icon{width:clamp(15px,1.5vw,18px);height:clamp(15px,1.5vw,18px)}
+.gh-launch__side .btn{margin-top:clamp(16px,2vw,22px)}
+/* Also a cut-out, so it sits straight on the green like the bento shot — no
+   frame, no crop. It is simply wider, because two cakes need more room than
+   one box does. */
+/* Both columns start at the panel's top edge, so the answer begins on the
+   heading's line rather than halfway down a much taller picture. */
+.gh-launch--photo{align-items:start}
+.gh-launch--photo .gh-launch__copy{min-height:0}
+.gh-launch--photo .gh-launch__media{flex:1 1 auto;min-height:0;padding-top:clamp(18px,2.2vw,28px)}
+/* drop-shadow rather than box-shadow: the cut-out has an alpha channel, and
+   box-shadow would draw the rectangle the image no longer is. Kept light —
+   the shot carries its own contact shadows, so this only lifts the group off
+   the green rather than casting a second one. */
+.gh-launch--photo .gh-launch__media img{
+  width:100%;height:auto;max-height:clamp(280px,32vw,440px);
+  object-fit:contain;object-position:center bottom;
+  filter:drop-shadow(0 26px 34px rgba(4,22,12,.55));
+}
+/* The lead is the only body copy here, so it carries the hairline the figure
+   strip would otherwise draw. */
+/* Full width of its column, so the button finishes the measure the rule above
+   it opens instead of stopping two thirds of the way across. */
+/* Full width of its column, so the button finishes the measure the rule above
+   it opens instead of stopping two thirds of the way across. The label keeps
+   the pill's own centring and padding — overriding padding-top here pinned it
+   to the top edge. */
+.gh-launch--photo .gh-launch__side .btn{
+  margin-top:clamp(22px,2.8vw,32px);
+  align-self:stretch;width:100%;
+}
+.gh-launch--photo .gh-launch__side .gh-lead{
+  padding-bottom:clamp(20px,2.4vw,28px);
+  border-bottom:1px solid rgba(249,249,245,.22);
+}
+
+/* Each course takes the launch banner's composition — copy one side, a large
+   product photograph the other — on paper instead of green. Three narrow
+   columns gave the photography no room and the panels read thin. */
+.gh-cards{
+  display:grid;grid-template-columns:1fr;
+  gap:clamp(16px,2vw,24px);margin-top:clamp(28px,3.4vw,44px);
+}
+.gh-card{
+  position:relative;min-width:0;overflow:hidden;
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);
+  grid-template-areas:"body media" "buy media";
+  align-items:start;
+  column-gap:clamp(24px,4vw,64px);row-gap:clamp(18px,2.4vw,28px);
+  padding:clamp(28px,3.4vw,52px) clamp(24px,3vw,48px);
+  background:var(--gh-paper);border:1px solid var(--gh-line);
+  border-radius:clamp(18px,1.8vw,24px);
+  transition:transform .3s cubic-bezier(.22,.61,.36,1),box-shadow .3s ease,border-color .3s ease;
+}
+/* Positioned frame with an absolutely placed image: height:100% inside an
+   auto-height box resolves against nothing, so the portrait source drove the
+   card to its own intrinsic height instead of filling the grid area. */
+.gh-card__media{grid-area:media;align-self:stretch;position:relative;min-height:clamp(230px,24vw,320px)}
+/* Every card ships a keyed cut-out on the card's own paper, so `contain` — with
+   `cover` the frame would shave whatever sticks out past its 1.58, and on a
+   cut-out a straight-cut edge reads as damage rather than as a crop. */
+/* drop-shadow, not box-shadow: it follows the alpha silhouette, so each cake,
+   berry and ice cube casts its own rather than the whole rectangle casting one.
+   One soft pass, offset well below the subject — a tight zero-offset layer
+   rings every object instead of sitting under it, and at card size that rim
+   reads as a cut line around the keyed edge. */
+/* inset-bottom, not 0: the card clips its overflow, and with the contained
+   image sitting flush on the frame's floor the drop-shadow — 16px down plus
+   18px of blur — was sliced off flat. Measured: room below the drawn image
+   was 0 against the 34px the shadow needs. */
+.gh-card__media img{position:absolute;inset:0 0 34px;width:100%;height:calc(100% - 34px);
+  object-fit:contain;filter:drop-shadow(0 14px 16px rgba(22,25,15,.20))}
+.gh-card__body{grid-area:body}
+/* Sits on the copy column's floor so the action lines up with the photograph's
+   lower edge rather than floating under a short description. */
+.gh-card__buy{grid-area:buy;align-self:end}
+/* Hover across the page is the lift alone — no ring, no shadow, no zoom. */
+.gh-card:hover{transform:translateY(-4px)}
+/* The tint the technique-cards band is painted in, so the card under the
+   pointer reads as lifted onto the page's own green rather than tinted with
+   a colour that appears nowhere else. Behind a media query because a hover
+   state on a touch screen fires on tap and then sticks. */
+@media (hover:hover) and (pointer:fine){
+  .gh-card{transition:transform .3s cubic-bezier(.22,.61,.36,1),background-color .25s ease,box-shadow .3s ease,border-color .3s ease}
+  .gh-card:hover{background:var(--gh-green-50)}
+}
+.gh-card:focus-within{border-color:rgba(46,125,79,.4)}
+/* width:100%, not auto: WebKit sizes an abspos-only grid item to 0×0 when
+   width is auto (Chromium still stretches). Mobile then lost the photograph
+   entirely — copy and CTA stayed, empty paper where the cut-out should sit. */
+.gh-card__media{display:block;width:100%}
+.gh-card__body{display:flex;flex-direction:column;align-items:flex-start;gap:12px;min-width:0}
+/* margin-top:auto keeps the action on the card's floor, so the three buttons
+   line up however unevenly the descriptions run. */
+.gh-card__buy{display:flex;flex-direction:column;align-items:flex-start;gap:16px;width:auto}
+.gh-card__title{font-family:var(--gh-serif);font-weight:700;font-size:clamp(1.3rem,2.2vw,1.85rem);line-height:1.22}
+/* Whole card is the link target; the button keeps its own hit area. */
+.gh-card__title a::after{content:"";position:absolute;inset:0;z-index:1;border-radius:inherit}
+.gh-card .btn{position:relative;z-index:2}
+.gh-card__desc{font-size:1rem;line-height:1.6;color:var(--gh-ink-soft);max-width:48ch}
+
+/* Shape carries the affordance: every pill on the page is clickable, so
+   labels take a small-radius rectangle and never a pill. */
+.gh-tag{
+  /* inline-block for block parents, align-self for flex ones — otherwise the
+     label stretches to the full column width. */
+  display:inline-block;align-self:flex-start;
+  font-size:.68rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--gh-ink);background:var(--gh-amber);
+  padding:5px 10px;border-radius:5px;
+}
+
+.gh-chips{display:flex;flex-wrap:wrap;gap:6px}
+/* Plain text with a hairline separator — a filled pill per fact turned the
+   row into a wall of chips. */
+.gh-chips{gap:0 18px}
+.gh-chips li{position:relative;font-size:.78rem;color:var(--gh-graphite)}
+.gh-chips li + li::before{content:"";position:absolute;left:-10px;top:.35em;bottom:.35em;width:1px;background:var(--gh-line)}
+
+.gh-card__price{display:flex;align-items:baseline;flex-wrap:wrap;gap:10px;width:100%}
+.gh-page .ed-price__old{font-size:.85rem;color:var(--gh-red-was);text-decoration:line-through}
+.gh-page .ed-price__new{font-family:var(--gh-serif);font-weight:700;font-size:1.5rem;line-height:1;color:var(--gh-ink)}
+.gh-card__price--soft{font-size:.88rem;line-height:1.4;color:var(--gh-ink-soft)}
+.gh-card__price--lg{border-top:0;padding-top:0;margin-top:clamp(20px,2.4vw,28px);align-items:center;gap:14px}
+.gh-page .gh-card__price--lg .ed-price__new{font-size:clamp(2rem,3.4vw,2.7rem);color:var(--gh-ink)}
+
+/* ===================================================================
+   HOW IT WORKS — numbered ledger
+   =================================================================== */
+.gh-steps__list{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:clamp(14px,1.6vw,22px);margin-top:clamp(32px,4vw,56px);
+}
+/* Six reasons rather than four, so they read as three across; the mark is an
+   emoji on a tinted tile, matching how index.html sets the same six. */
+.gh-steps__list.gh-steps__list--6{grid-template-columns:repeat(3,minmax(0,1fr))}
+.gh-steps__list--6 .gh-step__ico{
+  width:54px;height:54px;display:grid;place-items:center;
+  font-size:1.6rem;line-height:1;
+  background:var(--gh-green-50);border-radius:14px;
+  margin-bottom:16px;
+}
+@media (max-width:980px){ .gh-steps__list.gh-steps__list--6{grid-template-columns:repeat(2,minmax(0,1fr))} }
+@media (max-width:640px){ .gh-steps__list.gh-steps__list--6{grid-template-columns:1fr} }
+.gh-step{
+  display:block;padding:clamp(24px,2.8vw,38px);
+  background:var(--gh-paper);border:1px solid var(--gh-line);border-radius:20px;
+  transition:transform .3s cubic-bezier(.22,.61,.36,1),box-shadow .3s ease,border-color .3s ease;
+}
+.gh-step:hover{transform:translateY(-4px)}
+/* Warm, so the icon, the bold accent in the copy and the section heading
+   all carry the same colour. */
+/* Green, not orange: on the course pages these two sections carry a warm
+   heading, warm icons and warm bold runs all at once, and the page turned
+   into a highlighter. Orange is kept for the headings' accent word. */
+.gh-step__ico{display:block;margin-bottom:clamp(14px,1.8vw,20px);color:var(--gh-green-700)}
+.gh-step__ico .icon{width:clamp(28px,2.6vw,34px);height:clamp(28px,2.6vw,34px);stroke-width:1.8}
+.gh-step__copy h3{font-family:var(--gh-serif);font-weight:700;font-size:clamp(1.15rem,1.9vw,1.5rem);line-height:1.22}
+.gh-step__copy p{margin-top:9px;max-width:62ch;font-size:1rem;line-height:1.55;color:var(--gh-ink-soft)}
+/* Warm, matching the section's own accent — the green read as one more
+   body colour rather than an emphasis. */
+.gh-step__copy strong{color:var(--gh-green-700);font-weight:700}
+
+/* ===================================================================
+   TECH CARDS
+   =================================================================== */
+.gh-tc__grid{
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:clamp(14px,1.8vw,24px);margin-top:clamp(36px,4.5vw,60px);
+}
+/* Padding and radius are variables because the media below cancels them to go
+   full-bleed. Hard-coding both places is how a negative margin quietly stops
+   matching its padding the next time one breakpoint is touched. */
+.gh-tcard{
+  --tc-pad:12px;--tc-radius:22px;
+  display:flex;flex-direction:column;gap:11px;min-width:0;
+  padding:var(--tc-pad) var(--tc-pad) 18px;background:var(--gh-paper);
+  border:1px solid var(--gh-line);border-radius:var(--tc-radius);
+  transition:transform .3s cubic-bezier(.22,.61,.36,1),box-shadow .3s ease,border-color .3s ease;
+}
+.gh-tcard:hover{transform:translateY(-5px)}
+.gh-tcard{position:relative}
+/* 5/7 ≈ the posters' own 911×1280. They carry the flavour name across the
+   bottom, so the old square box cropped the title clean off; matching the
+   source ratio means cover has almost nothing left to cut. */
+/* Full-bleed: the negative margin cancels the card's padding so the poster
+   meets the card edge. Its radius is the card's minus the 1px border — the
+   padding box's real corner — and only on top, since the card carries on
+   below with the price and the button. */
+.gh-tcard__media{
+  display:block;aspect-ratio:5/7;overflow:hidden;background:var(--gh-green-50);
+  margin:calc(var(--tc-pad) * -1) calc(var(--tc-pad) * -1) 0;
+  border-radius:calc(var(--tc-radius) - 1px) calc(var(--tc-radius) - 1px) 0 0;
+}
+/* The client's three lead flavours carry a mark. It sits on the picture, not
+   above the caption, so the eye finds it while scanning images rather than
+   reading names — and the card keeps its own rhythm underneath. */
+.gh-tcard__top{
+  position:absolute;z-index:2;top:20px;left:20px;
+  padding:8px 16px;border-radius:999px;
+  background:var(--gh-amber);color:var(--gh-ink);
+  font-size:.82rem;font-weight:800;letter-spacing:.12em;
+}
+.gh-tcard h3{font-family:var(--gh-serif);font-weight:700;font-size:1.1rem;line-height:1.25;padding-inline:4px}
+.gh-tcard .gh-card__price{margin-top:auto;padding:0 4px 12px;border-top:0}
+
+/* The a-la-carte range is still growing; say so as an editorial note
+   rather than a greyed-out "Soon" tile that reads as an unfinished page. */
+.gh-tnote{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:14px;
+  padding:clamp(24px,2.6vw,32px);border-radius:22px;
+  background:var(--gh-green-600);color:var(--gh-cream);
+}
+/* One medallion recipe, two sizes: the tech-card note wears it large, the
+   mentorship list small. Shared so the tint and the mint can never drift apart
+   between the two places that use them. */
+.gh-tnote__mark,.gh-launch__mark{
+  display:grid;place-items:center;flex:none;
+  width:var(--mark-size);height:var(--mark-size);
+  border-radius:50%;background:rgba(191,230,199,.15);color:var(--gh-mint);
+}
+/* Each consumer states its own size. A default here would be a trap: this rule
+   sits below the launch panel's, so it would silently win the cascade. */
+.gh-tnote__mark{--mark-size:50px}
+.gh-tnote__mark .icon{width:26px;height:26px}
+.gh-tnote p{font-family:var(--gh-serif);font-weight:700;font-size:1.18rem;line-height:1.32}
+/* Alone in the grid the note still occupies one product-card cell —
+   same column width, height matched to a .gh-tcard (square media + CTA).
+   Must not inherit the tablet full-row span — that + 2/3 made a huge strip. */
+.gh-tc__grid > .gh-tnote:only-child{
+  grid-column:span 1;
+  justify-self:stretch;
+  width:100%;
+  aspect-ratio:2/3;
+  box-sizing:border-box;
+}
+
+/* ===================================================================
+   OFFER OF THE MONTH
+   =================================================================== */
+.gh-offer__card{
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.02fr);
+  gap:clamp(24px,4vw,64px);align-items:center;
+}
+/* Offer media reuses the bundle hero pair (.gh-chero__media--pair + films).
+   .gh-offer__media is only the card slot (grid child / mobile order); drop the
+   course-hero right gutter so the pair sits flush in the offer column. */
+.gh-offer__media.gh-chero__media{padding-right:0}
+.gh-offer__copy{min-width:0}
+.gh-offer__actions{display:flex;flex-wrap:wrap;align-items:center;gap:12px 16px}
+.gh-offer__copy .gh-h2{margin-top:18px}
+.gh-offer__copy .btn{margin-top:clamp(20px,2.4vw,28px)}
+/* Offer facts only: centre each figure in its cell. Base .gh-facts is
+   left-aligned (fine for launch's ≤900px row layout); without this, the
+   first monthly cell sits flush on the hairline and reads clipped on
+   tablet columns (~700px). Modest inline padding keeps labels off the edge. */
+.gh-offer .gh-facts{
+  padding-inline:clamp(6px,1.2vw,12px);
+  justify-items:center;
+}
+.gh-offer .gh-facts > div{
+  width:100%;
+  min-width:0;
+  text-align:center;
+}
+/* Below 640px the shared rule turns each cell into a flex row, and a flex item
+   ignores the parent's text-align — centre the cell itself so the axis holds
+   there too. */
+.gh-offer .gh-facts dt,
+.gh-offer .gh-facts dd{
+  text-align:center;
+}
+
+
+/* ===================================================================
+   GALLERY — desserts read best on the dark band
+   =================================================================== */
+.gh-gallery{padding-bottom:clamp(44px,5vw,80px)}
+/* Scroll container: native touch + wheel; desktop drag via JS (grab cursor).
+   Track holds the set twice; JS wraps at half width for a seamless loop.
+   Gentle auto-scroll also lives in JS so it can yield to the user. */
+.gh-rail{
+  overflow-x:auto;overflow-y:hidden;padding:clamp(28px,3.5vw,46px) 0;
+  scrollbar-width:none;-webkit-overflow-scrolling:touch;
+  /* pan-x alone locked vertical page scroll when the finger started on the rail. */
+  cursor:grab;touch-action:pan-x pan-y;overscroll-behavior-x:contain;
+}
+.gh-rail::-webkit-scrollbar{display:none}
+.gh-rail.is-dragging{cursor:grabbing;user-select:none}
+.gh-rail.is-dragging img{pointer-events:none}
+.gh-rail__track{
+  display:flex;width:max-content;gap:clamp(12px,1.4vw,20px);align-items:flex-start;
+}
+/* .gh-rail is the behaviour — scroll container, drag, auto-scroll loop. What a
+   rail's items look like belongs to the rail's own modifier, so a second rail
+   (the reviews wall) can borrow the motion without inheriting a crop. */
+.gh-rail img{flex:none;-webkit-user-drag:none;user-select:none}
+.gh-rail--gallery img{
+  /* height:auto — the img carries width/height attributes, and that
+     presentational height would otherwise beat aspect-ratio. */
+  width:clamp(190px,19vw,270px);height:auto;aspect-ratio:4/5;
+  object-fit:cover;border-radius:20px;
+}
+/* Staircase, kept through the duplicate so the rhythm survives the wrap. */
+.gh-rail--gallery img:nth-child(2n){margin-top:clamp(30px,4.5vw,72px);aspect-ratio:4/4.6}
+@media (prefers-reduced-motion:reduce){
+  /* Auto-scroll is disabled in script.js; manual scroll stays available. */
+  .gh-rail{cursor:auto}
+}
+
+/* ===================================================================
+   ABOUT + MENTORSHIP — one band: full-bleed portrait, one reading column.
+   =================================================================== */
+/* Breathing room so the band above does not butt straight into the portrait. */
+/* The band above ends hard on a colour change, so this one needs real air
+   before the portrait starts — at the old 56px the photograph read as glued
+   to the gallery's bottom edge. */
+.gh-about{background:var(--gh-green-50);padding-block:clamp(52px,6.6vw,104px)}
+/* Same container as every other section — the band stays full width, the
+   content inside it does not. It used to bleed to the viewport edge, which
+   left the portrait hanging outside the page's own grid. */
+.gh-about__grid{
+  display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);
+  align-items:stretch;
+  column-gap:clamp(24px,4vw,64px);
+}
+.gh-about__figure{margin:0;min-width:0;overflow:hidden;border-radius:var(--radius-lg)}
+.gh-about__figure img{width:100%;height:100%;object-fit:cover;object-position:center 18%;display:block}
+/* The grid's column-gap now does the horizontal separating, so the copy only
+   needs its vertical rhythm — the old side padding doubled up on it. */
+.gh-about__copy{
+  min-width:0;
+  padding-block:clamp(24px,3vw,48px);
+}
+.gh-about__copy .gh-lead{margin-top:14px}
+/* Second subject in the same column — spacing does the separating. */
+/* Mentorship reuses .gh-launch chrome (inverted green panel) but has no
+   product cut-out. The columns used to be sized to the type and centred, to
+   close the dead middle that left behind — but the left column now carries the
+   programme list, so it has real width and the shared grid fills the panel on
+   its own. Centring shrink-wrapped tracks would now pull both columns inward
+   and open a void along each edge instead. */
+/* Column gap under the panel's own padding: when the gap is the wider of the
+   two, each column reads as bound to the panel edge rather than to its pair. */
+.gh-mentor .gh-launch{
+  /* Same three tracks as the facts rail so the lead's left edge shares a line
+     with Продажі. List takes the first third; lead + CTA span the other two.
+     max-content left the list ~90px short of a third and pulled the side early. */
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  column-gap:clamp(10px,1.6vw,22px);
+  /* Head + facts are full-bleed rows; body is copy | side under them. */
+  row-gap:0;
+}
+.gh-mentor .gh-launch__copy{grid-column:1}
+.gh-mentor .gh-launch__side{grid-column:2 / -1}
+/* Mentorship facts: three equal columns across the panel; each gold word
+   centred in its own cell (not clustered as one mid-card group). Hairlines
+   stay full-width. Three classes outrank the ≤640px .gh-launch .gh-facts
+   stack so the row does not collapse into a single max-content column. */
+.gh-mentor .gh-launch .gh-facts{
+  grid-column:1 / -1;
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  justify-items:center;
+  width:100%;
+  /* Kicker → top hairline: open a clear step under the format label. */
+  margin-top:clamp(16px,1.6vw,22px);
+  text-align:center;
+  /* Rail sits under a thin kicker now — trim the old lead-sized top pad. */
+  padding-top:clamp(12px,1.4vw,16px);
+}
+.gh-mentor .gh-launch .gh-facts > div{
+  width:100%;
+  min-width:0;
+  text-align:center;
+  justify-content:center;
+}
+.gh-mentor .gh-launch .gh-facts dt{
+  text-align:center;
+}
+/* Bottom hairline → programme list / lead: same offset so both columns start together. */
+.gh-mentor .gh-launch__list{margin-top:clamp(24px,2.6vw,34px)}
+.gh-mentor .gh-launch__side .gh-lead{
+  margin-top:clamp(24px,2.6vw,34px);
+  max-width:none;
+}
+/* CTA matches the lead column so the button finishes the same measure as
+   the copy above it rather than floating at its intrinsic pill width. */
+.gh-mentor .gh-launch__side .btn{
+  /* Floor kept under the panel's own padding at the narrow end (24px there),
+     so the gap never outgrows the frame once the panel stacks. */
+  margin-top:clamp(19px,2.6vw,38px);
+  /* Ranged left under the lead it follows. */
+  align-self:start;
+  width:auto;
+}
+/* The columns are honestly different lengths — the programme list runs longer
+   than lead + strip + button. Top-aligning them left 86px of dead air under the
+   button; pinning the button to the floor instead tore it 84px from its own
+   strip. Both readings break the same rule, just in different places: a space
+   inside the panel grew past the panel's own 40px frame.
+   Centring the shorter column splits that surplus in two, so the air above and
+   below it is symmetric and small enough to stay outer. */
+/* Columns start together on the title's line and end within a few pixels of
+   each other, so neither centring nor a stretched CTA is needed to square the
+   panel — both of those broke a spacing relation elsewhere. */
+
+/* ===================================================================
+   REVIEWS
+   =================================================================== */
+/* Heading, then the cards, then the Instagram link — the same order
+   index.html uses, so the call to action follows the proof. */
+.gh-reviews__grid{margin-top:clamp(28px,3.6vw,48px)}
+.gh-reviews__cta{margin-top:clamp(26px,3.2vw,44px);display:flex;justify-content:center}
+/* Brand amber — the shared --star is a dark ochre that reads muddy here. */
+.gh-page .review__stars{color:var(--gh-amber)}
+/* The reviews wall rides .gh-rail for its motion and adds only its own look. */
+.gh-shots{margin-top:clamp(28px,3.6vw,48px);padding:0}
+/* Bottom-aligned, unlike the food reel: every shot carries its message text and
+   reaction row at the foot, so a shared baseline lines all the words up and
+   leaves the ragged edge among the photos, where it reads as a wall. */
+.gh-shots .gh-rail__track{align-items:flex-end}
+/* No aspect-ratio and no object-fit: these are screenshots, so a forced ratio
+   would crop away the message that is the whole point of the shot. */
+.gh-shots img{width:clamp(190px,19vw,270px);height:auto;border-radius:20px}
+
+
+/* ---------- Footer flows straight out of the green CTA ---------- */
+/* Black foot: the green CTA above already carries the brand, so the footer
+   drops to ink and the boundary reads as a deliberate base. */
+.gh-page .footer{background:var(--gh-ink);color:var(--gh-cream)}
+.gh-page .footer__offer{color:rgba(249,249,245,.7)}
+.gh-page .footer__offer:hover{color:var(--gh-cream)}
+/* Socials stay solid white circles; only the glyph picks up mint on hover. */
+.gh-page .footer__socials a{background:#fff;color:var(--gh-ink);border:none}
+.gh-page .footer__socials a:hover{background:#fff;color:var(--gh-green-700);opacity:1}
+.gh-page .footer__socials .icon{color:inherit}
+.gh-page .footer__top{border:none;background:transparent;color:var(--gh-cream)}
+.gh-page .footer__top:hover{background:transparent;border:none;color:var(--gh-cream);opacity:.7}
+
+/* ---------- Modal picks up the green theme through the shared tokens ---------- */
+.gh-page .modal__dialog--split{border-color:rgba(46,125,79,.2)}
+.gh-page .modal__photo{background:var(--gh-green-50)}
+.gh-page .field input:focus{border-color:var(--gh-green-600)}
+
+/* ===================================================================
+   MOTION — one orchestrated load, then quiet scroll reveals.
+   The reveal observer itself lives in the shared script.js.
+   =================================================================== */
+@keyframes gh-rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
+@keyframes gh-figure-in{from{opacity:0;transform:translateY(30px) scale(.97)}to{opacity:1;transform:none}}
+
+.gh-hero__copy>*{animation:gh-rise .8s cubic-bezier(.22,.61,.36,1) both}
+.gh-hero__copy>*:nth-child(1){animation-delay:.06s}
+.gh-hero__copy>*:nth-child(2){animation-delay:.14s}
+.gh-hero__copy>*:nth-child(3){animation-delay:.24s}
+.gh-hero__copy>*:nth-child(4){animation-delay:.32s}
+.gh-hero__copy>*:nth-child(5){animation-delay:.40s}
+.gh-hero__photo{animation:gh-figure-in 1.1s cubic-bezier(.22,.61,.36,1) both}
+
+[data-reveal]{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.22,.61,.36,1),transform .7s cubic-bezier(.22,.61,.36,1)}
+[data-reveal].is-in{opacity:1;transform:none}
+.gh-cards [data-reveal]:nth-child(2),.gh-tc__grid [data-reveal]:nth-child(2),.gh-steps__list [data-reveal]:nth-child(2){transition-delay:.07s}
+.gh-cards [data-reveal]:nth-child(3),.gh-tc__grid [data-reveal]:nth-child(3),.gh-steps__list [data-reveal]:nth-child(3){transition-delay:.14s}
+.gh-cards [data-reveal]:nth-child(4),.gh-tc__grid [data-reveal]:nth-child(4),.gh-steps__list [data-reveal]:nth-child(4){transition-delay:.21s}
+.gh-tc__grid [data-reveal]:nth-child(5){transition-delay:.28s}
+.gh-tc__grid [data-reveal]:nth-child(6){transition-delay:.35s}
+
+@media (prefers-reduced-motion:reduce){
+  .gh-hero__copy>*,.gh-hero__photo{animation:none}
+  .gh-buy .btn,.gh-count__cta{animation:none}
+  .gh-buy__save{animation:none}
+  [data-reveal]{opacity:1;transform:none;transition:none}
+}
+
+/* ===================================================================
+   RESPONSIVE
+   =================================================================== */
+@media (max-width:980px){
+  /* Keep desktop two-column (title+media | lead+facts+CTA) through tablet.
+     Stack only on narrow phones — a full-width stack at ~766px left the cake
+     centred while copy/CTA stayed left, so the panel read as a zig-zag. */
+  .gh-launch{
+    gap:clamp(18px,3vw,36px);
+    padding:clamp(24px,3vw,40px) clamp(20px,2.8vw,36px);
+  }
+  .gh-launch__title{margin-top:12px}
+  .gh-launch__media img{
+    max-height:clamp(200px,28vw,300px);
+    object-position:center bottom;
+  }
+}
+
+/* Narrow phone: stack title → cut-out → lead → facts → CTA. */
+@media (max-width:640px){
+  .gh-launch{grid-template-columns:1fr;gap:20px}
+  /* Stacked: title first, so the visual swap is reset. */
+  .gh-launch__copy,.gh-launch__side{order:0}
+  /* The photo becomes a full-width band with normal spacing below. */
+  .gh-launch__media{margin:clamp(14px,2.6vw,22px) 0 clamp(2px,1vw,8px);padding-top:0}
+  .gh-launch__media img{max-height:clamp(190px,48vw,260px);object-position:center bottom}
+  /* Full-width CTA on the phone column only; tablet keeps natural button width. */
+  .gh-launch__side .btn{width:100%;align-self:stretch}
+  /* Mentorship stacks like every other launch panel here. */
+  .gh-mentor .gh-launch{grid-template-columns:1fr}
+  .gh-mentor .gh-launch__copy,
+  .gh-mentor .gh-launch__side{grid-column:auto}
+}
+
+@media (max-width:1024px){
+  .gh-hero__copy{max-width:min(520px,50%)}
+}
+
+@media (max-width:900px){
+  .gh-steps__list{grid-template-columns:1fr}
+  .gh-tc__grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  /* A one-column note would squeeze the Telegram link onto three lines. */
+  .gh-tnote{grid-column:1/-1;flex-direction:row;align-items:center;flex-wrap:wrap;gap:12px 20px}
+  .gh-tnote p{flex:1 1 220px}
+  /* Solo placeholder: one card footprint, not a full-bleed tall banner. */
+  .gh-tc__grid > .gh-tnote:only-child{
+    grid-column:span 1;
+    flex-direction:column;
+    flex-wrap:nowrap;
+    align-items:center;
+    gap:14px;
+  }
+  .gh-tc__grid > .gh-tnote:only-child p{flex:none}
+  .gh-offer__card{grid-template-columns:1fr;gap:0}
+  /* Flatten the copy so photos can sit between title and facts via order. */
+  .gh-offer__copy{display:contents}
+  /* display:contents makes the tag a grid item that would stretch full-width;
+     keep it a centered pill instead of a left-aligned yellow bar. */
+  .gh-offer__copy > .gh-tag{
+    order:1;
+    width:max-content;
+    max-width:100%;
+    margin-inline:auto;
+    text-align:center;
+    justify-self:center;
+  }
+  .gh-offer__copy > .gh-h2{order:2}
+  .gh-offer__media{order:3;margin-block:clamp(18px,4vw,26px)}
+  .gh-offer__copy > .gh-facts{order:4;margin-top:0}
+  .gh-offer__copy > .gh-lead{order:5}
+  .gh-offer__copy > .gh-card__price{order:6}
+  .gh-offer__copy > .gh-offer__actions{order:7}
+  /* Tablet (~700–900): keep both CTAs in one row. Buttons zero their own
+     margin-top; restore the gap from price → actions here. Stack only at
+     the narrow-phone breakpoint below. */
+  .gh-offer__actions{flex-direction:row;flex-wrap:nowrap;width:100%;margin-top:18px;gap:12px}
+  .gh-offer__actions .btn{flex:1;width:auto;margin-top:0}
+  /* Pair look/stagger comes from .gh-chero__media--pair (shared with bundle). */
+  /* Launch facts: one column of rows; each row is accent + label side by
+     side (not stacked). Desktop keeps 3-up. Align with the side column —
+     margin-inline:auto made the strip float between left copy and CTA. */
+  .gh-launch .gh-facts{
+    grid-template-columns:1fr;
+    gap:clamp(14px,2vw,20px);
+    width:max-content;
+    max-width:100%;
+    margin-inline:0;
+    justify-items:stretch;
+    text-align:left;
+  }
+  .gh-launch .gh-facts > div{
+    display:flex;
+    flex-wrap:nowrap;
+    align-items:baseline;
+    justify-content:flex-start;
+    gap:10px;
+    min-width:0;
+  }
+  .gh-launch .gh-facts dt{
+    flex:0 0 auto;
+  }
+  .gh-launch .gh-facts dd{
+    margin-top:0;
+    flex:0 1 auto;
+    min-width:0;
+  }
+  /* Desktop labels use <br> for a 3-col stack; on mobile keep accent + text
+     on one horizontal line. Markup keeps a space before <br> so hiding the
+     break still leaves a word separator (display:none alone would glue words). */
+  .gh-launch .gh-facts dd br{display:none}
+
+}
+
+/* Kept in step with the nav's fold in styles.css — the dropdown appears at
+   960px, so its cream must too, or it opens on the default white. */
+@media (max-width:960px){
+  .gh-page .nav__links{background:var(--gh-cream);padding:14px 20px 22px;box-shadow:0 20px 34px -20px rgba(33,95,60,.6)}
+  .gh-page .nav__links a{padding:14px 12px}
+}
+
+@media (max-width:860px){
+  .gh-shell{padding-inline:20px}
+  /* Mobile stack: title → photograph → lead + CTA. Flatten the copy wrappers
+     (same idea as .gh-offer__copy) so the photo can sit between the headline
+     and the supporting block without HTML reorder. Desktop stays absolute. */
+  .gh-hero{
+    display:grid;
+    grid-template-columns:minmax(0,1fr);
+    grid-template-areas:
+      "title"
+      "photo"
+      "lead"
+      "actions";
+    align-items:stretch;
+    min-height:0;
+    padding-bottom:0;
+  }
+  .gh-hero__inner,
+  .gh-hero__copy{display:contents}
+  .gh-hero__scrim{display:none}
+  .gh-hero__title{
+    grid-area:title;
+    margin-top:0;
+    padding:clamp(28px,6vw,44px) 20px clamp(16px,3vw,22px);
+  }
+  /* Mobile crop is 4:5; landscape hero has subject on the right — bias cover
+     toward her (not center), without hard-right cropping the face. */
+  .gh-hero__photo{
+    grid-area:photo;
+    position:relative;
+    inset:auto;
+    width:100%;
+    height:auto;
+    aspect-ratio:4/5;
+    max-height:min(78svh,640px);
+    overflow:hidden;
+  }
+  .gh-hero__photo img{object-fit:cover;object-position:75% center}
+  .gh-hero__lead{
+    grid-area:lead;
+    max-width:none;
+    margin-top:clamp(18px,4vw,24px);
+    padding-inline:20px;
+  }
+  .gh-hero__actions{
+    grid-area:actions;
+    width:100%;
+    margin-top:clamp(16px,3vw,22px);
+    padding:0 20px clamp(24px,5vw,36px);
+  }
+  .gh-hero__actions .btn{width:100%}
+}
+
+@media (max-width:700px){
+  /* 2×2 band: cut empty vertical air, keep cells readable. Shared by home
+     and course pages — same classes, same problem. */
+  .gh-stats{
+    margin-top:clamp(16px,3vw,24px);
+    padding:clamp(18px,3.2vw,26px) 0 clamp(14px,2.6vw,20px);
+  }
+  .gh-page .gh-hero + .gh-stats{margin-top:0}
+  .gh-figures{grid-template-columns:repeat(2,minmax(0,1fr));gap:0}
+  .gh-figure{padding:10px 12px}
+  .gh-figure:nth-child(2n){border-right:0}
+  .gh-figure:nth-child(-n+2){border-bottom:1px solid rgba(249,249,245,.14)}
+  .gh-figure dt{font-size:clamp(1.45rem,6.2vw,1.85rem)}
+  /* 2×2 cells are ~128–160px of label room; keep phrases on one line
+     instead of an awkward mid-wrap («грн з нуля» alone, then the rest). */
+  .gh-figure dd{
+    margin-top:6px;
+    white-space:nowrap;
+    font-size:clamp(.68rem,3.4vw,.88rem);
+    line-height:1.25;
+    letter-spacing:-.01em;
+  }
+  /* About: keep desktop two-column through tablet; stack only on phones. */
+  .gh-about__grid{grid-template-columns:1fr}
+  /* Portrait frame on the figure — max-height:72vw was shorter than 4/5 of
+     full width, so the photo collapsed into a squat landscape band. */
+  .gh-about__figure{
+    aspect-ratio:4/5;
+    width:100%;
+    max-width:min(100%,420px);
+    justify-self:center;
+  }
+  .gh-about__figure img{
+    aspect-ratio:auto;
+    width:100%;
+    height:100%;
+    max-height:none;
+    object-fit:cover;
+    object-position:center 18%;
+  }
+}
+/* On the narrowest phones the cell is ~144px; trim side padding so the
+   shared figure size still fits «1 000 000+» on one line. */
+@media (max-width:400px){
+  .gh-figure{padding:8px}
+}
+
+
+/* Below this the two columns cannot both hold their content, so the panel
+   stacks: photograph, copy, action. */
+@media (max-width:720px){
+  .gh-card{
+    grid-template-columns:1fr;
+    grid-template-areas:"media" "body" "buy";
+    padding:clamp(16px,4vw,22px);
+  }
+  /* Keep a height floor: with only an absolutely placed img, WebKit used to
+     honour aspect-ratio only after width resolved — and width:auto made that
+     0. The floor is a second guard if a future rule reintroduces auto width. */
+  .gh-card__media{min-height:clamp(180px,48vw,260px);aspect-ratio:4/3}
+  .gh-card__buy{width:100%}
+  .gh-card__buy .btn{width:100%}
+  .gh-facts{gap:10px}
+}
+
+@media (max-width:430px){
+  .gh-shell{padding-inline:16px}
+  .gh-tc__grid{gap:12px}
+  /* Only the two variables move; the media's bleed follows them. */
+  .gh-tcard{--tc-pad:10px;--tc-radius:18px;padding-bottom:14px;gap:9px}
+  .gh-tcard h3{font-size:.98rem}
+  .gh-page .ed-price__new{font-size:1.3rem}
+  /* Slightly under 2.25rem so the three curated breaks stay ~3–4 lines
+     on ~350px phones instead of wrapping to five. Desktop clamp untouched. */
+  .gh-hero__title{font-size:1.95rem;padding-inline:16px}
+  .gh-hero__lead,
+  .gh-hero__actions{padding-inline:16px}
+}
+
+/* ===================================================================
+   COURSE LANDING
+   frozen_cake.html is built from the components above; only the pieces a
+   course page needs and the hub does not are defined here. It carries
+   .gh-course, so nothing in this block reaches the hub itself.
+   =================================================================== */
+
+/* ---------- Hero ----------
+   Redesign, not a tweak. The old hero was the default landing composition:
+   a 50/50 split inside a 1200px shell, text left, a rounded video floating
+   right, everything at the same weight. Three things change.
+
+   The film bleeds. It runs to the right edge of the viewport and the full
+   height of the section, so the product is a wall rather than a thumbnail
+   in a card — and the photography is already shot on black, which is the
+   brand's own material, not a colour I imposed.
+
+   The split is asymmetric, 1fr to 44vw, and the copy keeps the page's own
+   left margin so the headline starts on the same line as every section
+   below it.
+
+   The type steps up. The headline runs to 4.4rem against the old 3.05, at
+   -0.03em, which is where Lora's display cut wants to sit; the price
+   leaves its white card and sets at 4rem as the second voice. Nothing in
+   the column is boxed — the film is the frame.
+   =================================================================== */
+/* No closing rule: it drew a line straight across the gap the film's rounded
+   corners now sit in, which put the plate back in a box. */
+.gh-chero{position:relative;padding:0}
+.gh-chero__grid{
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,44vw);
+  align-items:stretch;min-height:min(88svh,900px);
+}
+.gh-chero__copy{
+  min-width:0;display:flex;flex-direction:column;align-items:flex-start;
+  justify-content:center;
+  padding:clamp(48px,6vw,88px) clamp(40px,4.5vw,72px) clamp(48px,6vw,88px) var(--hero-gutter);
+}
+.gh-chero__label{
+  font-size:.72rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--gh-graphite);
+}
+/* No max-width: the 16ch cap pushed the headline from four lines to five
+   and cost more height than it saved measure. 4rem sets it in four lines
+   in the 806px column with the button still above a 900px fold. */
+/* The hero's earning figure takes the burst's amber, as asked. Note this is
+   the one place that amber lands on the cream rather than on green: it
+   measures 1.5:1 there against 3.31:1 for the orange it replaces. */
+/* Marked, not coloured. A rounded rectangle read as a label, so the amber is
+   a drawn stroke instead: a chisel-tip sweep with ends that are not square,
+   edges that drift, a lighter dry edge along the top and a second darker pass
+   at the bottom where the ink doubles up. It stretches to whatever it covers,
+   so it only reads as a hand mark over the two or three words of a punch: at
+   a whole sentence the drift flattens out and the amber arrives as a banner.
+   nowrap for the same reason — box-decoration-break redraws the stroke per
+   line, and broken across two lines the sweep arrives as two stubs with
+   squared-off inner ends, which is the one thing a marker never does. */
+/* The hero headline is no longer among them: its earning figure is set as
+   plain green type now, like every other accent word on the site. The stroke
+   stays for the film captions, where it marks two or three words inside a
+   sentence rather than a phrase inside a display heading. */
+/* Green type, no stroke. The amber sweep is gone from the site: it read as
+   a highlighter over phrases that the accent colour already emphasises. */
+.gh-marked{color:var(--gh-green-700);font-weight:700}
+.gh-chero__title{
+  margin-top:clamp(14px,1.5vw,20px);
+  font-family:var(--gh-serif);font-weight:700;
+  /* The home page's curve, so a course landing opens at the same pitch
+     as the hub instead of a size louder. */
+  font-size:clamp(1.7rem,3.3vw,2.85rem);line-height:1.06;letter-spacing:-.022em;
+  text-wrap:balance;
+}
+/* The film: full height, hard to the viewport edge, no radius. */
+/* The caption used to sit on the film, where the frame underneath it kept
+   changing — a scrim dark enough to hold every frame turned the foot of the
+   plate to mud. It sits under the film now, on the page, in ink: nothing
+   about the video can make it hard to read. */
+/* The plate keeps the page's own right margin. Rounded on four corners and
+   run hard to the viewport edge, the two right corners got cut by the window
+   and the radius read as a rendering fault rather than a decision. */
+.gh-chero__media{min-width:0;display:flex;flex-direction:column;padding-right:var(--hero-gutter)}
+/* Rounded on all four corners, so the film reads as one plate rather than a
+   panel that happens to end where the viewport does. */
+.gh-chero__film{
+  position:relative;flex:1 1 auto;min-height:0;background:#0E0E0E;
+  border-radius:24px;overflow:hidden;
+}
+.gh-chero__film video,
+.gh-chero__film img{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;display:block;
+}
+/* The bundle sells two collections, so its hero carries two plates side by
+   side instead of one film. The column is wider than the single-film hero's.
+   Both plates share one tall postcard crop (2/3, object-fit:cover) — identical
+   width & height. Stagger is position only: left gets a top margin so it sits
+   lower and its bottom hangs past the right; right stays flush to the top.
+   align-items:flex-start (never stretch/end). align-self:center sits the
+   pair beside the centred copy. The :has() carries the width because the
+   grid is shared with the other course pages; specificity beats the
+   breakpoint rules, so both viewport steps below are restated for the pair. */
+.gh-chero__media--pair{
+  flex-direction:row;gap:clamp(12px,1.4vw,20px);
+  align-items:flex-start;align-self:center;width:100%;box-sizing:border-box;
+}
+.gh-chero__media--pair .gh-chero__film{
+  flex:1 1 0;min-width:0;height:auto;aspect-ratio:2/3;
+}
+.gh-chero__media--pair .gh-chero__film:first-child{
+  margin-top:clamp(28px,3.5vw,56px);
+}
+.gh-chero__media--pair .gh-chero__film:last-child{
+  margin-top:0;
+}
+.gh-chero__grid:has(.gh-chero__media--pair){grid-template-columns:minmax(0,1fr) minmax(0,52vw)}
+@media (max-width:1100px){
+  .gh-chero__grid:has(.gh-chero__media--pair){grid-template-columns:minmax(0,1fr) minmax(0,48vw)}
+}
+@media (max-width:860px){
+  .gh-chero__grid:has(.gh-chero__media--pair){grid-template-columns:1fr}
+  .gh-chero__media--pair .gh-chero__film:first-child{
+    margin-top:clamp(16px,3.5vw,32px);
+  }
+}
+/* Under the film, in the film's own column and flush to its left edge. It is
+   a caption to the picture, so it hangs off the picture; centred across the
+   whole grid it lined up with nothing — the copy is set to the left gutter
+   and the film runs to the right edge, and the caption split the difference.
+   Set at 500 rather than 700: at the old weight it read as a second, smaller
+   headline competing with the h1 rather than as the line under a plate. */
+/* Centred across the whole hero and set larger: it is the hero's closing
+   line, not a label hanging off the film's left edge. */
+.gh-chero__caption{
+  grid-column:1 / -1;
+  margin:clamp(16px,1.8vw,24px) 0 0;
+  padding-inline:var(--hero-gutter);
+  font-family:var(--gh-serif);font-weight:500;
+  font-size:clamp(1.05rem,1.5vw,1.4rem);line-height:1.35;
+  color:var(--gh-ink-soft);text-align:center;text-wrap:balance;
+}
+/* The mark carries the emphasis the caption's own weight gives up. */
+.gh-chero__caption .gh-marked{font-weight:700}
+/* Frozen hero only: the caption stands in the copy column, in the slot the
+   "це нові бенто" list used to hold. It is the one line that answers the
+   headline, so it sits under it rather than under the film — which also means
+   it takes the column's own left edge and none of the grid-spanning geometry. */
+.gh-chero__copy .gh-chero__caption{
+  margin-top:clamp(18px,2vw,26px);padding-inline:0;text-align:left;
+}
+
+/* ---------- Check lists ---------- */
+.gh-checks{display:flex;flex-direction:column;gap:9px;margin-top:12px}
+.gh-checks li{position:relative;padding-left:32px;color:var(--gh-ink-soft);line-height:1.5}
+.gh-checks li::before{
+  content:"";position:absolute;left:0;top:.15em;width:21px;height:21px;border-radius:50%;
+  background:var(--gh-green-100) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232E7D4F' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E") center/12px no-repeat;
+}
+.gh-checks--warm li::before{background-color:#FDE6D2;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23E85D0E' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20 6 9 17l-5-5'/%3E%3C/svg%3E")}
+
+/* ---------- Buy block ---------- */
+/* No card, and no rule either. In the hero the price is the second voice
+   after the headline, and both a box and a line above it only made the
+   loudest number on the page look like a field in a form. The space does
+   the separating. */
+.gh-buy{
+  width:100%;max-width:34rem;margin-top:clamp(20px,2.2vw,28px);
+  padding-top:clamp(34px,4.2vw,56px);
+}
+.gh-coffer .gh-buy,.gh-cabout .gh-buy{max-width:none}
+.gh-buy__price{display:flex;align-items:center;flex-wrap:wrap;gap:12px}
+.gh-buy .ed-price__new{font-size:clamp(2.2rem,4vw,4rem);letter-spacing:-.03em}
+/* The discount is a burst, per the Figma: a scalloped disc, not a pill. The
+   shape comes from a mask so the fill stays --gh-amber; the label sits on top
+   as ordinary text, which keeps it selectable and translatable. */
+/* Raised to the price's top-right corner rather than parked beside it on the
+   baseline, where it read as a third price. It clears the numerals — the row
+   gap stays — and only the height changes. */
+.gh-buy__save{
+  --burst:clamp(68px,5.6vw,84px);
+  align-self:flex-start;flex:none;
+  margin-top:calc(var(--burst) * -.52);
+  display:grid;place-items:center;
+  width:var(--burst);aspect-ratio:1;padding:0;border-radius:0;
+  background:var(--gh-amber);
+  -webkit-mask:var(--gh-burst) center/100% 100% no-repeat;
+  mask:var(--gh-burst) center/100% 100% no-repeat;
+  color:var(--gh-ink);
+  font-size:clamp(.82rem,1vw,.95rem);font-weight:800;letter-spacing:0;
+  line-height:1;
+  animation:gh-burst-spin 12s linear infinite;
+}
+@keyframes gh-burst-spin{
+  to{transform:rotate(360deg)}
+}
+/* text-wrap:wrap overrides body pretty — pretty was balancing this short
+   offer line into four awkward wraps on a phone column. */
+.gh-buy__bonus-lead{
+  margin-top:12px;font-weight:700;color:var(--gh-ink);
+  text-wrap:wrap;
+}
+@media (max-width:860px){
+  /* Slightly smaller than body so the bonus line sits under the price
+     without reading as a second headline or stacking to four tall lines. */
+  .gh-buy__bonus-lead{font-size:.9rem;line-height:1.45}
+}
+/* The hero lists the same two bonuses the bonuses section does, so it marks
+   them with the same cake rather than a generic tick. Scoped to .gh-buy: the
+   tick is still right for the audience and check lists elsewhere. */
+.gh-buy .gh-checks li::before{
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232E7D4F' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M3 20h18v-8a3 3 0 0 0-3-3H6a3 3 0 0 0-3 3z'/%3E%3Cpath d='M3 14.8A2.4 2.4 0 0 0 4 15a2.4 2.4 0 0 0 2-1a2.4 2.4 0 0 1 2-1a2.4 2.4 0 0 1 2 1a2.4 2.4 0 0 0 2 1a2.4 2.4 0 0 0 2-1a2.4 2.4 0 0 1 2-1a2.4 2.4 0 0 1 2 1a2.4 2.4 0 0 0 2 1c.35 0 .69-.06 1-.2M12 4l1.5 1.6a2 2 0 1 1-3 .1z'/%3E%3C/svg%3E");
+  background-size:14px;
+}
+.gh-buy .btn{margin-top:16px}
+/* The page's purchase buttons take a scale on top of the shared lift: 2% is
+   enough to answer the cursor without the button appearing to jump, and the
+   press returns just under 1:1 so the click lands physically. On .gh-buy
+   rather than per-button, so the hero CTA and the closing CTA behave the
+   same. Duration and easing come from .btn's own transition, and the global
+   prefers-reduced-motion rule collapses it to an instant state change. */
+.gh-buy .btn:hover{transform:translateY(-2px) scale(1.02)}
+.gh-buy .btn:active{transform:translateY(0) scale(.985)}
+/* Soft continuous breathe — smooth scale in and out with no idle gap.
+   Hover cancels the loop outright rather than pausing it: a paused
+   animation keeps applying its frame and would outrank the hover transform. */
+@keyframes gh-cta-pulse{
+  from{transform:scale(1)}
+  to{transform:scale(1.04)}
+}
+.gh-buy .btn,.gh-count__cta{animation:gh-cta-pulse 1.1s ease-in-out infinite alternate}
+.gh-buy .btn:hover,.gh-buy .btn:focus-visible,.gh-buy .btn:active,
+.gh-count__cta:hover,.gh-count__cta:focus-visible,.gh-count__cta:active{animation:none}
+/* Sized to its label rather than to the column. Run full width and a
+   two-word CTA becomes a 900px slab, which reads as a banner, not a button.
+   It goes back to full width on phones, where the column is the tap target. */
+.gh-chero .gh-buy .btn{width:auto;padding-inline:clamp(38px,4.6vw,64px)}
+.gh-buy--dark{max-width:560px;margin-inline:auto;text-align:left}
+.gh-buy--dark .ed-price__new{color:var(--gh-cream)}
+/* Light coral on green-900 — dark red disappears on this band. */
+.gh-band--dark .ed-price__old,
+.gh-buy--dark .ed-price__old,
+.gh-coffer .ed-price__old{color:var(--gh-red-was-on-dark);opacity:1}
+.gh-buy--dark .gh-buy__bonus-lead{color:var(--gh-cream)}
+
+/* The closing CTA was a full-width white slab — the brightest thing in the
+   section and the least considered. Amber on green is the brand's own pair
+   (ink on amber is 11.3:1), and inline rather than block makes it a button
+   again instead of a stripe. */
+/* A step larger than the page's other buttons: it is the last thing asked of
+   the reader, and at btn--lg it sat smaller than the price above it. */
+.gh-coffer .gh-buy .btn{
+  display:inline-flex;width:auto;align-self:flex-start;
+  padding:22px 46px;font-size:1.08rem;
+  background:var(--gh-amber);color:var(--gh-ink);box-shadow:none;
+}
+.gh-coffer .gh-buy .btn:hover{background:#FFD469}
+
+/* ---------- About ---------- */
+/* The portrait keeps the page's left gutter rather than bleeding into it: at
+   the viewport edge it read as a slab, not a photograph. */
+/* Air above and below: run flush and the portrait butts straight into the
+   figures band with no seam between two full-bleed blocks. */
+.gh-cabout{padding-block:clamp(48px,6vw,88px)}
+.gh-cabout__grid{
+  display:grid;grid-template-columns:minmax(0,.82fr) minmax(0,1.18fr);
+  gap:clamp(32px,5vw,80px);align-items:center;
+  max-width:none;padding-inline:var(--hero-gutter) 0;
+}
+.gh-cabout__media{position:relative;min-width:0;align-self:stretch}
+/* Rounded on the three corners that are inside the page; the left edge is at
+   the viewport, where a radius would only cut a notch out of the bleed. */
+/* A fixed 4/5 rather than the copy's full height: stretched, `cover` slid the
+   crop down the frame until the counter and whisks filled the bottom third. */
+.gh-cabout__media .gh-frame{aspect-ratio:4/5;height:auto;border-radius:20px}
+.gh-cabout__copy{padding:clamp(56px,7vw,104px) var(--hero-gutter) clamp(56px,7vw,104px) 0}
+.gh-cabout__media img{width:100%;height:100%;object-fit:cover;object-position:center 22%}
+.gh-cabout__copy{min-width:0}
+.gh-cabout__copy .gh-lead + .gh-lead{margin-top:14px}
+
+/* Cards whose photo has not been shot yet. The tile holds the grid's rhythm
+   instead of collapsing, and says so plainly rather than showing a broken
+   frame or a grey rectangle pretending to be an image. */
+.gh-tcard__soon{
+  display:grid;place-items:center;width:100%;height:100%;padding:20px;
+  background:var(--gh-green-50);color:var(--gh-green-700);text-align:center;
+}
+.gh-tcard__soon > span{
+  font-size:.72rem;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+}
+/* The pre-registration hero asks for a contact, not a payment, so the line
+   under its button is a caveat rather than a bonus. */
+.gh-buy__note{margin-top:12px;font-size:.9rem;line-height:1.5;color:var(--gh-ink-soft)}
+/* The kind of bonus — recipe, guide, plan — labels the line it opens. */
+.gh-bonus__kind{color:var(--gh-green-700)}
+
+/* The bundle page runs two flavour grids inside one section, so each carries
+   its own name. More space above than below, so the name reads as belonging
+   to the grid that follows it rather than to the one it just ended. */
+.gh-tc__part{
+  margin:clamp(48px,5.4vw,76px) 0 0;
+  font-family:var(--gh-serif);font-weight:700;
+  font-size:clamp(1.15rem,1.9vw,1.5rem);line-height:1.2;color:var(--gh-ink);
+}
+.gh-head + .gh-tc__part{margin-top:clamp(24px,2.8vw,36px)}
+
+/* ---------- Manifesto ---------- */
+/* One turn of an argument — «you still think X; you are wrong» — so it is set
+   as a claim answered, not a heading with body text stacked under it. The
+   claim holds the left column at display size and the evidence answers from a
+   narrower one, which is also what stops two short paragraphs from trailing
+   down the left edge of a 1200px shell with the right half empty. */
+.gh-manifesto__grid{
+  display:grid;grid-template-columns:minmax(0,1.08fr) minmax(0,.92fr);
+  gap:clamp(28px,4.4vw,80px);align-items:start;
+}
+/* pretty instead of .gh-h2 balance — balance was ending a line on «що»
+   before «картопля»; NBSP glues those two, pretty keeps the rest from
+   orphaning short tails. */
+.gh-manifesto__claim{margin-top:0;text-wrap:pretty}
+/* No rule between the two voices — the gap and the change of scale already
+   separate them. The answer drops below the claim's first line so the eye
+   crosses sideways rather than reading straight down. */
+.gh-manifesto__body{margin-top:clamp(16px,2.2vw,30px)}
+.gh-manifesto__body .gh-lead{margin-top:0;max-width:52ch}
+.gh-manifesto__body .gh-lead + .gh-lead{margin-top:clamp(14px,1.7vw,22px)}
+@media (max-width:860px){
+  .gh-manifesto__grid{grid-template-columns:1fr;gap:0}
+  .gh-manifesto__body{margin-top:clamp(20px,3vw,28px)}
+}
+
+/* ---------- Audience ---------- */
+/* Not cards. Six identical boxes of tick-plus-one-line is the lazy container —
+   it makes six equal claims look like a form. Two columns of set text on the
+   band's own tint, divided by the same hairline the rest of the site uses, and
+   the sentences carry it. */
+.gh-aud__grid{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  column-gap:clamp(32px,5vw,88px);
+  margin-top:clamp(32px,4vw,56px);border-top:1px solid var(--gh-line);
+}
+/* Six identical ticks said nothing the sentence did not already say. Each row
+   takes the icon for its own claim instead, drawn on the same tinted disc the
+   bonuses and reasons use, so the mark is a picture of the line rather than a
+   sixth confirmation that the line exists. */
+.gh-aud{
+  display:flex;align-items:center;gap:clamp(14px,1.4vw,18px);
+  padding:clamp(20px,2.2vw,28px) 0;
+  border-bottom:1px solid var(--gh-line);
+  color:var(--gh-ink);line-height:1.45;
+  font-size:clamp(1.02rem,1.3vw,1.18rem);
+}
+.gh-aud__ico{
+  flex:none;display:grid;place-items:center;
+  width:clamp(38px,3.4vw,46px);aspect-ratio:1;border-radius:50%;
+  background:var(--gh-green-100);color:var(--gh-green-700);
+}
+.gh-aud__ico .icon{width:52%;height:52%;stroke-width:1.7}
+/* The two bottom cells would otherwise draw a rule under the last row. */
+.gh-aud:nth-last-child(-n+2){border-bottom:0}
+
+/* ---------- Two-up steps, three-up flavour grid ---------- */
+.gh-steps__list--2{grid-template-columns:repeat(2,minmax(0,1fr))}
+/* Emoji on a tinted tile, the same mark the hub's reasons carry, so the two
+   pages label a benefit the same way. */
+.gh-steps__list--2 .gh-step__ico{
+  width:54px;height:54px;display:grid;place-items:center;
+  font-size:1.6rem;line-height:1;
+  background:var(--gh-green-50);border-radius:14px;
+  margin:0 0 16px;
+}
+/* Icon + title on one row for two-up cards; body copy under both.
+   Six-up reason cards keep the stacked title under the tile. */
+.gh-steps__list--2 .gh-step:has(.gh-step__copy h3){
+  display:grid;
+  grid-template-columns:auto minmax(0,1fr);
+  grid-template-rows:auto auto;
+  column-gap:14px;row-gap:10px;align-items:center;
+}
+.gh-steps__list--2 .gh-step:has(.gh-step__copy h3) .gh-step__ico{
+  grid-column:1;grid-row:1;margin:0;align-self:center;
+}
+.gh-steps__list--2 .gh-step:has(.gh-step__copy h3) .gh-step__copy{display:contents}
+.gh-steps__list--2 .gh-step:has(.gh-step__copy h3) .gh-step__copy h3{
+  grid-column:2;grid-row:1;align-self:center;margin:0;
+}
+.gh-steps__list--2 .gh-step:has(.gh-step__copy h3) .gh-step__copy p{
+  grid-column:1/-1;grid-row:2;margin-top:0;
+}
+/* Not bold: at 700 the serif ran as heavy as the hero above it, and the name
+   inside carries the emphasis on its own. */
+/* Not bold: at 700 the serif ran as heavy as the hero above it, and the name
+   inside carries the emphasis on its own. Both the hub's About and the course
+   pages' set the same way. */
+/* The lead-in — «Я —» — steps back to 400 so the name it introduces carries
+   the line on its own. The accent keeps 600, so the contrast is weight and
+   colour rather than colour alone. */
+.gh-cabout .gh-h2,.gh-about .gh-h2{font-weight:400}
+.gh-cabout .gh-h2 .gh-accent,.gh-about .gh-h2 .gh-accent{font-weight:600}
+/* The flavours are the section's argument, so they get the room: wider
+   than the reading shell, a larger cell, and no card around a photograph
+   that already carries its own black frame. */
+.gh-tc__grid--3{
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:clamp(16px,2vw,28px);
+  /* Break symmetrically out of the 1200px shell: half the parent minus half
+     the target width gives an equal negative margin on both sides. */
+  margin-inline:calc(50% - min(1560px, 100vw - 64px) / 2);
+}
+/* --tc-pad:0 keeps the media's bleed at zero — these cards have no padding to
+   cancel, so without it the negative margin would pull the photo out of them. */
+.gh-tc__grid--3 .gh-tcard{--tc-pad:0px;padding:0;border:0;background:none;gap:14px}
+.gh-tc__grid--3 .gh-tcard__media{border-radius:18px;aspect-ratio:4/5}
+.gh-tc__grid--3 figcaption{
+  font-family:var(--gh-serif);font-weight:700;
+  font-size:clamp(1.02rem,1.5vw,1.25rem);line-height:1.25;padding-inline:2px;
+}
+.gh-menu__note{max-width:74ch;margin-top:clamp(26px,3vw,38px)}
+
+/* Decor techniques as a numbered ledger — rows, not photo cards. */
+.gh-decor-list{
+  list-style:none;margin:clamp(32px,4vw,52px) 0 0;padding:0;
+  max-width:760px;counter-reset:decor;
+}
+.gh-decor-row{
+  display:grid;grid-template-columns:auto minmax(0,1fr);
+  column-gap:clamp(16px,2vw,24px);row-gap:6px;
+  align-items:baseline;
+  padding:clamp(18px,2.2vw,26px) 0;
+  border-bottom:1px solid var(--gh-line);
+}
+.gh-decor-row:first-child{border-top:1px solid var(--gh-line)}
+.gh-decor-row::before{
+  counter-increment:decor;content:counter(decor, decimal-leading-zero);
+  font-family:var(--gh-serif);font-weight:700;
+  font-size:clamp(1.15rem,1.8vw,1.45rem);line-height:1;
+  color:var(--gh-green-600);grid-row:1/span 2;align-self:start;padding-top:.15em;
+}
+.gh-decor-row h3{
+  margin:0;grid-column:2;
+  font-family:var(--gh-serif);font-weight:700;
+  font-size:clamp(1.12rem,1.8vw,1.4rem);line-height:1.25;
+}
+.gh-decor-row p{
+  margin:0;grid-column:2;
+  font-size:1rem;line-height:1.55;color:var(--gh-ink-soft);max-width:52ch;
+}
+
+/* ---------- Callouts ----------
+   A tinted panel inside its own hairline, not a coloured tab down one side.
+   The side tab reads as a framework alert dropped into the page; the tint
+   already says "aside", and the hairline is the same one every card and
+   facts strip on this site is drawn with. */
+.gh-callout{
+  margin-top:18px;padding:18px 22px;border-radius:16px;
+  background:var(--gh-green-50);border:1px solid rgba(46,125,79,.22);
+  color:var(--gh-ink);line-height:1.55;max-width:74ch;
+}
+.gh-callout--warm{background:#FFF6E8;border-color:rgba(232,93,14,.24)}
+
+/* ---------- Bonuses ---------- */
+.gh-bonuses__grid{display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:clamp(28px,4vw,60px);align-items:center}
+/* Same 20px frame the course and about photos carry — a framed photo on paper
+   gets an edge, so this one should not be the single square corner on the page.
+   The --cutout variant inherits it: despite the name its only user is a tray
+   photo with an opaque background, and a true alpha cut-out has nothing in its
+   corners for the radius to clip. */
+.gh-bonuses__media{aspect-ratio:4/5;max-width:420px;background:var(--gh-green-50);overflow:hidden;border-radius:20px}
+/* A cut-out with its own alpha channel sits straight on the paper — no frame
+   and no tinted box behind it, the way the launch panel carries its product
+   shot. The tinted box is for the film, which needs an edge. */
+.gh-bonuses__media--cutout{
+  display:block;aspect-ratio:auto;max-width:460px;background:none;
+  justify-self:center;width:100%;
+}
+.gh-bonuses__media--cutout img{width:100%;height:auto;display:block}
+.gh-bonuses__media video{width:100%;height:100%;object-fit:cover;display:block}
+.gh-bonuses__copy{min-width:0}
+/* Two thin bordered rows holding one line each read as a form, not as a
+   gift. Boxes out; the icon goes up to display size, the text into the
+   serif, and the hairline does the dividing — the same rhythm the process
+   steps and the section closers use. */
+.gh-bonus-list{
+  display:flex;flex-direction:column;
+  margin-top:clamp(24px,3vw,34px);border-top:1px solid var(--gh-line);
+}
+.gh-bonus{
+  display:grid;grid-template-columns:auto minmax(0,1fr);
+  gap:clamp(16px,1.8vw,24px);align-items:center;
+  padding:clamp(20px,2.4vw,28px) 0;border-bottom:1px solid var(--gh-line);
+}
+.gh-bonus__ico{flex:none;color:var(--gh-green-600);display:block}
+.gh-bonus__ico .icon{width:clamp(28px,2.6vw,34px);height:clamp(28px,2.6vw,34px);stroke-width:1.6}
+/* Set at 500, not 700: two bold serif lines under a bold serif heading read as
+   three headings stacked. The green carries the emphasis on its own. */
+.gh-bonus p{
+  color:var(--gh-ink);line-height:1.28;
+  font-family:var(--gh-serif);font-weight:500;
+  font-size:clamp(1.08rem,1.7vw,1.35rem);text-wrap:balance;
+}
+.gh-bonus strong{color:var(--gh-green-700);font-weight:700}
+
+/* ---------- Closing offer ---------- */
+.gh-coffer__inner{text-align:center;max-width:760px;margin-inline:auto}
+/* White, not mint: the closing statement is the page's last claim and mint
+   read as a caption of itself against the green. The hub's gallery title
+   keeps the mint — this is scoped to the offer band. */
+.gh-coffer__inner .gh-h2--light{color:#fff}
+/* Amber, not the band's default white-on-white: it is the pair this band
+   already runs — the burst and the CTA below are the same amber — and it is
+   the only way an accent reads at all against a white heading. */
+.gh-coffer__inner .gh-h2 .gh-accent{color:var(--gh-amber)}
+.gh-coffer__inner .gh-h2{margin-top:0}
+.gh-coffer__inner .gh-buy{margin-top:clamp(28px,3.4vw,40px)}
+/* The heading centres but the buy block kept the hero's left rag, so the
+   price, the bonus line and the button each started at a different point
+   under a centred headline. On this band everything centres on one axis. */
+.gh-coffer__inner .gh-buy{text-align:center}
+.gh-coffer__inner .gh-buy__price{justify-content:center}
+
+/* ---------- Reviews CTA ---------- */
+.gh-reviews__cta{margin-top:clamp(26px,3vw,38px)}
+
+/* ---------- Sticky buy bar ---------- */
+.gh-sticky{
+  position:fixed;left:0;right:0;bottom:0;z-index:80;
+  background:rgba(255,255,255,.94);backdrop-filter:blur(10px);
+  border-top:1px solid var(--gh-line);
+}
+.gh-sticky[hidden]{display:none}
+/* padding-block, not the shorthand: `padding:12px 0` reset the inline padding
+   the .gh-shell it shares a class list with had already set, and the price and
+   the button ended up flush against the viewport. */
+/* The price and its button read as one offer, so they sit together rather
+   than at opposite ends of a 1200px bar with a metre of empty between them.
+   The pair is centred as a group; `space-between` pushed the button to the
+   far edge, where it stopped looking like the price's own action. */
+/* Left, on the shell's own gutter: centred, the bar was the one element on
+   the page that did not line up with the column it floats over. */
+.gh-sticky__inner{display:flex;align-items:center;justify-content:flex-start;gap:clamp(16px,2.4vw,32px);padding-block:12px}
+.gh-sticky__info{display:flex;align-items:baseline;gap:12px;min-width:0}
+.gh-sticky__title{font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gh-sticky__price{font-family:var(--gh-serif);font-weight:700;font-size:1.35rem;white-space:nowrap}
+
+/* ---------- Course nav ---------- */
+.gh-course .nav__links a{font-size:.88rem;padding:8px 10px}
+.gh-course .nav__cta{
+  margin-left:6px;padding:9px 16px;border-radius:999px;
+  color:var(--gh-green-700);box-shadow:inset 0 0 0 1.5px rgba(46,125,79,.38);
+}
+.gh-course .nav__cta:hover{background:var(--gh-green-700);color:var(--gh-cream)}
+
+@media (max-width:1024px){
+  .gh-aud__grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+}
+@media (max-width:1100px){
+  /* Below this the 44vw film starves the copy column. */
+  .gh-chero__grid{grid-template-columns:minmax(0,1fr) minmax(0,40vw)}
+  .gh-chero__title{font-size:clamp(1.7rem,3.3vw,2.6rem)}
+}
+@media (max-width:860px){
+  .gh-chero__grid,.gh-cabout__grid{grid-template-columns:1fr}
+  .gh-chero__grid{min-height:0}
+  /* Mobile: tag → title → media → lead → buy (matches bundle pair). */
+  .gh-chero__copy{display:contents}
+  .gh-chero__label{
+    order:1;width:100%;
+    padding:clamp(20px,4vw,32px) var(--hero-gutter) 0;
+  }
+  .gh-chero__title{
+    order:2;width:100%;padding-inline:var(--hero-gutter);
+  }
+  .gh-chero__media{
+    order:3;padding-inline:var(--hero-gutter);
+    margin-block:clamp(16px,3.2vw,24px);
+  }
+  .gh-chero__film{flex:none;aspect-ratio:4/3}
+  /* One column: grid-column:2 would open an implicit second track and park
+     the caption beside the hero instead of under it. */
+  .gh-chero__caption,
+  .gh-chero__copy .gh-chero__caption{
+    order:4;width:100%;
+    padding-inline:var(--hero-gutter);
+  }
+  .gh-chero__grid .gh-buy{
+    order:5;width:100%;max-width:none;
+    padding-inline:var(--hero-gutter);
+    padding-bottom:clamp(28px,5vw,40px);
+  }
+  .gh-cabout__media{max-width:none}
+  /* Bonuses: keep media|copy through tablet (same as launch/about). A full-
+     width 4/5 film at ~726px dominated the band; cap the framed video only
+     (cut-outs keep their own sizing). */
+  .gh-bonuses__media:not(.gh-bonuses__media--cutout){
+    max-width:min(340px,42vw);
+    max-height:min(48vw,380px);
+  }
+  .gh-cabout__copy{padding:clamp(34px,6vw,56px) var(--hero-gutter)}
+  .gh-cabout__media .gh-frame{aspect-ratio:4/3}
+  .gh-steps__list--2{grid-template-columns:1fr}
+  .gh-chero .gh-buy .btn{width:100%}
+}
+/* Narrow phone: stack bonuses media above copy; film can go full-width.
+   Same :not() specificity as the tablet cap so max-width:none wins. */
+@media (max-width:640px){
+  .gh-bonuses__grid{grid-template-columns:1fr}
+  .gh-bonuses__media{justify-self:stretch}
+  .gh-bonuses__media:not(.gh-bonuses__media--cutout){
+    max-width:none;
+    max-height:min(70vw,420px);
+  }
+}
+@media (max-width:560px){
+  .gh-aud__grid{grid-template-columns:1fr}
+  /* Three-up flavour tiles — a single full-bleed card was oversized on a phone. */
+  .gh-tc__grid--3{
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:8px;
+    margin-inline:0;
+  }
+  .gh-tc__grid--3 .gh-tcard{gap:8px}
+  .gh-tc__grid--3 .gh-tcard__media{border-radius:10px}
+  .gh-tc__grid--3 figcaption{
+    font-size:.72rem;line-height:1.2;padding-inline:0;
+  }
+  .gh-tc__grid--3 .gh-tcard__top{
+    top:6px;left:6px;padding:3px 7px;font-size:.55rem;letter-spacing:.08em;
+  }
+  .gh-sticky__title{display:none}
+  /* Narrow phone only: stack the monthly offer CTAs full-width. */
+  .gh-offer__actions{flex-direction:column;flex-wrap:wrap;gap:12px}
+  .gh-offer__actions .btn{width:100%;flex:none}
+}
+
+/* Same gutters as .gh-shell. These live at the end of the file because the
+   course block above is appended after the page's own breakpoints, and at
+   equal specificity the later rule wins. */
+@media (max-width:860px){ .gh-page .container{padding-inline:20px} }
+@media (max-width:430px){ .gh-page .container{padding-inline:16px} }
+
+/* ===================================================================
+   BROWSER SURFACES
+   The parts nobody draws still carry the design. Selection, the caret,
+   the scrollbar, focus rings and the figures in numbers all ship with
+   defaults that belong to no brand — on a green-and-cream page the OS
+   blue is the loudest colour on screen the moment anyone drags across a
+   headline. This is the cheapest tell that a page was built rather than
+   assembled.
+   =================================================================== */
+
+/* Form controls, scrollbars and the caret follow the page, not the OS. */
+.gh-page{color-scheme:light;accent-color:var(--gh-green-600)}
+
+/* Green at 22% keeps ink at 13.4:1 through the highlight — the usual
+   trick of a solid brand fill drops selected text to unreadable. */
+.gh-page ::selection{background:rgba(46,125,79,.22);color:var(--gh-ink)}
+.gh-band--dark ::selection,.gh-coffer ::selection{background:rgba(191,230,199,.32);color:var(--gh-cream)}
+
+.gh-page input,.gh-page textarea{caret-color:var(--gh-green-600)}
+
+/* The ring is the accent, offset far enough to clear a pill button's own
+   curve. 3px of green on cream is 5.0:1 against the canvas. */
+/* No border-radius here. It does not round the outline — it overwrites the
+   element's own radius while focused, which squared the pill-shaped nav CTA
+   into a rectangle the moment it was clicked. Outlines already follow the
+   element's corners. */
+.gh-page :focus-visible{outline:2.5px solid var(--gh-green-600);outline-offset:3px}
+.gh-page .btn:focus-visible{outline-color:var(--gh-green-700);outline-offset:4px}
+.gh-band--dark :focus-visible{outline-color:var(--gh-mint)}
+
+/* Links inside prose sit clear of descenders instead of striking through
+   them, and the rule is hairline rather than the browser's 1px slab. */
+.gh-page .gh-lead a,.gh-page p a{
+  text-decoration-thickness:1px;text-underline-offset:.22em;
+  text-decoration-color:rgba(46,125,79,.45);
+}
+.gh-page .gh-lead a:hover,.gh-page p a:hover{text-decoration-color:currentColor}
+
+/* Lining, tabular figures wherever numbers are read as quantities: the
+   figures band, both facts strips, every price and the sticky bar. Lora's
+   default figures are proportional, so 1000 and 2500 set at different
+   widths and the struck price never lined up with the live one. */
+/* The figures band and the facts strips only: those sit in columns that must
+   line up. Prices sit side by side on one line, where tabular buys nothing and
+   Lora's tabular digits are wide enough to open a visible gap before «грн». */
+.gh-figure dt,.gh-facts dt{
+  font-variant-numeric:tabular-nums lining-nums;
+  font-feature-settings:"tnum" 1,"lnum" 1;
+}
+
+/* The page's own scrollbar, not the platform's. Firefox takes the two
+   keywords; WebKit needs the parts. */
+.gh-page{scrollbar-width:thin;scrollbar-color:rgba(46,125,79,.35) transparent}
+.gh-page::-webkit-scrollbar{width:12px;height:12px}
+.gh-page::-webkit-scrollbar-track{background:transparent}
+.gh-page::-webkit-scrollbar-thumb{
+  background:rgba(46,125,79,.32);border-radius:999px;
+  border:3px solid var(--gh-cream);
+}
+.gh-page::-webkit-scrollbar-thumb:hover{background:rgba(46,125,79,.5)}
+
+/* Bullets in prose lists take the accent instead of the default black dot. */
+.gh-page .gh-lead ul li::marker,.gh-page .gh-step__copy ul li::marker{color:var(--gh-green-600)}
+
+/* ===================================================================
+   RAGGING
+   Ukrainian sets long words — «відеоуроків», «собівартості»,
+   «морозильній» — and with no hyphenation each one that will not fit is
+   thrown whole to the next line. In a card column that lands as a right
+   edge sawing in and out by a third of the measure while the column
+   beside it happens to sit flush. text-wrap:pretty stops the paragraph
+   ending on an orphan; hyphenation is explicitly off — see below.
+   =================================================================== */
+.gh-page .gh-step__copy p,
+.gh-page .gh-aud,
+.gh-page .gh-checks li,
+.gh-page .gh-lead,
+.gh-page .gh-callout,
+.gh-page .gh-card__desc{
+  text-wrap:pretty;
+}
+/* Launch lead on a phone column: left rag, normal tracking. pretty (and any
+   leftover justify) left holey lines once UA glued short words with NBSP —
+   «техкарти» alone, then «та підтримка…» forced down. Desktop keeps pretty. */
+/* Course process copy: same hole — pretty + «до\u00a0всіх» left a wide rag
+   after «їх» while «передивлятись» dropped alone. Normal wrap lets the long
+   word stay when it fits; no hyphens. Desktop keeps pretty. */
+@media (max-width:980px){
+  .gh-page .gh-launch .gh-lead,
+  .gh-page .gh-step__copy p{
+    text-align:left;
+    text-wrap:wrap;
+    word-spacing:normal;
+    letter-spacing:normal;
+  }
+}
+/* No hyphens anywhere. They were added to close the rag and then judged dead
+   because this preview engine ships no dictionary — but the client's browser
+   does, and «ре-цепти» broke across a line in their own screenshot. A ragged
+   edge is the lesser problem. */
+.gh-page,.gh-page *{hyphens:manual;-webkit-hyphens:manual}
+
+/* ===================================================================
+   SECTION CLOSERS
+   The facts that used to sit in a tinted box under a grid — the one
+   cream base, the timer bonus, the closing line — are the section's
+   payoff, not an aside. They are set as such: the statement in the
+   display face at heading scale, the supporting paragraph beneath it in
+   body, with a hairline for structure.
+
+   --panel opts a closer into a green surface where the section needs a
+   full stop rather than a rule — kept a modifier so a closer added to
+   another page keeps the plain treatment unless it asks for the tint.
+   =================================================================== */
+.gh-closing{
+  margin-top:clamp(38px,4.6vw,64px);padding-top:clamp(28px,3.2vw,40px);
+  border-top:1px solid var(--gh-line);
+  display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);
+  gap:clamp(24px,3.4vw,56px);align-items:start;
+}
+.gh-closing--panel{
+  --gh-amber-type:var(--gh-amber);
+  padding:clamp(30px,3.6vw,48px);border-top:0;border-radius:20px;
+  background:var(--gh-green-600);color:var(--gh-cream);align-items:center;
+}
+/* On the solid green the panel is its own surface, so everything inside it
+   flips to the dark-band palette — and the figure strip drops its rules:
+   inside a coloured box they read as a second border. */
+/* The emphasis runs the other way here: the amber is the loudest thing on
+   the green — the same amber as the discount burst — so it goes to the phrase
+   being emphasised and to the figures. Everything else is plain white. */
+.gh-closing--panel .gh-closing__statement{color:#fff}
+.gh-closing--panel .gh-accent{color:var(--gh-amber-type)}
+.gh-closing--panel .gh-facts{border:0;padding-block:0}
+/* The figure carried the panel's point but was set barely above caption size,
+   and a single glyph ranged left under a 220px label had nothing to sit on.
+   Bigger, and both on the cell's centre line so they read as one unit. */
+.gh-closing--panel .gh-facts > div{text-align:center}
+.gh-closing--panel .gh-facts dt{
+  color:var(--gh-amber-type);
+  font-size:clamp(2.4rem,4vw,3.4rem);letter-spacing:-.02em;
+}
+.gh-closing--panel .gh-facts dd{margin-top:10px}
+.gh-closing--panel .gh-facts dd{color:#fff}
+.gh-closing--panel .gh-closing__payoff{color:#fff}
+.gh-closing__statement{
+  font-family:var(--gh-serif);font-weight:700;
+  font-size:clamp(1.35rem,2.3vw,1.95rem);line-height:1.22;letter-spacing:-.012em;
+  color:var(--gh-ink);text-wrap:balance;margin:0;
+}
+.gh-closing__support{font-size:1rem;line-height:1.62;color:var(--gh-ink-soft);margin:0}
+
+/* The timer line is a deadline, so it reads as one: set in the display face,
+   no container. Green rather than warm — the bonuses block had accumulated
+   three oranges (heading, icons, this) and read as a warning. */
+.gh-timer{
+  margin-top:clamp(26px,3vw,38px);
+  font-family:var(--gh-serif);font-weight:500;
+  font-size:clamp(1.08rem,1.6vw,1.32rem);line-height:1.35;
+  color:var(--gh-ink);max-width:46ch;text-wrap:balance;
+}
+/* Green carries what is actually on offer — the bonus and its title — not the
+   whole sentence. Colour only: the accent's italic would set those two
+   phrases in a different face from the line they sit in. */
+.gh-timer .gh-accent,.gh-timer strong{color:var(--gh-green-700);font-family:inherit;font-style:inherit;font-weight:700}
+
+/* The copy promised a deadline the page never showed. The count is the page's
+   own figure strip — .gh-facts, hairlines and small caps included — rather
+   than the reference site's orange tiles: the same urgency without a widget
+   bolted onto the layout, and tabular digits (inherited from .gh-facts dt) so
+   the numbers do not shuffle sideways once a second. Only the size, the green
+   and the column widths are the countdown's own. */
+.gh-count{margin-top:clamp(18px,2.2vw,26px)}
+.gh-count__label{
+  margin:0;font-size:.72rem;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--gh-graphite);
+}
+/* Each unit gets its own tile, the way the client's own site sets it — the
+   count reads as a clock face rather than three loose numbers. Solid green
+   instead of the reference's orange: the deadline is the offer, not a
+   warning. The strip's own hairlines come off, or the tiles sit in a box. */
+.gh-count__row{
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  max-width:clamp(288px,26vw,364px);
+  gap:clamp(8px,1.2vw,14px);margin-top:clamp(10px,1.3vw,14px);
+  /* margin-inline:auto, because the parent shrink-wraps to whichever child is
+     widest: with three cells the row won that race and looked centred by
+     accident, with one it lost and sat off to the left. */
+  margin-inline:auto;
+  padding:0;border:0;
+}
+/* A seat count is one figure, not three. Narrower than the clock strip so the
+   single tile does not stretch into a banner. */
+.gh-count__row--single{grid-template-columns:minmax(0,1fr);max-width:clamp(150px,14vw,196px)}
+/* Yellow-orange, between --gh-amber and --gh-orange-display: the burnt shade
+   it replaces read as dirty next to the page's greens. Type is white, as
+   asked — note that puts the 11.5px caps at 2.4:1 on this fill. */
+.gh-count__row > div{
+  padding:clamp(14px,1.7vw,20px) clamp(8px,1.2vw,14px);
+  border-radius:14px;background:#F2930F;text-align:center;
+}
+.gh-count__row dt{
+  font-size:clamp(1.7rem,3vw,2.4rem);letter-spacing:-.02em;
+  color:#fff;
+}
+.gh-count__row dd{margin-top:6px;color:#fff}
+.gh-count__cta{margin-top:clamp(16px,2vw,22px)}
+/* The countdown stands on its own band, centred, rather than trailing the
+   bonuses column — there it read as a fourth item in the list instead of the
+   deadline the whole page runs on. No rule above it: the two paper bands each
+   carry their own vertical padding, so the gap already separates them. */
+.gh-countdown__inner{
+  display:flex;flex-direction:column;align-items:center;text-align:center;
+}
+.gh-countdown .gh-count{margin-top:0}
+
+/* Three steps across a 1200px shell left one stranded on its own row.
+   Stacked, each step gets the full measure and the sequence reads as a
+   sequence instead of a broken grid. */
+/* No rules between the steps: three of them ruled top and bottom read as a
+   table, and the icon plus the heading already say where each step starts.
+   The spacing carries the separation instead. */
+.gh-course .gh-steps__list:not(.gh-steps__list--2){
+  grid-template-columns:1fr;gap:clamp(26px,3vw,40px);
+}
+.gh-course .gh-steps__list:not(.gh-steps__list--2) .gh-step{
+  display:grid;grid-template-columns:auto minmax(0,1fr);
+  gap:clamp(18px,2.4vw,32px);align-items:start;
+  background:none;border:0;border-radius:0;
+  padding:0;
+}
+.gh-course .gh-steps__list:not(.gh-steps__list--2) .gh-step:hover{transform:none}
+.gh-course .gh-steps__list:not(.gh-steps__list--2) .gh-step__ico{margin:0}
+/* No 70ch cap here: the headings run to the column's right edge and the
+   paragraphs stopped 60px short of it, which made a centred block read as
+   ranged left. */
+.gh-course .gh-steps__list:not(.gh-steps__list--2) .gh-step__copy p{max-width:none}
+
+/* The stacked list ran the full 1200px shell while the copy stopped around
+   60% of it, so the section read as a column shoved left inside a wide empty
+   band. Head and list are centred as one column at a measure the paragraphs
+   actually fill; the rows stay left-aligned inside it, because centred
+   multi-line body copy is harder to read, not more composed. */
+/* The per-section green override that used to live here is gone: the warm
+   accent is green for every section now, so it had nothing left to override. */
+/* Both keep the 860px measure — centred body copy at the full 1200px shell is
+   harder to read — and both start on the shell's left gutter, so the steps
+   line up with the title above them rather than floating in from the middle. */
+#process .gh-head,
+#process .gh-steps__list{max-width:860px;margin-inline:0}
+
+@media (max-width:860px){
+  .gh-closing{grid-template-columns:1fr}
+  .gh-course .gh-steps__list:not(.gh-steps__list--2) .gh-step{grid-template-columns:1fr;gap:12px}
+}
+
+/* The closing block's right column: the counts the prose used to bury —
+   3 kinds of mousse, 2 without chocolate — set as figures in the page's own
+   strip, with the payoff sentence under them. Numbers in a paragraph read as
+   filler; the same numbers set large read as what you get. */
+/* The «Картопля» pages close their flavour grid on the same green panel as
+   the frozen page, but with three facts and no statement beside them, so the
+   panel runs as one column. Their dt is a phrase — «4 бісквіти» — not a
+   single numeral, and side-by-side the three cells crush the body copy. */
+/* The panel holds one element rather than a claim beside its figures. */
+.gh-closing--single{grid-template-columns:1fr}
+/* 46ch rather than the two-line claim's measure: the bento panel carries a
+   full list of what else is included, and at 34ch it towered. */
+.gh-closing--single .gh-closing__statement{
+  max-width:46ch;margin-inline:auto;text-align:center;
+}
+/* Body copy emphasises with a bold run, but the green-700 it takes on paper
+   is invisible on the green panel — amber is the panel's own emphasis, the
+   same one its figures use. */
+.gh-closing--panel .gh-lead strong{color:var(--gh-amber-type)}
+/* .gh-facts carries a 30px margin-top for the strip it normally sits under.
+   Inside the panel there is nothing above it, and the margin pushed the row
+   off the panel's centre — 72px of green above it against 42px below. */
+.gh-closing--facts .gh-facts{margin-top:0}
+.gh-closing--facts .gh-facts dt{font-size:clamp(1.2rem,2vw,1.55rem);line-height:1.15}
+/* Phrase facts stack as accent → text rows on mobile so each line can read
+   full-width instead of three cramped columns. Desktop keeps the 3-up strip. */
+@media (max-width:860px){
+  .gh-closing--facts .gh-facts{
+    grid-template-columns:1fr;
+    gap:clamp(18px,2.4vw,28px);
+    max-width:42ch;
+    margin-inline:auto;
+  }
+}
+.gh-closing__side{display:flex;flex-direction:column;gap:clamp(16px,2vw,22px)}
+.gh-facts--pair{grid-template-columns:1fr 1fr;margin-top:0}
+/* Pair cells are half-width; with .1em tracking, «ПОВНІСТЮ БЕЗ ШОКОЛАДУ»
+   needs a touch less type at tablet so word-break:normal can hold. Stack
+   only on narrow phones — tablet (~666px) keeps 3 and 2 side by side. */
+@media (max-width:860px){
+  .gh-facts--pair dd{font-size:.64rem;letter-spacing:.08em}
+}
+@media (max-width:540px){
+  .gh-facts--pair{
+    grid-template-columns:1fr;
+    gap:clamp(18px,2.4vw,28px);
+  }
+  .gh-facts--pair dd{font-size:.72rem;letter-spacing:.1em}
+}
+.gh-closing__payoff{font-size:1rem;line-height:1.6;color:var(--gh-ink-soft);margin:0}

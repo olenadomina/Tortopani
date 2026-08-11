@@ -1,0 +1,24 @@
+# Keep the Vercel deployment to just the static site.
+# Dev tooling, internal docs and QA captures are not served.
+node_modules
+.git
+tests
+playwright.config.js
+package.json
+package-lock.json
+scripts
+docs
+README.md
+.design-engineer-plugin
+.playwright-mcp
+.claude
+cmp_*.png
+*_check.jpeg
+assets/modal-chef.png
+assets/modal-consult.jpg
+# Internal "before/after" comparison captures (client pitch, not part of the site).
+# _compare_home.html — живое сравнение двух вариантов главной, тоже только локально.
+_compare*.html
+compare_*.jpeg
+old_*.jpeg
+new_*.jpeg

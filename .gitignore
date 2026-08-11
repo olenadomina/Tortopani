@@ -1,0 +1,44 @@
+# === BEGIN design-engineer-plugin ===
+# Disposable working artifacts the plugin creates during a session.
+# Stack-agnostic — only includes paths the plugin itself guarantees to
+# write. Framework-specific outputs (test reports, build caches, native
+# build artifacts, etc.) are the user's responsibility to add to their
+# own .gitignore — outside this fenced block — since they vary by stack.
+
+# All disposable working files (Playwright debug captures, intermediate
+# analysis dumps, exploratory drafts, anything the model would discard
+# tomorrow). Auto-purged at phase boundaries by /design-engineer:document, or
+# manually by /design-engineer:tidy. Never commit anything from temporary/.
+.design-engineer-plugin/temporary/
+
+# Per-session active-workflow marker (process-recall hook gate).
+.design-engineer-plugin/.active-workflow
+# === END design-engineer-plugin ===
+
+# Dev-only test tooling (added 2026-06-19). Not part of the shipped static site.
+node_modules/
+test-results/
+playwright-report/
+.playwright-mcp/
+.claude/
+
+# Local design QA captures (not part of the site)
+cmp_*.png
+*_check.jpeg
+
+# Visual brainstorming companion (superpowers)
+.superpowers/
+
+# Skill packages installed with `npx skills add` (added 2026-08-05). Vendored
+# third-party content — skills-lock.json is what makes the set reproducible,
+# so that stays tracked and this does not.
+.agents/
+.vercel
+
+# Throwaway design captures written straight into the repo root.
+.tmp-*.png
+
+# Full-resolution PNGs pulled from Figma before they are converted to the
+# WebP that actually ships. Kept out of history because they are large and
+# regenerable — re-export from the Figma node if a source is needed again.
+assets/**/_src/

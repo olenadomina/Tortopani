@@ -1,0 +1,4 @@
+# Prototype / client preview — keep it out of search engines for now.
+# For the real public launch, delete this file or change to "Allow: /".
+User-agent: *
+Disallow: /
