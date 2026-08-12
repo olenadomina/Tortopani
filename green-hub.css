@@ -675,7 +675,9 @@
    rather than a greyed-out "Soon" tile that reads as an unfinished page. */
 .gh-tnote{
   display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:14px;
-  padding:clamp(24px,2.6vw,32px);border-radius:22px;
+  min-width:0;min-height:0;height:100%;
+  padding:clamp(20px,2.4vw,32px) clamp(14px,1.8vw,28px);
+  border-radius:var(--tc-radius,22px);
   background:var(--gh-green-600);color:var(--gh-cream);
 }
 /* One medallion recipe, two sizes: the tech-card note wears it large, the
@@ -690,10 +692,14 @@
    sits below the launch panel's, so it would silently win the cascade. */
 .gh-tnote__mark{--mark-size:50px}
 .gh-tnote__mark .icon{width:26px;height:26px}
-.gh-tnote p{font-family:var(--gh-serif);font-weight:700;font-size:1.18rem;line-height:1.32}
+.gh-tnote p{
+  font-family:var(--gh-serif);font-weight:700;
+  font-size:clamp(.98rem,1.4vw,1.18rem);line-height:1.32;
+  text-wrap:balance;
+}
 /* Alone in the grid the note still occupies one product-card cell —
-   same column width, height matched to a .gh-tcard (square media + CTA).
-   Must not inherit the tablet full-row span — that + 2/3 made a huge strip. */
+   same column width, height from the 5/7 poster ratio rather than the
+   row of a neighbouring card. */
 .gh-tc__grid > .gh-tnote:only-child{
   grid-column:span 1;
   justify-self:stretch;
@@ -981,18 +987,10 @@
 @media (max-width:900px){
   .gh-steps__list{grid-template-columns:1fr}
   .gh-tc__grid{grid-template-columns:repeat(2,minmax(0,1fr))}
-  /* A one-column note would squeeze the Telegram link onto three lines. */
-  .gh-tnote{grid-column:1/-1;flex-direction:row;align-items:center;flex-wrap:wrap;gap:12px 20px}
-  .gh-tnote p{flex:1 1 220px}
-  /* Solo placeholder: one card footprint, not a full-bleed tall banner. */
-  .gh-tc__grid > .gh-tnote:only-child{
-    grid-column:span 1;
-    flex-direction:column;
-    flex-wrap:nowrap;
-    align-items:center;
-    gap:14px;
-  }
-  .gh-tc__grid > .gh-tnote:only-child p{flex:none}
+  /* Same cell as a product card — fills the leftover slot beside the last
+     flavour instead of dropping to a full-width strip under the row. */
+  .gh-tnote{grid-column:auto;gap:12px}
+  .gh-tnote p{font-size:1.02rem}
   .gh-offer__card{grid-template-columns:1fr;gap:0}
   /* Flatten the copy so photos can sit between title and facts via order. */
   .gh-offer__copy{display:contents}
@@ -1184,6 +1182,10 @@
   /* Only the two variables move; the media's bleed follows them. */
   .gh-tcard{--tc-pad:10px;--tc-radius:18px;padding-bottom:14px;gap:9px}
   .gh-tcard h3{font-size:.98rem}
+  .gh-tnote{--tc-radius:18px;padding:18px 12px;gap:10px}
+  .gh-tnote__mark{--mark-size:42px}
+  .gh-tnote__mark .icon{width:22px;height:22px}
+  .gh-tnote p{font-size:.95rem}
   .gh-page .ed-price__new{font-size:1.3rem}
   /* Slightly under 2.25rem so the three curated breaks stay ~3–4 lines
      on ~350px phones instead of wrapping to five. Desktop clamp untouched. */
