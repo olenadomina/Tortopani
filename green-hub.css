@@ -362,9 +362,12 @@
     padding-block:clamp(28px,3.5vw,48px);
     justify-content:center;
   }
+  /* Figma frame 2207:49363 is 1024×729 — size the plate to that crop
+     instead of a 290px strip that sliced the tall source with cover. */
   .gh-course.gh-techcards .gh-chero__film{
     flex:none;
-    height:290px;
+    height:auto;
+    aspect-ratio:1024/729;
   }
 }
 .gh-figures{display:grid;grid-template-columns:repeat(4,minmax(0,1fr))}
@@ -675,18 +678,18 @@
 }
 .gh-tc__pill{
   padding:10px 18px;font-size:.86rem;
-  background:var(--gh-cream);color:var(--gh-green-700);
-  box-shadow:inset 0 0 0 1.5px rgba(46,125,79,.38);
+  background:var(--gh-amber);color:var(--gh-ink);
+  box-shadow:none;
 }
 .gh-tc__pill:hover{
-  background:var(--gh-green-700);color:var(--gh-cream);
-  box-shadow:inset 0 0 0 1.5px var(--gh-green-700);
+  background:#F2AF1B;color:var(--gh-ink);
+  box-shadow:none;
 }
 .gh-tc__pill[aria-pressed="true"]{
-  background:var(--gh-green-600);color:var(--gh-cream);box-shadow:none;
+  background:var(--gh-ink);color:var(--gh-amber);box-shadow:none;
 }
 .gh-tc__pill[aria-pressed="true"]:hover{
-  background:var(--gh-green-grass);color:var(--gh-cream);box-shadow:none;
+  background:#2A2E22;color:var(--gh-amber);box-shadow:none;
 }
 .gh-tc__grid{
   display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
@@ -1291,6 +1294,15 @@
 /* Catalog page: no buy block, so the film does not need a full-viewport stage. */
 .gh-page:not(.gh-course) .gh-chero__grid{min-height:min(62svh,680px)}
 .gh-course.gh-techcards .gh-chero__grid{min-height:0}
+.gh-course.gh-techcards .gh-chero__film{
+  flex:none;
+  height:auto;
+  aspect-ratio:1024/729;
+}
+.gh-course.gh-techcards .gh-chero__film img{
+  object-fit:cover;
+  object-position:center;
+}
 .gh-chero__copy{
   min-width:0;display:flex;flex-direction:column;align-items:flex-start;
   justify-content:center;
