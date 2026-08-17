@@ -8,6 +8,7 @@
 | Файл | Сторінка |
 |---|---|
 | `index.html` | Головна (Green Hub) |
+| `techcards.html` | Каталог окремих техкарт десертів |
 | `frozen_cake.html` | Заморожені мусові торти / бенто |
 | `la_kartople.html` | Трендова «Картопля» |
 | `la_kartople_new.html` | «Картопля» 2.0 |

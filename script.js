@@ -817,6 +817,51 @@
     if (track) initGhRail(rail, track);
   });
 
+  /* ---- Techcard catalog category pills (techcards.html only) ---- */
+  var pillBar = document.querySelector("[data-tc-pills]");
+  if (pillBar) {
+    var catalogGrid = document.querySelector("[data-tc-grid]");
+    var filterPills = pillBar.querySelectorAll("[data-filter]");
+    var catalogCards = catalogGrid
+      ? catalogGrid.querySelectorAll("[data-category]")
+      : [];
+
+    function selectedCatalogFilters() {
+      var active = {};
+      filterPills.forEach(function (pill) {
+        if (pill.getAttribute("aria-pressed") === "true") {
+          active[pill.getAttribute("data-filter")] = true;
+        }
+      });
+      return active;
+    }
+
+    function applyCatalogFilter() {
+      var active = selectedCatalogFilters();
+      var showAll = true;
+      var key;
+      for (key in active) {
+        if (Object.prototype.hasOwnProperty.call(active, key)) {
+          showAll = false;
+          break;
+        }
+      }
+      catalogCards.forEach(function (card) {
+        var match = showAll || active[card.getAttribute("data-category")];
+        card.hidden = !match;
+        if (match) card.classList.add("is-in");
+      });
+    }
+
+    filterPills.forEach(function (pill) {
+      pill.addEventListener("click", function () {
+        var pressed = pill.getAttribute("aria-pressed") === "true";
+        pill.setAttribute("aria-pressed", pressed ? "false" : "true");
+        applyCatalogFilter();
+      });
+    });
+  }
+
   /* ---- Reveal on scroll ---- */
   /* [data-reveal] lets a page opt in declaratively instead of extending
      this selector every time a new section component appears. */
