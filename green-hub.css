@@ -709,17 +709,21 @@
 }
 .gh-tcard:hover{transform:translateY(-5px)}
 .gh-tcard{position:relative}
-/* 5/7 ≈ the posters' own 911×1280. They carry the flavour name across the
-   bottom, so the old square box cropped the title clean off; matching the
-   source ratio means cover has almost nothing left to cut. */
+/* 840/1189 is the exported Figma poster (and the img width/height). 5/7 was
+   a hair shorter, so object-fit:cover clipped the TORTOPANI watermark and
+   tarts that already sit tight in the frame. Matching the source ratio keeps
+   every card the same height; contain is the safety net if a poster drifts. */
 /* Full-bleed: the negative margin cancels the card's padding so the poster
    meets the card edge. Its radius is the card's minus the 1px border — the
    padding box's real corner — and only on top, since the card carries on
    below with the price and the button. */
 .gh-tcard__media{
-  display:block;aspect-ratio:5/7;overflow:hidden;background:var(--gh-green-50);
+  display:block;aspect-ratio:840/1189;overflow:hidden;background:var(--gh-paper);
   margin:calc(var(--tc-pad) * -1) calc(var(--tc-pad) * -1) 0;
   border-radius:calc(var(--tc-radius) - 1px) calc(var(--tc-radius) - 1px) 0 0;
+}
+.gh-tc__grid:not(.gh-tc__grid--3) .gh-tcard__media img{
+  object-fit:contain;object-position:center;
 }
 /* The client's three lead flavours carry a mark. It sits on the picture, not
    above the caption, so the eye finds it while scanning images rather than
