@@ -695,6 +695,9 @@
   display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
   gap:clamp(14px,1.8vw,24px);margin-top:clamp(36px,4.5vw,60px);
 }
+/* Script builds this on every page; it only earns its space once the grid
+   turns into a swipeable row on a phone. */
+.gh-tc__rail{display:none}
 .gh-tc > .gh-shell > .gh-tc__grid:first-child{margin-top:0}
 .gh-tc__pills + .gh-tc__grid{margin-top:clamp(18px,2.2vw,28px)}
 /* Padding and radius are variables because the media below cancels them to go
@@ -1180,6 +1183,45 @@
 }
 
 @media (max-width:700px){
+  /* Two columns on a phone stacked the flavours into rows, which buried the
+     "see all" button between them and read as the whole catalogue. One swipeable
+     row keeps the count obvious and the button attached to the cards. */
+  /* Matches .gh-shell's padding at this width so the bleed lands exactly on
+     the viewport edge; the 430px block below re-points it when that changes. */
+  .gh-tc{--tc-rail:32px}
+  .gh-tc__grid{
+    display:flex;
+    grid-template-columns:none;
+    overflow-x:auto;
+    scroll-snap-type:x mandatory;
+    scroll-padding-inline:var(--tc-rail);
+    padding-inline:var(--tc-rail);
+    /* Bleed past the shell so a card peeks in from the edge — the cue that
+       there is more to the right without needing to read the arrows. */
+    margin-inline:calc(var(--tc-rail) * -1);
+    scrollbar-width:none;
+    -webkit-overflow-scrolling:touch;
+  }
+  .gh-tc__grid::-webkit-scrollbar{display:none}
+  .gh-tc__grid > *{flex:0 0 68%;scroll-snap-align:start}
+  /* The hover lift needs headroom inside a clipping scroller. */
+  .gh-tc__grid{padding-block:6px}
+  .gh-tcard:hover{transform:none}
+
+  .gh-tc__rail{
+    display:flex;align-items:center;justify-content:space-between;
+    gap:12px;margin-top:clamp(18px,4vw,26px);
+  }
+  .gh-tc__rail .gh-tc__cta{margin-top:0;flex:0 1 auto}
+  .gh-tc__arrows{display:flex;gap:8px;flex:0 0 auto}
+  .gh-tc__arrow{
+    width:40px;height:40px;display:grid;place-items:center;padding:0;
+    border:1px solid var(--gh-line);border-radius:999px;
+    background:var(--gh-paper);color:var(--gh-green-700);
+    font-size:1.1rem;line-height:1;cursor:pointer;
+  }
+  .gh-tc__arrow[disabled]{opacity:.35;cursor:default}
+
   /* 2×2 band: cut empty vertical air, keep cells readable. Shared by home
      and course pages — same classes, same problem. */
   .gh-stats{
@@ -1246,6 +1288,7 @@
 
 @media (max-width:430px){
   .gh-shell{padding-inline:16px}
+  .gh-tc{--tc-rail:16px}
   .gh-tc__grid{gap:12px}
   /* Only the two variables move; the media's bleed follows them. */
   .gh-tcard{--tc-pad:10px;--tc-radius:18px;padding-bottom:14px;gap:9px}

@@ -302,9 +302,21 @@
     }
   }
 
+  /* A product with a live checkout goes straight there. Access is the Google
+     Drive link the payment provider sends afterwards, so asking for a name and
+     Telegram first only added a step between wanting the card and paying for
+     it. Anything without a checkout still opens the modal, because that lead is
+     the only way a manager learns someone wants it. */
   document.querySelectorAll("[data-modal-open]").forEach(function (button) {
     button.addEventListener("click", function (event) {
       event.preventDefault(); /* href="#" must not jump the page to top */
+      var pay = button.getAttribute("data-pay");
+      if (/^https:\/\//.test(pay || "")) {
+        trackPixelEvent(button);
+        trackPixelEventData(pixelEventData(button, "data-pixel-purchase-event"));
+        window.location.href = pay;
+        return;
+      }
       openModal(button);
     });
   });
@@ -907,5 +919,77 @@
       );
       spySections.forEach(function (s) { spy.observe(s); });
     }
+  }
+})();
+
+/* ---------- Techcard rail (phone only) ----------
+   Two columns on a phone stacked the flavours into rows, so the row looked like
+   the whole catalogue and the "see all" button read as decoration. The grid
+   becomes one snap-scrolling row, and the button moves down beside the arrows so
+   it sits on the cards it belongs to. Desktop keeps the plain grid. */
+(function () {
+  "use strict";
+
+  var phone = window.matchMedia("(max-width: 700px)");
+  var rails = [];
+
+  document.querySelectorAll(".gh-tc__grid").forEach(function (grid) {
+    var section = grid.closest(".gh-tc");
+    if (!section) return;
+
+    var rail = document.createElement("div");
+    rail.className = "gh-tc__rail";
+
+    var arrows = document.createElement("div");
+    arrows.className = "gh-tc__arrows";
+
+    var cta = section.querySelector(".gh-tc__cta");
+    var ctaHome = cta ? { parent: cta.parentNode, next: cta.nextSibling } : null;
+
+    var buttons = ["prev", "next"].map(function (dir) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.className = "gh-tc__arrow";
+      b.dataset.dir = dir;
+      b.setAttribute("aria-label", dir === "prev" ? "Попередні техкарти" : "Наступні техкарти");
+      b.textContent = dir === "prev" ? "‹" : "›";
+      b.addEventListener("click", function () {
+        var card = grid.firstElementChild;
+        var step = card ? card.getBoundingClientRect().width + 14 : grid.clientWidth * 0.7;
+        grid.scrollBy({ left: dir === "prev" ? -step : step, behavior: "smooth" });
+      });
+      arrows.appendChild(b);
+      return b;
+    });
+
+    rail.appendChild(arrows);
+    grid.parentNode.insertBefore(rail, grid);
+
+    function syncArrows() {
+      var max = grid.scrollWidth - grid.clientWidth;
+      buttons[0].disabled = grid.scrollLeft <= 4;
+      buttons[1].disabled = grid.scrollLeft >= max - 4;
+    }
+
+    /* The button lives in the section head on desktop and in the rail on a
+       phone; keep a handle on where it came from so the trip back is exact. */
+    function place() {
+      if (!cta || !ctaHome) return;
+      if (phone.matches) {
+        if (cta.parentNode !== rail) rail.insertBefore(cta, arrows);
+      } else if (cta.parentNode !== ctaHome.parent) {
+        ctaHome.parent.insertBefore(cta, ctaHome.next);
+      }
+    }
+
+    grid.addEventListener("scroll", syncArrows, { passive: true });
+    rails.push(function () { place(); syncArrows(); });
+  });
+
+  function refresh() { rails.forEach(function (fn) { fn(); }); }
+  if (rails.length) {
+    refresh();
+    window.addEventListener("resize", refresh);
+    if (phone.addEventListener) phone.addEventListener("change", refresh);
   }
 })();
