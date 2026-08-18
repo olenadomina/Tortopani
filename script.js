@@ -87,15 +87,6 @@
       successTitle: "Замовлення прийнято",
       success: "Дякуємо! Зараз відкриємо сторінку оплати в новій вкладці. Доступ відкриється одразу після оплати."
     },
-    "free-download": {
-      title: "Забрати техкарту",
-      lead: "Залиш контакти — надішлемо техкарту в Telegram. Оплачувати нічого не потрібно.",
-      submit: "Забрати безкоштовно",
-      loading: "Надсилаємо…",
-      product: "",
-      successTitle: "Готово",
-      success: "Дякуємо! Надішлемо техкарту в Telegram найближчим часом."
-    },
     waitlist: {
       title: "Дізнайся про старт першою",
       lead: "Залиш контакти — ми напишемо в Telegram, коли відкриється набір на курс.",
@@ -129,7 +120,7 @@
   };
 
   function normalizeIntent(value) {
-    return value === "assisted-order" || value === "free-download" || value === "waitlist" || value === "mentorship"
+    return value === "assisted-order" || value === "waitlist" || value === "mentorship"
       ? value
       : "consultation";
   }
