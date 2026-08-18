@@ -955,7 +955,10 @@
       b.textContent = dir === "prev" ? "‹" : "›";
       b.addEventListener("click", function () {
         var card = grid.firstElementChild;
-        var step = card ? card.getBoundingClientRect().width + 14 : grid.clientWidth * 0.7;
+        /* Step one whole card, gap included, so the scroller lands on a snap
+           point instead of drifting a few pixels off it with every press. */
+        var gap = parseFloat(getComputedStyle(grid).columnGap) || 0;
+        var step = card ? card.getBoundingClientRect().width + gap : grid.clientWidth * 0.7;
         grid.scrollBy({ left: dir === "prev" ? -step : step, behavior: "smooth" });
       });
       arrows.appendChild(b);
@@ -965,10 +968,14 @@
     rail.appendChild(arrows);
     grid.parentNode.insertBefore(rail, grid);
 
+    /* The trailing spacer makes scrollWidth overshoot the last snap point, so
+       "at the end" is when the last card is fully in view, not when the
+       scrollbar bottoms out. */
     function syncArrows() {
-      var max = grid.scrollWidth - grid.clientWidth;
+      var last = grid.lastElementChild;
       buttons[0].disabled = grid.scrollLeft <= 4;
-      buttons[1].disabled = grid.scrollLeft >= max - 4;
+      buttons[1].disabled = !last ||
+        last.getBoundingClientRect().right <= grid.getBoundingClientRect().right + 4;
     }
 
     /* The button lives in the section head on desktop and in the rail on a

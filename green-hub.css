@@ -1204,6 +1204,11 @@
   }
   .gh-tc__grid::-webkit-scrollbar{display:none}
   .gh-tc__grid > *{flex:0 0 68%;scroll-snap-align:start}
+  /* Without trailing room the scroller stops before the last card reaches the
+     left edge, so it rests mid-card with the one before it sliced in half.
+     A spacer the width of the leftover lets every card snap flush. Safari
+     ignores padding-inline-end on a flex scroller, hence the pseudo-element. */
+  .gh-tc__grid::after{content:"";flex:0 0 32%;}
   /* The hover lift needs headroom inside a clipping scroller. */
   .gh-tc__grid{padding-block:6px}
   .gh-tcard:hover{transform:none}
