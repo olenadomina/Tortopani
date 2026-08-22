@@ -69,3 +69,10 @@
 - Rationale: Liliia is the strongest distinctive brand asset, Bento is the immediate launch product, and a light ivory/botanical-green system with rounded controls feels more credible and personal than either the generic catalog direction or the high-concept grid/poster direction. A dedicated page makes the choice reviewable and reversible without destabilizing the current site.
 - Evidence: comparative visual review of the production, Vercel, Editorial, Avant Green and Atelier variants; supplied author photography; 320 × 568 and 1440 × 1024 in-app browser evidence; focused Signature tests and the 49/49 full Playwright suite.
 - Affected artifacts: `index_signature_green.html`, `signature-green.css`, `signature-green.js`, `tests/signature-green.spec.js`, current Design QA, future client approval, Figma refresh and any later canonical/indexation/deployment decision.
+
+## 2026-08-22 — Direct checkout is exclusive to explicitly marked techcards
+
+- Decision: a valid `data-pay` URL no longer bypasses the lead modal by itself; only buttons with `data-direct-checkout` may navigate directly to payment, and that marker is limited to standalone techcard purchases.
+- Rationale: course CTAs also carry payment URLs for use after successful lead capture. Treating every payment URL as direct checkout removed the intended popup from courses and the Home monthly offer.
+- Evidence: `script.js`, the marked techcard buttons in `index.html` and `techcards.html`, and 7/7 focused Playwright regression tests including both popup pixel events.
+- Affected artifacts: shared CTA routing, all pages loading `script.js`, checkout analytics, course lead capture, and future product-button markup.

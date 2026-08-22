@@ -302,16 +302,14 @@
     }
   }
 
-  /* A product with a live checkout goes straight there. Access is the Google
-     Drive link the payment provider sends afterwards, so asking for a name and
-     Telegram first only added a step between wanting the card and paying for
-     it. Anything without a checkout still opens the modal, because that lead is
-     the only way a manager learns someone wants it. */
+  /* Techcards marked for direct checkout go straight to payment. Other offers
+     keep the lead modal even when they carry data-pay: that URL is used only
+     after the contact form succeeds. */
   document.querySelectorAll("[data-modal-open]").forEach(function (button) {
     button.addEventListener("click", function (event) {
       event.preventDefault(); /* href="#" must not jump the page to top */
       var pay = button.getAttribute("data-pay");
-      if (/^https:\/\//.test(pay || "")) {
+      if (button.hasAttribute("data-direct-checkout") && /^https:\/\//.test(pay || "")) {
         trackPixelEvent(button);
         trackPixelEventData(pixelEventData(button, "data-pixel-purchase-event"));
         window.location.href = pay;

@@ -1,5 +1,7 @@
 # Stale Dependent Candidates
 
+Recomputed 2026-08-22T18:09:17+02:00 after narrowing direct checkout to explicitly marked standalone techcards. The existing candidates below remain relevant. No Design Engineer deliverable became stale; checkout/analytics documentation should preserve the new `data-direct-checkout` contract.
+
 Recomputed 2026-08-02T21:58:30+02:00 after completing the separate Signature Green best-of Home candidate. Candidates are not asserted defects until separately reviewed.
 
 ## Canonical Home, SEO and release configuration
