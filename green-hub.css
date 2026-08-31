@@ -287,21 +287,26 @@
 .gh-hero__photo img{width:100%;height:100%;object-fit:contain;object-position:right center}
 .gh-hero__scrim{
   position:absolute;inset:0;z-index:1;pointer-events:none;
-  /* Opaque cream under copy. Mid-stops warm toward --gh-hero-beige so a
-     thinning cool cream veil never bands over the photo peach. The blend
-     JPGs already feather the bitmap left edge to exact --gh-cream, so this
-     scrim only protects type — face clears past ~80%. */
+  /* Opaque cream under copy, then a long asymptotic tail. Two things fight
+     here: run the veil far right and it washes out the whisk (the hand sits
+     between 53% and 65% of the viewport depending on width), stop it short and
+     the step where it ends reads as a line across the photo. So the alpha
+     follows a smoothstep from 30% to 56% — by the hand it is down to a few
+     per cent, which is invisible, and nowhere does it change fast enough to
+     draw an edge. The colour warms toward --gh-hero-beige as it thins so a
+     cooling cream veil never bands over the photo's peach. */
   background:linear-gradient(90deg,
     var(--gh-cream) 0%,
-    var(--gh-cream) 38%,
-    color-mix(in srgb,var(--gh-cream) 90%,var(--gh-hero-beige)) 44%,
-    color-mix(in srgb,color-mix(in srgb,var(--gh-cream) 62%,var(--gh-hero-beige)) 88%,transparent) 50%,
-    color-mix(in srgb,color-mix(in srgb,var(--gh-cream) 30%,var(--gh-hero-beige)) 62%,transparent) 56%,
-    color-mix(in srgb,var(--gh-hero-beige) 38%,transparent) 63%,
-    color-mix(in srgb,var(--gh-hero-beige) 18%,transparent) 70%,
-    color-mix(in srgb,var(--gh-hero-beige) 7%,transparent) 77%,
-    color-mix(in srgb,var(--gh-hero-beige) 2%,transparent) 84%,
-    transparent 92%);
+    var(--gh-cream) 30%,
+    color-mix(in srgb,color-mix(in srgb,var(--gh-cream) 88%,var(--gh-hero-beige)) 96%,transparent) 33%,
+    color-mix(in srgb,color-mix(in srgb,var(--gh-cream) 77%,var(--gh-hero-beige)) 88%,transparent) 36%,
+    color-mix(in srgb,color-mix(in srgb,var(--gh-cream) 65%,var(--gh-hero-beige)) 75%,transparent) 39%,
+    color-mix(in srgb,color-mix(in srgb,var(--gh-cream) 54%,var(--gh-hero-beige)) 60%,transparent) 42%,
+    color-mix(in srgb,color-mix(in srgb,var(--gh-cream) 42%,var(--gh-hero-beige)) 45%,transparent) 45%,
+    color-mix(in srgb,color-mix(in srgb,var(--gh-cream) 31%,var(--gh-hero-beige)) 30%,transparent) 48%,
+    color-mix(in srgb,color-mix(in srgb,var(--gh-cream) 19%,var(--gh-hero-beige)) 16%,transparent) 51%,
+    color-mix(in srgb,color-mix(in srgb,var(--gh-cream) 8%,var(--gh-hero-beige)) 5%,transparent) 54%,
+    transparent 56%);
 }
 .gh-hero__inner{position:relative;z-index:2;padding-block:clamp(40px,6vw,80px)}
 /* Bounded so the last glyph stays inside the opaque part of the scrim. */
