@@ -934,6 +934,10 @@
   document.querySelectorAll(".gh-tc__grid").forEach(function (grid) {
     var section = grid.closest(".gh-tc");
     if (!section) return;
+    /* Some sets read better as a wall than a scroller — the bento flavours,
+       where twelve cards are the point. They keep the grid at every width and
+       get no arrows. Declared on the grid so this stays out of page ids. */
+    if (grid.hasAttribute("data-static-grid")) return;
 
     var rail = document.createElement("div");
     rail.className = "gh-tc__rail";

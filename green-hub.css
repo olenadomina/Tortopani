@@ -512,8 +512,8 @@
 .gh-launch__mark{--mark-size:clamp(30px,3vw,36px)}
 .gh-launch__mark .icon{width:clamp(15px,1.5vw,18px);height:clamp(15px,1.5vw,18px)}
 .gh-launch__side .btn{margin-top:clamp(16px,2vw,22px)}
-.gh-launch__actions{display:flex;flex-wrap:wrap;align-items:center;gap:12px 16px;margin-top:clamp(16px,2vw,22px)}
-.gh-launch__actions .btn{margin-top:0}
+.gh-launch__actions{display:flex;flex-wrap:wrap;align-items:center;gap:12px 16px;margin-top:clamp(16px,2vw,22px);width:100%}
+.gh-launch__actions .btn{margin-top:0;flex:1 1 auto}
 /* The catalogue sets prices in ink, which sinks into this panel's green.
    Same figures, on-green colour. */
 .gh-page .gh-launch__side .gh-card__price .ed-price__new{color:var(--on-green)}
@@ -609,7 +609,8 @@
 .gh-card__body{display:flex;flex-direction:column;align-items:flex-start;gap:12px;min-width:0}
 /* margin-top:auto keeps the action on the card's floor, so the three buttons
    line up however unevenly the descriptions run. */
-.gh-card__buy{display:flex;flex-wrap:wrap;align-items:center;gap:12px 16px;width:auto}
+.gh-card__buy{display:flex;flex-wrap:wrap;align-items:center;gap:12px 16px;width:100%}
+.gh-card__buy .btn{flex:1 1 auto}
 .gh-card__title{font-family:var(--gh-serif);font-weight:700;font-size:clamp(1.3rem,2.2vw,1.85rem);line-height:1.22}
 /* Whole card is the link target; the button keeps its own hit area. */
 .gh-card__title a::after{content:"";position:absolute;inset:0;z-index:1;border-radius:inherit}
@@ -741,6 +742,9 @@
 /* The client's three lead flavours carry a mark. It sits on the picture, not
    above the caption, so the eye finds it while scanning images rather than
    reading names — and the card keeps its own rhythm underneath. */
+/* A flavour built for the freezer carries the mark in its caption, the way
+   the client's programme lists it. */
+.gh-tcard__frozen{font-size:.9em;line-height:1;white-space:nowrap}
 .gh-tcard__top{
   position:absolute;z-index:2;top:20px;left:20px;
   padding:8px 16px;border-radius:999px;
@@ -1220,6 +1224,14 @@
      A spacer the width of the leftover lets every card snap flush. Safari
      ignores padding-inline-end on a flex scroller, hence the pseudo-element. */
   .gh-tc__grid::after{content:"";flex:0 0 32%;}
+  /* Sets marked data-static-grid stay a grid on the phone — two columns, no
+     bleed, no snap. */
+  .gh-tc__grid[data-static-grid]{
+    display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+    overflow:visible;margin-inline:0;padding-inline:0;
+  }
+  .gh-tc__grid[data-static-grid] > *{flex:none}
+  .gh-tc__grid[data-static-grid]::after{display:none}
   /* The hover lift needs headroom inside a clipping scroller. */
   .gh-tc__grid{padding-block:6px}
   .gh-tcard:hover{transform:none}
@@ -1573,10 +1585,13 @@
 .gh-chero .gh-buy .btn{width:auto;padding-inline:clamp(38px,4.6vw,64px)}
 .gh-buy--dark{max-width:560px;margin-inline:auto;text-align:left}
 .gh-buy--dark .ed-price__new{color:var(--gh-cream)}
-/* Light coral on green-900 — dark red disappears on this band. */
+/* Light coral on green — the dark red disappears on any of these panels. The
+   launch panel is green without carrying .gh-band--dark, so it needs naming
+   here too, the same way its new price already opts into --on-green. */
 .gh-band--dark .ed-price__old,
 .gh-buy--dark .ed-price__old,
-.gh-coffer .ed-price__old{color:var(--gh-red-was-on-dark);opacity:1}
+.gh-coffer .ed-price__old,
+.gh-launch__side .ed-price__old{color:var(--gh-red-was-on-dark);opacity:1}
 .gh-buy--dark .gh-buy__bonus-lead{color:var(--gh-cream)}
 
 /* The closing CTA was a full-width white slab — the brightest thing in the
