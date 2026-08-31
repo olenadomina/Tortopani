@@ -81,11 +81,21 @@ test("the catalog is the first section after the hero and every course is reacha
   expect(catalogIndex, "the catalog must be found in main").toBeGreaterThan(-1);
   expect(catalogIndex, "the catalog must stay near the top of the page").toBeLessThanOrEqual(3);
 
-  // The pre-launch course has no price, so it sits in its own announcement
-  // panel above the grid rather than in the buy-me cards. The cream CTA is
-  // inert for now (no href) until waitlist opens.
+  // The bento course sits in its own announcement panel above the grid rather
+  // than in the buy-me cards, but it sells like them: a price, a checkout
+  // button and a link through to its page.
   await expect(page.locator("#courses .gh-launch")).toHaveCount(1);
-  await expect(page.locator("#courses .gh-launch .btn")).toBeVisible();
+  await expect(page.locator("#courses .gh-launch .ed-price__new")).toBeVisible();
+  await expect(page.locator("#courses .gh-launch [data-modal-open][data-pay]")).toBeVisible();
+  await expect(page.locator('#courses .gh-launch a[href="bento.html"]')).toBeVisible();
+
+  // Every course in the catalog — the panel and the three cards — opens the
+  // order modal with a checkout URL of its own.
+  const payUrls = await page.locator("#courses [data-modal-open][data-pay]").evaluateAll(
+    (nodes) => nodes.map((n) => n.getAttribute("data-pay"))
+  );
+  expect(payUrls, "each catalog course carries its own checkout").toHaveLength(4);
+  expect(new Set(payUrls).size, "checkout URLs must not be shared").toBe(4);
   const cards = page.locator("#courses .gh-card");
   await expect(cards, "the catalog lists every purchasable course").toHaveCount(3);
 

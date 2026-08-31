@@ -361,6 +361,27 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 }
 /* Unwrap so offer + top become separate space-between slots. */
 .footer__end{display:contents}
+/* space-between leaves the middle item wherever its neighbours end, not at
+   the centre: the offer link (+ up arrow) outweighs the logo, so the icons
+   sat ~65px left of true centre. Pinning them takes them out of the flow,
+   which also makes both footer shapes work — the three-slot one on the
+   course pages and the four-slot one with .footer__end. Below 576 the row is
+   tight enough that a pinned centre would run under the logo or the offer
+   text, so there it keeps the plain space-between. */
+@media (min-width:577px){
+  /* Equal-width side slots are what actually centres the middle one: with
+     flex:1 1 0 the logo and the right-hand group share the leftover space
+     evenly, so the icons land on the row's true centre. Done in flow rather
+     than by pinning them absolutely — a pinned centre has no idea the
+     neighbours are there and runs under them once the row gets tight. */
+  .footer .footer__inner > .logo--footer{flex:1 1 0}
+  .footer .footer__socials{flex:none}
+  /* Shape A: offer + arrow are unwrapped by .footer__end{display:contents},
+     so regroup them into one right slot. Shape B (course pages) has the
+     offer link as a direct child instead. */
+  .footer .footer__end{display:flex;align-items:center;justify-content:flex-end;gap:16px;flex:1 1 0}
+  .footer .footer__inner > .footer__offer{flex:1 1 0;text-align:right}
+}
 .logo--footer .logo__img{filter:brightness(0) invert(1);height:44px}
 .logo--footer .logo__word{color:#fff}
 .footer__socials{display:flex;gap:10px;align-items:center;flex:none}

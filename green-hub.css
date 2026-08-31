@@ -213,6 +213,11 @@
 .gh-page .btn--cream:focus-visible{outline-color:var(--gh-cream)}
 .gh-page .btn--outline{background:transparent;color:var(--gh-green-700);box-shadow:inset 0 0 0 1.5px rgba(46,125,79,.38)}
 .gh-page .btn--outline:hover{background:var(--gh-green-700);color:var(--gh-cream);box-shadow:inset 0 0 0 1.5px var(--gh-green-700)}
+/* Same quiet-second-action role as .btn--outline, inverted for the green
+   panels, where a green ring on green would leave nothing to see. */
+.gh-page .btn--outline-cream{background:transparent;color:var(--gh-cream);box-shadow:inset 0 0 0 1.5px rgba(249,249,245,.5)}
+.gh-page .btn--outline-cream:hover{background:var(--gh-paper);color:var(--gh-green-900);box-shadow:inset 0 0 0 1.5px var(--gh-paper)}
+.gh-page .btn--outline-cream:focus-visible{outline-color:var(--gh-cream)}
 
 .gh-link{
   display:inline-flex;align-items:center;gap:8px;
@@ -507,6 +512,11 @@
 .gh-launch__mark{--mark-size:clamp(30px,3vw,36px)}
 .gh-launch__mark .icon{width:clamp(15px,1.5vw,18px);height:clamp(15px,1.5vw,18px)}
 .gh-launch__side .btn{margin-top:clamp(16px,2vw,22px)}
+.gh-launch__actions{display:flex;flex-wrap:wrap;align-items:center;gap:12px 16px;margin-top:clamp(16px,2vw,22px)}
+.gh-launch__actions .btn{margin-top:0}
+/* The catalogue sets prices in ink, which sinks into this panel's green.
+   Same figures, on-green colour. */
+.gh-page .gh-launch__side .gh-card__price .ed-price__new{color:var(--on-green)}
 /* Also a cut-out, so it sits straight on the green like the bento shot — no
    frame, no crop. It is simply wider, because two cakes need more room than
    one box does. */
@@ -599,7 +609,7 @@
 .gh-card__body{display:flex;flex-direction:column;align-items:flex-start;gap:12px;min-width:0}
 /* margin-top:auto keeps the action on the card's floor, so the three buttons
    line up however unevenly the descriptions run. */
-.gh-card__buy{display:flex;flex-direction:column;align-items:flex-start;gap:16px;width:auto}
+.gh-card__buy{display:flex;flex-wrap:wrap;align-items:center;gap:12px 16px;width:auto}
 .gh-card__title{font-family:var(--gh-serif);font-weight:700;font-size:clamp(1.3rem,2.2vw,1.85rem);line-height:1.22}
 /* Whole card is the link target; the button keeps its own hit area. */
 .gh-card__title a::after{content:"";position:absolute;inset:0;z-index:1;border-radius:inherit}
@@ -1045,6 +1055,7 @@
   .gh-launch__media img{max-height:clamp(190px,48vw,260px);object-position:center bottom}
   /* Full-width CTA on the phone column only; tablet keeps natural button width. */
   .gh-launch__side .btn{width:100%;align-self:stretch}
+  .gh-launch__actions{flex-direction:column;align-items:stretch;width:100%}
   /* Mentorship stacks like every other launch panel here. */
   .gh-mentor .gh-launch{grid-template-columns:1fr}
   .gh-mentor .gh-launch__copy,
@@ -1286,7 +1297,7 @@
      honour aspect-ratio only after width resolved — and width:auto made that
      0. The floor is a second guard if a future rule reintroduces auto width. */
   .gh-card__media{min-height:clamp(180px,48vw,260px);aspect-ratio:4/3}
-  .gh-card__buy{width:100%}
+  .gh-card__buy{width:100%;flex-direction:column;align-items:stretch}
   .gh-card__buy .btn{width:100%}
   .gh-facts{gap:10px}
 }
@@ -1749,6 +1760,56 @@
   list-style:none;margin:clamp(32px,4vw,52px) 0 0;padding:0;
   max-width:760px;counter-reset:decor;
 }
+/* Equal columns so the plate meets the viewport midline inside the 1200
+   shell. The plate now runs the ledger's own height, so the two columns
+   start and finish together and neither slides against the other — with a
+   plate this tall a sticky pin had only ~65px of travel and read as a slip
+   rather than a hold. The picture stretches to the row instead: height:100%
+   resolves because a grid item's row height is definite. */
+.gh-decor{
+  display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  gap:clamp(28px,4vw,64px);align-items:stretch;
+}
+.gh-decor__aside{
+  margin:clamp(32px,4vw,52px) 0 0;
+  /* The plate is filled by an absolutely positioned child, so it contributes
+     no intrinsic height of its own. Left in flow, a 9:16 clip sized the grid
+     row itself and ran past the end of the ledger; out of flow, the ledger
+     alone sets the row and the plate stretches to meet it. */
+  position:relative;min-height:clamp(320px,34vw,460px);
+}
+.gh-decor__aside img,
+.gh-decor__aside video{
+  position:absolute;inset:0;
+  width:100%;height:100%;display:block;
+  object-fit:cover;border-radius:22px;
+}
+/* Collage of the techniques that actually have a photograph. The grid takes
+   the absolute box, so the tiles stay ordinary flow items and the plate keeps
+   contributing no height of its own. */
+.gh-collage{
+  position:absolute;inset:0;
+  /* minmax(0,1fr), not 1fr: a plain fr keeps an auto minimum, and an image's
+     min-content height is its aspect-scaled height — so the rows refused to
+     shrink and the grid ran past the plate. */
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  grid-template-rows:repeat(3,minmax(0,1fr));
+  gap:10px;
+}
+.gh-collage img{position:static;width:100%;height:100%;object-fit:cover;border-radius:14px}
+/* The piping close-up is the one that reads at any size, so it runs tall. */
+.gh-collage img:first-child{grid-row:1 / span 2}
+/* Narrow: one column, and the picture leads the list instead of trailing
+   seven rows behind it. Must sit after the base rules — a media query adds
+   no specificity, so source order is what decides. */
+@media (max-width:900px){
+  .gh-decor{grid-template-columns:1fr}
+  .gh-decor__aside{order:-1;margin-top:clamp(24px,4vw,32px);min-height:0}
+  .gh-decor__aside img,
+  .gh-decor__aside video{position:static;aspect-ratio:16/10;height:auto}
+  .gh-collage{position:static;aspect-ratio:4/5;max-width:420px;margin-inline:auto}
+  .gh-collage img{aspect-ratio:auto;height:100%}
+}
 .gh-decor-row{
   display:grid;grid-template-columns:auto minmax(0,1fr);
   column-gap:clamp(16px,2vw,24px);row-gap:6px;
@@ -1844,7 +1905,10 @@
    under a centred headline. On this band everything centres on one axis. */
 .gh-coffer__inner .gh-buy{text-align:center}
 .gh-coffer__inner .gh-buy__price{justify-content:center}
-
+/* .gh-buy's padding-top is the room a price line needs under the heading.
+   A closing band without a price (the bento course) inherits that room for
+   nothing, leaving ~108px between the headline and its one-line lead. */
+.gh-coffer__inner .gh-buy:not(:has(.gh-buy__price)){padding-top:0}
 /* ---------- Reviews CTA ---------- */
 .gh-reviews__cta{margin-top:clamp(26px,3vw,38px)}
 
