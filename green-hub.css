@@ -51,6 +51,10 @@
   /* Same role on dark green bands. #D92D20 is ~1.5:1 on green-900; this coral
      keeps the “was” signal and clears ~4.9:1 on #215F3C. */
   --gh-red-was-on-dark:#FFC0B8;
+  /* Freezer mark. Ice blue is the one cool note in an otherwise green-and-
+     amber palette, which is why it reads as "not a flavour badge". */
+  --gh-ice:#CFE8F6;
+  --gh-ice-ink:#0F4C6B;
 
   /* ---- Paper + ink ---- */
   --gh-cream:#F9F9F5;
@@ -742,9 +746,23 @@
 /* The client's three lead flavours carry a mark. It sits on the picture, not
    above the caption, so the eye finds it while scanning images rather than
    reading names — and the card keeps its own rhythm underneath. */
-/* A flavour built for the freezer carries the mark in its caption, the way
-   the client's programme lists it. */
-.gh-tcard__frozen{font-size:.9em;line-height:1;white-space:nowrap}
+/* Same corner and pill as the TOP mark, in ice blue — these two flavours are
+   built for the freezer, and that belongs on the card rather than tucked into
+   the caption. The label runs far longer than "TOP", hence the smaller type
+   and tighter padding. */
+.gh-tcard__frozen{
+  position:absolute;z-index:2;top:20px;left:20px;
+  display:inline-flex;align-items:center;gap:5px;
+  padding:7px 13px;border-radius:999px;
+  background:var(--gh-ice);color:var(--gh-ice-ink);
+  font-size:.68rem;font-weight:800;letter-spacing:.1em;
+  text-transform:uppercase;white-space:nowrap;
+}
+/* Line icon from the page's own sprite, not an emoji — it inherits the badge
+   ink and keeps the stroke family the rest of the site draws in. Sized in em
+   so it follows the label down at the small badge, with a hair more stroke to
+   survive there. */
+.gh-tcard__frozen .icon{width:1.35em;height:1.35em;stroke-width:2.4;flex:none}
 .gh-tcard__top{
   position:absolute;z-index:2;top:20px;left:20px;
   padding:8px 16px;border-radius:999px;
@@ -989,9 +1007,10 @@
 .gh-page .footer{background:var(--gh-ink);color:var(--gh-cream)}
 .gh-page .footer__offer{color:rgba(249,249,245,.7)}
 .gh-page .footer__offer:hover{color:var(--gh-cream)}
-/* Socials stay solid white circles; only the glyph picks up mint on hover. */
-.gh-page .footer__socials a{background:#fff;color:var(--gh-ink);border:none}
-.gh-page .footer__socials a:hover{background:#fff;color:var(--gh-green-700);opacity:1}
+/* Bare glyphs on the ink, no plate and no ring — the box behind them stays
+   only as a touch target. Mint on hover, as everywhere else here. */
+.gh-page .footer__socials a{background:none;border:none;border-radius:0;color:var(--gh-cream)}
+.gh-page .footer__socials a:hover{background:none;color:var(--gh-mint);opacity:1}
 .gh-page .footer__socials .icon{color:inherit}
 .gh-page .footer__top{border:none;background:transparent;color:var(--gh-cream)}
 .gh-page .footer__top:hover{background:transparent;border:none;color:var(--gh-cream);opacity:.7}
@@ -2034,6 +2053,9 @@
   }
   .gh-tc__grid--3 .gh-tcard__top{
     top:6px;left:6px;padding:3px 7px;font-size:.55rem;letter-spacing:.08em;
+  }
+  .gh-tc__grid--3 .gh-tcard__frozen{
+    top:6px;left:6px;padding:3px 6px;font-size:.5rem;letter-spacing:.05em;
   }
   .gh-sticky__title{display:none}
   /* Narrow phone only: stack the monthly offer CTAs full-width. */
