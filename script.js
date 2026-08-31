@@ -580,6 +580,25 @@
     return found.indexOf(null) === -1 ? found : null;
   }
 
+  /* Every figure below is painted from a number that moves, so the noun beside
+     it has to move too: 1 місце, 2 місця, 5 місць. The teens are what catches
+     a naive last-digit rule — 12 місць, not 12 місця. */
+  function pluralUa(n, one, few, many) {
+    var mod100 = Math.abs(n) % 100, mod10 = mod100 % 10;
+    if (mod100 >= 11 && mod100 <= 14) return many;
+    if (mod10 === 1) return one;
+    if (mod10 >= 2 && mod10 <= 4) return few;
+    return many;
+  }
+
+  /* The <dd> beside the slot carries the noun. */
+  function paintLabel(slot, n, one, few, many) {
+    var dd = slot.parentNode && slot.parentNode.querySelector("dd");
+    if (!dd) return;
+    var text = pluralUa(n, one, few, many);
+    if (dd.textContent !== text) dd.textContent = text;
+  }
+
   document.querySelectorAll("[data-countdown]").forEach(function (root) {
     var slots = slotsOf(root, ["h", "m", "s"]);
     if (!slots) return;
@@ -614,14 +633,68 @@
 
     function tick() {
       var left = Math.max(0, Math.floor((endsAt - Date.now()) / 1000));
-      paintSlots(slots, [
-        Math.floor(left / 86400), Math.floor(left / 3600) % 24, Math.floor(left / 60) % 60
-      ]);
+      var d = Math.floor(left / 86400),
+          h = Math.floor(left / 3600) % 24,
+          m = Math.floor(left / 60) % 60;
+      paintSlots(slots, [d, h, m]);
+      paintLabel(slots[0], d, "день", "дні", "днів");
+      paintLabel(slots[1], h, "година", "години", "годин");
+      paintLabel(slots[2], m, "хвилина", "хвилини", "хвилин");
     }
 
     /* Minute resolution, so a per-second interval would burn 59 wasted wakeups. */
     setInterval(tick, 1000 * 15);
     tick();
+  });
+
+  /* ---- Seats left ----
+     A number that only ever falls would eventually read zero on a page whose
+     whole job is to sell, so it steps down 10 on the last day of every month
+     and refills by 100 when the step would cross zero. Derived from the clock
+     rather than stored, so every visitor sees the same figure and nobody has
+     to edit it each month. data-seats is the published figure and
+     data-seats-since the day it was published: that day's own month-end is
+     skipped, so the first step lands on the NEXT one.
+
+     Dates are read in Kyiv, matching the countdowns above — otherwise the
+     step would land hours apart for visitors in different zones. */
+  function kyivToday() {
+    try {
+      var p = {};
+      new Intl.DateTimeFormat("en-GB", {
+        timeZone: "Europe/Kyiv", year: "numeric", month: "2-digit", day: "2-digit"
+      }).formatToParts(new Date()).forEach(function (x) { p[x.type] = x.value; });
+      return new Date(+p.year, +p.month - 1, +p.day);
+    } catch (e) {
+      var n = new Date();
+      return new Date(n.getFullYear(), n.getMonth(), n.getDate());
+    }
+  }
+
+  document.querySelectorAll("[data-seats]").forEach(function (root) {
+    var slot = root.querySelector('[data-count="seats"]');
+    if (!slot) return;
+
+    var base = parseInt(root.getAttribute("data-seats"), 10);
+    var since = /^(\d{4})-(\d{2})-(\d{2})$/.exec(root.getAttribute("data-seats-since") || "");
+    if (isNaN(base) || !since) return;
+
+    var today = kyivToday();
+    /* Start at the month after the anchor's, so the anchor's own month-end
+       does not count. Day 0 of the next month is the last day of this one. */
+    var y = +since[1], m = +since[2];  /* already the next month, 0-indexed */
+    var steps = 0;
+    for (var guard = 0; guard < 600; guard++) {
+      var monthEnd = new Date(y, m + 1, 0);
+      if (monthEnd > today) break;
+      steps++;
+      if (++m > 11) { m = 0; y++; }
+    }
+
+    var left = (base - 10 * steps) % 100;
+    if (left <= 0) left += 100;
+    slot.textContent = left;
+    paintLabel(slot, left, "місце", "місця", "місць");
   });
 
   /* ---- Green hub gallery rail ----
