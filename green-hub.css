@@ -961,20 +961,25 @@
 }
 /* Bottom hairline → programme list / lead: same offset so both columns start together. */
 .gh-mentor .gh-launch__list{margin-top:clamp(24px,2.6vw,34px)}
-.gh-mentor .gh-launch__side .gh-lead{
-  margin-top:clamp(24px,2.6vw,34px);
-  max-width:none;
+/* The lead sits under the kicker now, above the gold rail: the panel says what
+   the offer is before it rails off what is inside it. Measured rather than
+   full-bleed — across all three tracks it would run past 100 characters. */
+.gh-mentor .gh-launch__head .gh-lead{
+  margin-top:clamp(14px,1.6vw,20px);
+  max-width:68ch;
+  color:var(--on-green);
 }
 /* CTA matches the lead column so the button finishes the same measure as
    the copy above it rather than floating at its intrinsic pill width. */
-.gh-mentor .gh-launch__side .btn{
-  /* Floor kept under the panel's own padding at the narrow end (24px there),
-     so the gap never outgrows the frame once the panel stacks. */
-  margin-top:clamp(19px,2.6vw,38px);
-  /* Ranged left under the lead it follows. */
-  align-self:start;
-  width:auto;
+/* align-self:stretch is what gives the track a height to push against — the
+   panel grid is align-items:start, so without it justify-content has nothing
+   to work with and the button stays pinned to the top. */
+.gh-mentor .gh-launch__side{
+  align-self:stretch;
+  display:flex;flex-direction:column;
+  justify-content:flex-end;align-items:flex-start;
 }
+.gh-mentor .gh-launch__side .btn{margin-top:0;width:auto}
 /* The columns are honestly different lengths — the programme list runs longer
    than lead + strip + button. Top-aligning them left 86px of dead air under the
    button; pinning the button to the floor instead tore it 84px from its own
@@ -1067,8 +1072,11 @@
     padding:clamp(24px,3vw,40px) clamp(20px,2.8vw,36px);
   }
   .gh-launch__title{margin-top:12px}
+  /* The side column runs 100-145px past the picture through this band, so the
+     cap has to follow the viewport rather than sit at a flat 300. Above ~760
+     the cut-out reaches its own natural height first and the gap closes. */
   .gh-launch__media img{
-    max-height:clamp(200px,28vw,300px);
+    max-height:clamp(240px,46vw,380px);
     object-position:center bottom;
   }
 }
@@ -1192,6 +1200,10 @@
     grid-area:title;
     margin-top:0;
     padding:clamp(28px,6vw,44px) 20px clamp(16px,3vw,22px);
+    /* Stacked, the headline has the full band: 3.3vw never cleared the 1.7rem
+       floor here, so it sat at 27px filling 37-66% of the width. 7.8vw keeps
+       the longest curated line at ~88% of the measure across the range. */
+    font-size:clamp(1.95rem,7.8vw,4.4rem);
   }
   /* Mobile crop is 4:5; landscape hero has subject on the right — bias cover
      toward her (not center), without hard-right cropping the face. */
