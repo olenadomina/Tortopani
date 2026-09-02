@@ -14,6 +14,39 @@
   <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,600&amp;family=Montserrat:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css?v=20260807-leadgap1" />
   <link rel="stylesheet" href="green-hub.css?v=20260817-tc5" />
+  <!-- Meta Pixel Code (курс «Бенто торти від А до Я»: тільки події форми, без PageView) -->
+  <script>
+  (function () {
+    // === PIXEL ID ===
+    var BENTO_PIXEL_ID = "1054509700687250";   // курс «Бенто торти від А до Я»
+
+    // === LOAD BASE PIXEL SCRIPT ONCE ===
+    if (!window.fbq) {
+      (function(f,b,e,v,n,t,s){
+        if(f.fbq)return;
+        n=f.fbq=function(){n.callMethod ?
+          n.callMethod.apply(n,arguments) : n.queue.push(arguments)
+        };
+        if(!f._fbq)f._fbq=n;
+        n.push=n;
+        n.loaded=!0;
+        n.version='2.0';
+        n.queue=[];
+        t=b.createElement(e);
+        t.async=!0;
+        t.src=v;
+        s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s);
+      })(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+    }
+
+    /* Ініціалізуємо піксель, але PageView з головної не шлемо: головна — не
+       лендінг курсу. Потрібні лише InitiateCheckout/Purchase з форми, яку
+       відкриває кнопка «Оформити замовлення» цього курсу. */
+    fbq('init', BENTO_PIXEL_ID);
+  })();
+  </script>
+  <!-- End Meta Pixel Code -->
 </head>
 <body class="gh-page">
   <svg xmlns="http://www.w3.org/2000/svg" class="icon-sprite" aria-hidden="true" focusable="false" style="position:absolute;width:0;height:0;overflow:hidden">
@@ -150,7 +183,7 @@
             </dl>
             <p class="gh-card__price gh-card__price--lg"><span class="ed-price__old">1200 грн</span><span class="ed-price__new">489 грн</span></p>
             <div class="gh-launch__actions">
-              <button class="btn btn--cream btn--lg" data-modal-open data-intent="assisted-order" data-product="Курс «Бенто торти від А до Я»" data-pay="https://secure.wayforpay.com/button/b21d9a9270cc5" type="button">Оформити замовлення</button>
+              <button class="btn btn--cream btn--lg" data-modal-open data-intent="assisted-order" data-product="Курс «Бенто торти від А до Я»" data-pay="https://secure.wayforpay.com/button/b21d9a9270cc5" data-pixel-event="InitiateCheckout" data-pixel-purchase-event="Purchase" data-pixel-ids="1054509700687250" data-pixel-content-name="Курс «Бенто торти від А до Я»" data-pixel-value="489" data-pixel-currency="UAH" type="button">Оформити замовлення</button>
               <a class="btn btn--outline-cream btn--lg" href="bento.html">Детальніше</a>
             </div>
           </div>

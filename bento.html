@@ -20,8 +20,43 @@
   <!-- course.css and bento.css are gone: this page is built from the hub's
        own components, like every other course page. -->
   <link rel="stylesheet" href="green-hub.css?v=20260831-decorwide" />
+  <!-- Meta Pixel Code (курс «Бенто торти від А до Я») -->
+  <script>
+  (function () {
+    // === PIXEL ID ===
+    var BENTO_PIXEL_ID = "1054509700687250";   // /bento — курс «Бенто торти від А до Я»
+
+    // === LOAD BASE PIXEL SCRIPT ONCE ===
+    if (!window.fbq) {
+      (function(f,b,e,v,n,t,s){
+        if(f.fbq)return;
+        n=f.fbq=function(){n.callMethod ?
+          n.callMethod.apply(n,arguments) : n.queue.push(arguments)
+        };
+        if(!f._fbq)f._fbq=n;
+        n.push=n;
+        n.loaded=!0;
+        n.version='2.0';
+        n.queue=[];
+        t=b.createElement(e);
+        t.async=!0;
+        t.src=v;
+        s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s);
+      })(window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js');
+    }
+
+    // === INIT + PAGEVIEW (trackSingle — без дублів, якщо додасться ще піксель) ===
+    fbq('init', BENTO_PIXEL_ID);
+    fbq('trackSingle', BENTO_PIXEL_ID, 'PageView');
+  })();
+  </script>
+  <!-- End Meta Pixel Code -->
 </head>
 <body class="gh-page gh-course">
+  <noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=1054509700687250&ev=PageView&noscript=1"
+  /></noscript>
   <svg xmlns="http://www.w3.org/2000/svg" class="icon-sprite" aria-hidden="true" focusable="false" style="position:absolute;width:0;height:0;overflow:hidden">
     <symbol id="instagram" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></symbol>
     <symbol id="send-horizontal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.714 3.048a.498.498 0 0 0-.683.627l2.843 7.627a2 2 0 0 1 0 1.396l-2.842 7.627a.498.498 0 0 0 .682.627l18-8.5a.5.5 0 0 0 0-.904z"/><path d="M6 12h16"/></symbol>
@@ -80,7 +115,7 @@
               <span class="ed-price__new">489 грн</span>
               <span class="gh-buy__save">−59%</span>
             </p>
-            <a class="btn btn--primary btn--lg btn--block" href="#" data-modal-open data-intent="assisted-order" data-product="Курс «Бенто торти від А до Я»" data-pay="https://secure.wayforpay.com/button/b21d9a9270cc5">Купити</a>
+            <a class="btn btn--primary btn--lg btn--block" href="#" data-modal-open data-intent="assisted-order" data-product="Курс «Бенто торти від А до Я»" data-pay="https://secure.wayforpay.com/button/b21d9a9270cc5" data-pixel-event="InitiateCheckout" data-pixel-purchase-event="Purchase" data-pixel-ids="1054509700687250" data-pixel-content-name="Курс «Бенто торти від А до Я»" data-pixel-value="489" data-pixel-currency="UAH">Купити</a>
           </div>
         </div>
 
@@ -312,7 +347,7 @@
             <span class="gh-buy__save">−59%</span>
           </p>
           <p class="gh-buy__bonus-lead">36+ покрокових відеоуроків, 12&nbsp;авторських рецептів<br>і&nbsp;доступ назавжди — одразу після оплати.</p>
-          <a class="btn btn--lg" href="#" data-modal-open data-intent="assisted-order" data-product="Курс «Бенто торти від А до Я»" data-pay="https://secure.wayforpay.com/button/b21d9a9270cc5">Купити</a>
+          <a class="btn btn--lg" href="#" data-modal-open data-intent="assisted-order" data-product="Курс «Бенто торти від А до Я»" data-pay="https://secure.wayforpay.com/button/b21d9a9270cc5" data-pixel-event="InitiateCheckout" data-pixel-purchase-event="Purchase" data-pixel-ids="1054509700687250" data-pixel-content-name="Курс «Бенто торти від А до Я»" data-pixel-value="489" data-pixel-currency="UAH">Купити</a>
         </div>
       </div>
     </section>
@@ -340,7 +375,7 @@
         <span class="ed-price__old">1200 грн</span>
         <span class="gh-sticky__price">489 грн</span>
       </p>
-      <a class="btn btn--primary" href="#" data-modal-open data-intent="assisted-order" data-product="Курс «Бенто торти від А до Я»" data-pay="https://secure.wayforpay.com/button/b21d9a9270cc5">Купити</a>
+      <a class="btn btn--primary" href="#" data-modal-open data-intent="assisted-order" data-product="Курс «Бенто торти від А до Я»" data-pay="https://secure.wayforpay.com/button/b21d9a9270cc5" data-pixel-event="InitiateCheckout" data-pixel-purchase-event="Purchase" data-pixel-ids="1054509700687250" data-pixel-content-name="Курс «Бенто торти від А до Я»" data-pixel-value="489" data-pixel-currency="UAH">Купити</a>
     </div>
   </div>
 
