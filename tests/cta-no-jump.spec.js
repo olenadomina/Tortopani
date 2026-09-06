@@ -152,7 +152,7 @@ test("bento popup fires InitiateCheckout and Purchase on the course pixel", asyn
   });
 
   const cta = page.locator("main [data-pixel-event]").first();
-  await expect(cta).toHaveAttribute("data-pixel-ids", "1078476031335079");
+  await expect(cta).toHaveAttribute("data-pixel-ids", "4349939475317293");
   await expect(cta).toHaveAttribute("data-pixel-value", "489");
   await expect(cta).toHaveAttribute("data-pixel-currency", "UAH");
   await cta.click();
@@ -171,12 +171,12 @@ test("bento popup fires InitiateCheckout and Purchase on the course pixel", asyn
   const events = result.calls.map((call) => [call[1], call[2], call[3]]);
 
   expect(events).toContainEqual([
-    "1078476031335079",
+    "4349939475317293",
     "InitiateCheckout",
     { content_name: "Курс «Бенто торти від А до Я»", value: 489, currency: "UAH" },
   ]);
   expect(events).toContainEqual([
-    "1078476031335079",
+    "4349939475317293",
     "Purchase",
     { content_name: "Курс «Бенто торти від А до Я»", value: 489, currency: "UAH" },
   ]);
