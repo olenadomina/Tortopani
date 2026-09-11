@@ -1778,7 +1778,10 @@
   box-shadow:var(--shadow-sm);
   font-size:clamp(1.05rem,1.3vw,1.18rem);line-height:1.4;
 }
-.gh-aud__grid--3 .gh-aud__ico{width:clamp(56px,4.6vw,64px);background:var(--gh-green-100)}
+/* Explicit height, not aspect-ratio alone: as a column-flex item Chromium
+   sized the disc's main axis to the leftover card height, so the circle
+   rendered as a tall oval (56×150). One length for both axes and the basis. */
+.gh-aud__grid--3 .gh-aud__ico{--ico:clamp(56px,4.6vw,64px);width:var(--ico);height:var(--ico);flex:0 0 var(--ico);background:var(--gh-green-100)}
 .gh-aud__grid--3 .gh-aud__ico .icon{width:46%;height:46%}
 /* Six identical ticks said nothing the sentence did not already say. Each row
    takes the icon for its own claim instead, drawn on the same tinted disc the
