@@ -1000,6 +1000,10 @@
 .gh-reviews__cta{margin-top:clamp(26px,3.2vw,44px);display:flex;justify-content:center}
 /* Brand amber — the shared --star is a dark ochre that reads muddy here. */
 .gh-page .review__stars{color:var(--gh-amber)}
+/* Short quotes on a phone: body `pretty` only guards the last line, so it
+   would leave one line half-empty («— середній чек виріс, а» + a long word
+   thrown down) beside two full ones. Balance evens all four instead. */
+.gh-page .review blockquote{text-wrap:balance}
 /* The reviews wall rides .gh-rail for its motion and adds only its own look. */
 .gh-shots{margin-top:clamp(28px,3.6vw,48px);padding:0}
 /* Bottom-aligned, unlike the food reel: every shot carries its message text and
