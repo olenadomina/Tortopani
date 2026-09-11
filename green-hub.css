@@ -235,13 +235,17 @@
 .gh-page .btn--cream:active{background:#F2AF1B;color:var(--gh-ink)}
 .gh-page .btn--cream:focus-visible{outline-color:var(--gh-cream)}
 .gh-page .btn--outline{background:transparent;color:var(--gh-green-700);box-shadow:inset 0 0 0 1.5px rgba(46,125,79,.38)}
-.gh-page .btn--outline:hover{background:var(--gh-green-700);color:var(--gh-cream);box-shadow:inset 0 0 0 1.5px var(--gh-green-700)}
+/* Fills to the primary's HOVER green, not its resting green — the two buttons
+   on a card must answer the pointer with the same colour. */
+.gh-page .btn--outline:hover{background:var(--gh-green-grass);color:#fff;box-shadow:inset 0 0 0 1.5px var(--gh-green-grass)}
 .gh-page .btn--outline:active{background:var(--gh-green-800);box-shadow:inset 0 0 0 1.5px var(--gh-green-800)}
 /* Same quiet-second-action role as .btn--outline, inverted for the green
    panels, where a green ring on green would leave nothing to see. */
 .gh-page .btn--outline-cream{background:transparent;color:var(--gh-cream);box-shadow:inset 0 0 0 1.5px rgba(249,249,245,.5)}
-.gh-page .btn--outline-cream:hover{background:var(--gh-paper);color:var(--gh-green-900);box-shadow:inset 0 0 0 1.5px var(--gh-paper)}
-.gh-page .btn--outline-cream:active{background:var(--gh-cream);box-shadow:inset 0 0 0 1.5px var(--gh-cream)}
+/* Same amber as the cream button's hover beside it — the pair answers the
+   pointer with one colour, as the green pair does on paper. */
+.gh-page .btn--outline-cream:hover{background:var(--gh-amber);color:var(--gh-ink);box-shadow:inset 0 0 0 1.5px var(--gh-amber)}
+.gh-page .btn--outline-cream:active{background:#F2AF1B;color:var(--gh-ink);box-shadow:inset 0 0 0 1.5px #F2AF1B}
 .gh-page .btn--outline-cream:focus-visible{outline-color:var(--gh-cream)}
 
 /* Pointer-only motion: lifts, hue-tinted glows, and the nav underline. */
@@ -249,8 +253,8 @@
   .gh-page .btn:hover{transform:translateY(-2px)}
   .gh-page .btn--primary:hover{box-shadow:0 12px 24px -12px rgba(46,125,79,.6)}
   .gh-page .btn--cream:hover{box-shadow:0 18px 32px -16px rgba(255,197,61,.55)}
-  .gh-page .btn--outline:hover{box-shadow:inset 0 0 0 1.5px var(--gh-green-700),0 12px 24px -14px rgba(46,125,79,.5)}
-  .gh-page .btn--outline-cream:hover{box-shadow:inset 0 0 0 1.5px var(--gh-paper),0 16px 28px -16px rgba(0,0,0,.45)}
+  .gh-page .btn--outline:hover{box-shadow:inset 0 0 0 1.5px var(--gh-green-grass),0 12px 24px -12px rgba(46,125,79,.6)}
+  .gh-page .btn--outline-cream:hover{box-shadow:inset 0 0 0 1.5px var(--gh-amber),0 18px 32px -16px rgba(255,197,61,.55)}
   .gh-page .btn:active{transform:translateY(0) scale(.98)}
   /* Nav: an underline that draws in from the left and stays under the
      section in view. Colour already shifts; this gives the pointer a target. */
@@ -267,6 +271,53 @@
   transition:transform .25s var(--gh-ease-out);
 }
 .gh-page .nav__links a.is-active::after{transform:scaleX(1)}
+
+/* ---- Micro-interactions on the remaining surfaces ----
+   Same three durations, same curve. Icon discs answer their card's hover so
+   the mark reads as part of the card rather than a sticker on it; rows slide
+   on the x-axis where cards lift on y, so a row never impersonates a card. */
+.gh-step__ico,.gh-aud__ico,.gh-launch__mark,.gh-bonus__ico{
+  transition:background-color var(--gh-dur-hover) ease,color var(--gh-dur-hover) ease,
+             transform var(--gh-dur-lift) var(--gh-ease-out);
+}
+.gh-page .review,
+.gh-aud__grid--3 .gh-aud{
+  transition:transform var(--gh-dur-lift) var(--gh-ease-out),box-shadow var(--gh-dur-lift) ease,
+             opacity .7s var(--gh-ease-out);
+}
+.gh-mentor__row{
+  transition:background-color var(--gh-dur-hover) ease,border-color var(--gh-dur-hover) ease,
+             transform var(--gh-dur-lift) var(--gh-ease-out);
+}
+.gh-decor-row::before,.gh-decor-row h3{transition:color var(--gh-dur-hover) ease}
+.gh-page .gh-tc__pill{transition:background-color var(--gh-dur-hover) ease,color var(--gh-dur-hover) ease,transform var(--gh-dur-lift) var(--gh-ease-out)}
+.gh-shots img{transition:transform .4s var(--gh-ease-out)}
+.logo__img{transition:transform var(--gh-dur-lift) var(--gh-ease-out)}
+.gh-page .modal__close{transition:transform var(--gh-dur-lift) var(--gh-ease-out),box-shadow var(--gh-dur-hover) ease}
+.gh-page .footer__offer{transition:color var(--gh-dur-hover) ease}
+/* Flavour tiles are borderless — the picture zoom is the whole hover; a
+   rectangle of shadow under an image-plus-caption would draw a box that
+   is not there. */
+.gh-page .gh-tc__grid--3 .gh-tcard:hover{box-shadow:none}
+
+@media (hover:hover) and (pointer:fine){
+  .gh-page .review:hover,
+  .gh-page .gh-aud__grid--3 .gh-aud:hover{transform:translateY(-3px);box-shadow:0 18px 36px -24px rgba(22,25,15,.28)}
+  /* The profile disc fills in under the pointer — the one saturated moment
+     in an otherwise pale card. */
+  .gh-page .gh-aud__grid--3 .gh-aud:hover .gh-aud__ico{background:var(--gh-green-600);color:var(--gh-cream);transform:translateY(-2px)}
+  .gh-page .gh-step:hover .gh-step__ico{background:var(--gh-green-100);transform:translateY(-2px)}
+  .gh-page .gh-bonus:hover .gh-bonus__ico{color:var(--gh-green-700);transform:translateY(-2px) scale(1.06)}
+  .gh-page .gh-mentor__row:hover{background:rgba(249,249,245,.13);border-color:rgba(249,249,245,.26);transform:translateX(4px)}
+  .gh-page .gh-mentor__row:hover .gh-launch__mark{transform:scale(1.08)}
+  .gh-page .gh-decor-row:hover::before,
+  .gh-page .gh-decor-row:hover h3{color:var(--gh-green-700)}
+  .gh-page .gh-tc__pill:hover{transform:translateY(-1px)}
+  .gh-page .gh-tc__pill:active{transform:scale(.96)}
+  .gh-page .gh-shots img:hover{transform:translateY(-4px)}
+  .gh-page .logo:hover .logo__img{transform:scale(1.03)}
+  .gh-page .modal__close:hover{transform:rotate(90deg)}
+}
 
 .gh-link{
   display:inline-flex;align-items:center;gap:8px;
@@ -1004,11 +1055,6 @@
   display:block;color:var(--on-green);font-weight:600;
   font-size:clamp(.98rem,1.1vw,1.06rem);line-height:1.35;
 }
-/* The last row is the anchor: amber, like the panel's CTAs elsewhere. */
-.gh-mentor__row--gold{background:var(--gh-amber);border-color:transparent}
-.gh-mentor__row--gold .gh-mentor__row-kind{color:var(--gh-green-900);opacity:.8}
-.gh-mentor__row--gold .gh-mentor__row-text{color:var(--gh-green-900)}
-.gh-mentor__row--gold .gh-launch__mark{background:rgba(0,0,0,.12);color:var(--gh-green-900)}
 
 /* ===================================================================
    REVIEWS
