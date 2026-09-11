@@ -1540,6 +1540,9 @@
 @keyframes gh-burst-spin{
   to{transform:rotate(360deg)}
 }
+/* The launch panel's price is a size down from the course hero's, so its
+   burst follows — otherwise the sticker outweighs the number it discounts. */
+.gh-launch .gh-buy__save{--burst:clamp(56px,4.6vw,68px);font-size:clamp(.78rem,.9vw,.86rem)}
 /* text-wrap:wrap overrides body pretty — pretty was balancing this short
    offer line into four awkward wraps on a phone column. */
 .gh-buy__bonus-lead{
