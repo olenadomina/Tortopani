@@ -68,6 +68,12 @@
   --gh-graphite:#6E7566;
   --gh-line:rgba(22,25,15,.12);
   --gh-line-light:rgba(249,249,245,.18);
+  /* ---- Motion: one curve, three durations. Hover is seen tens of times a
+     day, so it stays fast and small; only the lift gets the longer tail. ---- */
+  --gh-ease-out:cubic-bezier(.22,.61,.36,1);
+  --gh-dur-press:.12s;
+  --gh-dur-hover:.2s;
+  --gh-dur-lift:.3s;
 
   /* Same pair as the live site: Lora for display, Montserrat for text.
      Lora carries a true Cyrillic italic, so the accent is the same family
@@ -189,12 +195,22 @@
 .gh-page .btn{
   border-radius:999px;font-weight:700;letter-spacing:.01em;
   padding:14px 26px;font-size:.92rem;
-  transition:transform .25s cubic-bezier(.22,.61,.36,1),box-shadow .25s ease,background .25s ease,color .25s ease;
+  transition:transform var(--gh-dur-lift) var(--gh-ease-out),
+             box-shadow var(--gh-dur-lift) ease,
+             background-color var(--gh-dur-hover) ease,
+             color var(--gh-dur-hover) ease;
 }
 .gh-page .btn--lg{padding:18px 32px;font-size:1rem}
-/* No drop shadow in either state — hover is a colour shift, not a lift. */
+/* Three states, one grammar for every variant: hover lifts 2px and blooms a
+   shadow in the button's own hue; press drops it back and squeezes 2%, with a
+   shorter transition so the release snaps; focus is the ring in styles.css.
+   The lift lives behind the pointer query below — on touch a tapped button
+   would otherwise stay raised until something else takes focus. */
+.gh-page .btn:hover{transform:none}
+.gh-page .btn:active{transform:scale(.98);transition-duration:var(--gh-dur-press)}
 .gh-page .btn--primary{background:var(--gh-green-600);color:#fff;box-shadow:none}
 .gh-page .btn--primary:hover{background:var(--gh-green-grass)}
+.gh-page .btn--primary:active{background:var(--gh-green-800)}
 /* Catalogue cards that are not yet priced: keep the Купити label so the
    grid rhythm holds, but the control must not look or act clickable.
    Global .btn:disabled uses cursor:wait for form-submit pending; this
@@ -213,15 +229,44 @@
 .gh-page .btn--cream{background:var(--gh-paper);color:var(--gh-green-900);box-shadow:0 16px 32px -18px rgba(0,0,0,.55)}
 /* Footer layout lives in styles.css — one space-between row
    (logo → socials → offer → top). Keep theme overrides only. */
-.gh-page .btn--cream:hover{background:var(--gh-cream)}
+/* Accent state: cream turns amber under the pointer — the brand's CTA colour
+   on green, so the primary action on a dark panel lights up rather than dims. */
+.gh-page .btn--cream:hover{background:var(--gh-amber);color:var(--gh-ink)}
+.gh-page .btn--cream:active{background:#F2AF1B;color:var(--gh-ink)}
 .gh-page .btn--cream:focus-visible{outline-color:var(--gh-cream)}
 .gh-page .btn--outline{background:transparent;color:var(--gh-green-700);box-shadow:inset 0 0 0 1.5px rgba(46,125,79,.38)}
 .gh-page .btn--outline:hover{background:var(--gh-green-700);color:var(--gh-cream);box-shadow:inset 0 0 0 1.5px var(--gh-green-700)}
+.gh-page .btn--outline:active{background:var(--gh-green-800);box-shadow:inset 0 0 0 1.5px var(--gh-green-800)}
 /* Same quiet-second-action role as .btn--outline, inverted for the green
    panels, where a green ring on green would leave nothing to see. */
 .gh-page .btn--outline-cream{background:transparent;color:var(--gh-cream);box-shadow:inset 0 0 0 1.5px rgba(249,249,245,.5)}
 .gh-page .btn--outline-cream:hover{background:var(--gh-paper);color:var(--gh-green-900);box-shadow:inset 0 0 0 1.5px var(--gh-paper)}
+.gh-page .btn--outline-cream:active{background:var(--gh-cream);box-shadow:inset 0 0 0 1.5px var(--gh-cream)}
 .gh-page .btn--outline-cream:focus-visible{outline-color:var(--gh-cream)}
+
+/* Pointer-only motion: lifts, hue-tinted glows, and the nav underline. */
+@media (hover:hover) and (pointer:fine){
+  .gh-page .btn:hover{transform:translateY(-2px)}
+  .gh-page .btn--primary:hover{box-shadow:0 12px 24px -12px rgba(46,125,79,.6)}
+  .gh-page .btn--cream:hover{box-shadow:0 18px 32px -16px rgba(255,197,61,.55)}
+  .gh-page .btn--outline:hover{box-shadow:inset 0 0 0 1.5px var(--gh-green-700),0 12px 24px -14px rgba(46,125,79,.5)}
+  .gh-page .btn--outline-cream:hover{box-shadow:inset 0 0 0 1.5px var(--gh-paper),0 16px 28px -16px rgba(0,0,0,.45)}
+  .gh-page .btn:active{transform:translateY(0) scale(.98)}
+  /* Nav: an underline that draws in from the left and stays under the
+     section in view. Colour already shifts; this gives the pointer a target. */
+  .gh-page .nav__links a::after{transform:scaleX(0)}
+  .gh-page .nav__links a:hover::after{transform:scaleX(1)}
+  /* Footer marks step up a hair with the colour change. */
+  .gh-page .footer__socials a{transition:color var(--gh-dur-hover) ease,transform var(--gh-dur-hover) var(--gh-ease-out)}
+  .gh-page .footer__socials a:hover{transform:translateY(-2px)}
+}
+.gh-page .nav__links a{position:relative}
+.gh-page .nav__links a::after{
+  content:"";position:absolute;left:14px;right:14px;bottom:5px;height:2px;border-radius:1px;
+  background:currentColor;transform:scaleX(0);transform-origin:left center;
+  transition:transform .25s var(--gh-ease-out);
+}
+.gh-page .nav__links a.is-active::after{transform:scaleX(1)}
 
 .gh-link{
   display:inline-flex;align-items:center;gap:8px;
@@ -548,7 +593,7 @@
   padding:clamp(28px,3.4vw,52px) clamp(24px,3vw,48px);
   background:var(--gh-paper);border:1px solid var(--gh-line);
   border-radius:clamp(18px,1.8vw,24px);
-  transition:transform .3s cubic-bezier(.22,.61,.36,1),box-shadow .3s ease,border-color .3s ease;
+  transition:transform .3s var(--gh-ease-out),box-shadow .3s ease,border-color .3s ease;
 }
 /* Positioned frame with an absolutely placed image: height:100% inside an
    auto-height box resolves against nothing, so the portrait source drove the
@@ -572,15 +617,29 @@
 /* Sits on the copy column's floor so the action lines up with the photograph's
    lower edge rather than floating under a short description. */
 .gh-card__buy{grid-area:buy;align-self:end}
-/* Hover across the page is the lift alone — no ring, no shadow, no zoom. */
-.gh-card:hover{transform:translateY(-4px)}
-/* The tint the technique-cards band is painted in, so the card under the
-   pointer reads as lifted onto the page's own green rather than tinted with
-   a colour that appears nowhere else. Behind a media query because a hover
-   state on a touch screen fires on tap and then sticks. */
+/* Hover: the card lifts onto the technique-band tint with a soft shadow
+   under it, and the cut-out drifts up a touch more than the card — two
+   layers moving at two speeds is what makes the lift read as depth. Behind
+   a media query because a hover state on a touch screen fires on tap and
+   then sticks. */
+.gh-card__media img{transition:transform .5s var(--gh-ease-out)}
+/* Declared at .gh-page depth on purpose: [data-reveal] sets its own
+   `opacity, transform .7s` later in the file at one-class specificity, and
+   used to replace this list — every hover then crawled at the reveal's 0.7s
+   while colour and shadow snapped. Carrying opacity here keeps the fade-in;
+   the slide-in simply runs at the lift's speed. Same for steps and techcards. */
+.gh-page .gh-card,.gh-page .gh-step,.gh-page .gh-tcard{
+  transition:transform var(--gh-dur-lift) var(--gh-ease-out),
+             background-color .25s ease,
+             box-shadow var(--gh-dur-lift) ease,
+             border-color .3s ease,
+             opacity .7s var(--gh-ease-out);
+}
 @media (hover:hover) and (pointer:fine){
-  .gh-card{transition:transform .3s cubic-bezier(.22,.61,.36,1),background-color .25s ease,box-shadow .3s ease,border-color .3s ease}
-  .gh-card:hover{background:var(--gh-green-50)}
+  /* .gh-page prefix: the scroll-reveal's [data-reveal].is-in{transform:none}
+     sits later in the file at the same specificity and used to cancel the lift. */
+  .gh-page .gh-card:hover{transform:translateY(-4px);background:var(--gh-green-50);box-shadow:0 22px 40px -28px rgba(22,25,15,.35)}
+  .gh-page .gh-card:hover .gh-card__media img{transform:translateY(-4px) scale(1.02)}
 }
 .gh-card:focus-within{border-color:rgba(46,125,79,.4)}
 /* width:100%, not auto: WebKit sizes an abspos-only grid item to 0×0 when
@@ -644,9 +703,11 @@
 .gh-step{
   display:block;padding:clamp(24px,2.8vw,38px);
   background:var(--gh-paper);border:1px solid var(--gh-line);border-radius:20px;
-  transition:transform .3s cubic-bezier(.22,.61,.36,1),box-shadow .3s ease,border-color .3s ease;
+  transition:transform .3s var(--gh-ease-out),box-shadow .3s ease,border-color .3s ease;
 }
-.gh-step:hover{transform:translateY(-4px)}
+@media (hover:hover) and (pointer:fine){
+  .gh-page .gh-step:hover{transform:translateY(-4px);box-shadow:0 18px 36px -26px rgba(22,25,15,.3)}
+}
 /* Warm, so the icon, the bold accent in the copy and the section heading
    all carry the same colour. */
 /* Green, not orange: on the course pages these two sections carry a warm
@@ -700,9 +761,13 @@
   display:flex;flex-direction:column;gap:11px;min-width:0;
   padding:var(--tc-pad) var(--tc-pad) 18px;background:var(--gh-paper);
   border:1px solid var(--gh-line);border-radius:var(--tc-radius);
-  transition:transform .3s cubic-bezier(.22,.61,.36,1),box-shadow .3s ease,border-color .3s ease;
+  transition:transform .3s var(--gh-ease-out),box-shadow .3s ease,border-color .3s ease;
 }
-.gh-tcard:hover{transform:translateY(-5px)}
+.gh-tcard__media img{transition:transform .6s var(--gh-ease-out)}
+@media (hover:hover) and (pointer:fine){
+  .gh-page .gh-tcard:hover{transform:translateY(-5px);box-shadow:0 22px 40px -28px rgba(22,25,15,.35)}
+  .gh-page .gh-tcard:hover .gh-tcard__media img{transform:scale(1.04)}
+}
 .gh-tcard{position:relative}
 /* 840/1189 is the exported Figma poster (and the img width/height). 5/7 was
    a hair shorter, so object-fit:cover clipped the TORTOPANI watermark and
@@ -995,15 +1060,15 @@
 @keyframes gh-rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:none}}
 @keyframes gh-figure-in{from{opacity:0;transform:translateY(30px) scale(.97)}to{opacity:1;transform:none}}
 
-.gh-hero__copy>*{animation:gh-rise .8s cubic-bezier(.22,.61,.36,1) both}
+.gh-hero__copy>*{animation:gh-rise .8s var(--gh-ease-out) both}
 .gh-hero__copy>*:nth-child(1){animation-delay:.06s}
 .gh-hero__copy>*:nth-child(2){animation-delay:.14s}
 .gh-hero__copy>*:nth-child(3){animation-delay:.24s}
 .gh-hero__copy>*:nth-child(4){animation-delay:.32s}
 .gh-hero__copy>*:nth-child(5){animation-delay:.40s}
-.gh-hero__photo{animation:gh-figure-in 1.1s cubic-bezier(.22,.61,.36,1) both}
+.gh-hero__photo{animation:gh-figure-in 1.1s var(--gh-ease-out) both}
 
-[data-reveal]{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.22,.61,.36,1),transform .7s cubic-bezier(.22,.61,.36,1)}
+[data-reveal]{opacity:0;transform:translateY(22px);transition:opacity .7s var(--gh-ease-out),transform .7s var(--gh-ease-out)}
 [data-reveal].is-in{opacity:1;transform:none}
 .gh-cards [data-reveal]:nth-child(2),.gh-tc__grid [data-reveal]:nth-child(2),.gh-steps__list [data-reveal]:nth-child(2){transition-delay:.07s}
 .gh-cards [data-reveal]:nth-child(3),.gh-tc__grid [data-reveal]:nth-child(3),.gh-steps__list [data-reveal]:nth-child(3){transition-delay:.14s}
@@ -1232,7 +1297,8 @@
   .gh-tc__grid[data-static-grid]::after{display:none}
   /* The hover lift needs headroom inside a clipping scroller. */
   .gh-tc__grid{padding-block:6px}
-  .gh-tcard:hover{transform:none}
+  .gh-page .gh-tcard:hover{transform:none;box-shadow:none}
+  .gh-page .gh-tcard:hover .gh-tcard__media img{transform:none}
 
   .gh-tc__rail{
     display:flex;align-items:center;justify-content:space-between;
@@ -1607,6 +1673,10 @@
   background:var(--gh-amber);color:var(--gh-ink);box-shadow:none;
 }
 .gh-coffer .gh-buy .btn:hover{background:#FFD469}
+.gh-coffer .gh-buy .btn:active{background:#F2AF1B}
+@media (hover:hover) and (pointer:fine){
+  .gh-coffer .gh-buy .btn:hover{box-shadow:0 14px 28px -14px rgba(255,197,61,.6)}
+}
 
 /* ---------- About ---------- */
 /* The portrait keeps the page's left gutter rather than bleeding into it: at
@@ -2305,7 +2375,7 @@
   background:none;border:0;border-radius:0;
   padding:0;
 }
-.gh-course .gh-steps__list:not(.gh-steps__list--2) .gh-step:hover{transform:none}
+.gh-page.gh-course .gh-steps__list:not(.gh-steps__list--2) .gh-step:hover{transform:none;box-shadow:none}
 .gh-course .gh-steps__list:not(.gh-steps__list--2) .gh-step__ico{margin:0}
 /* No 70ch cap here: the headings run to the column's right edge and the
    paragraphs stopped 60px short of it, which made a centred block read as
