@@ -110,10 +110,13 @@ test("a GET carrying the result fields is verified the same way", async () => {
   expect(res.headers["set-cookie"]).toMatch(/^tp_paid=/);
 });
 
-test("without the secret configured nothing unlocks", async () => {
+test("without the secret, a return with an Approved result is trusted (return-only mode) — but not a bad one", async () => {
   const { verifyResult } = await import("../api/thanks.mjs");
-  const verdict = verifyResult(signedResult(), { value: 489, currency: "UAH" }, {});
-  expect(verdict).toEqual({ ok: false, reason: "no_secret" });
+  const product = { value: 489, currency: "UAH" };
+  expect(verifyResult({ ...signedResult(), merchantSignature: "garbage" }, product, {})).toEqual({ ok: true, reason: "ok_unverified", orderReference: "ORDER-42" });
+  expect(verifyResult(signedResult({ transactionStatus: "Declined" }), product, {}).ok).toBe(false);
+  expect(verifyResult(signedResult({ amount: "199" }), product, {}).ok).toBe(false);
+  expect(verifyResult(null, product, {})).toEqual({ ok: false, reason: "no_fields" });
 });
 
 test("an empty POST still lands on the clean URL", async () => {

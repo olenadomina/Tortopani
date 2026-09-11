@@ -18,9 +18,12 @@
  * 405 — so vercel.json rewrites /thanks and /thanks/<product> here.
  *
  * Env: WAYFORPAY_SECRET_KEY (merchant secret key, from the WayForPay
- * cabinet). Without it nothing can be verified, so every visit gets the
- * neutral page and the miss is logged. WAYFORPAY_MERCHANT (optional) pins
- * the merchant login as well.
+ * cabinet) turns the signature check on. Without it the function runs in
+ * return-only mode: a result that arrives by POST/GET with Approved status
+ * and a sufficient amount is trusted as-is — enough to keep a typed-in URL
+ * from showing the invite, while the client screens joins in Telegram by
+ * hand. Set the key and the same code verifies the signature; nothing else
+ * changes. WAYFORPAY_MERCHANT (optional) pins the merchant login as well.
  */
 import { readFileSync } from "node:fs";
 import { createHmac, timingSafeEqual } from "node:crypto";
@@ -136,12 +139,13 @@ function safeEqual(a, b) {
  * { ok, reason, orderReference }; `reason` is for the log, never the page.
  */
 export function verifyResult(fields, product, env = process.env) {
+  if (!fields) return { ok: false, reason: "no_fields" };
   const secret = env.WAYFORPAY_SECRET_KEY;
-  if (!secret) return { ok: false, reason: "no_secret" };
-  if (!fields || !fields.merchantSignature) return { ok: false, reason: "no_signature" };
-
-  const expected = hmac("md5", secret, SIGNED_FIELDS.map((k) => (fields[k] == null ? "" : String(fields[k]))).join(";"));
-  if (!safeEqual(expected, String(fields.merchantSignature).toLowerCase())) return { ok: false, reason: "bad_signature" };
+  if (secret) {
+    if (!fields.merchantSignature) return { ok: false, reason: "no_signature" };
+    const expected = hmac("md5", secret, SIGNED_FIELDS.map((k) => (fields[k] == null ? "" : String(fields[k]))).join(";"));
+    if (!safeEqual(expected, String(fields.merchantSignature).toLowerCase())) return { ok: false, reason: "bad_signature" };
+  }
 
   if (env.WAYFORPAY_MERCHANT && fields.merchantAccount !== env.WAYFORPAY_MERCHANT) return { ok: false, reason: "wrong_merchant" };
   if (fields.transactionStatus !== "Approved") return { ok: false, reason: `status_${fields.transactionStatus || "none"}` };
@@ -149,14 +153,16 @@ export function verifyResult(fields, product, env = process.env) {
   if (String(fields.currency || "").toUpperCase() !== product.currency) return { ok: false, reason: "wrong_currency" };
   if (!(Number(fields.amount) >= product.value)) return { ok: false, reason: "amount_below_price" };
 
-  return { ok: true, reason: "ok", orderReference: String(fields.orderReference || "") };
+  return { ok: true, reason: secret ? "ok" : "ok_unverified", orderReference: String(fields.orderReference || "") };
 }
 
 /* ---------------- cookie ---------------- */
 
 function cookieKey(env = process.env) {
-  // Derived, so the client sets a single secret in Vercel.
-  return hmac("sha256", env.WAYFORPAY_SECRET_KEY || "", "tortopani-thanks-cookie");
+  // Derived from the merchant key when there is one, so the client sets a
+  // single secret; in return-only mode a fixed key still signs the cookie
+  // against casual edits (it is not a secret, and does not pretend to be).
+  return hmac("sha256", env.WAYFORPAY_SECRET_KEY || "tortopani-thanks-return-only", "tortopani-thanks-cookie");
 }
 
 export function makeToken(productKey, orderReference, now = Date.now(), env = process.env) {
@@ -166,7 +172,7 @@ export function makeToken(productKey, orderReference, now = Date.now(), env = pr
 }
 
 export function readToken(token, productKey, now = Date.now(), env = process.env) {
-  if (!token || !env.WAYFORPAY_SECRET_KEY) return null;
+  if (!token) return null;
   const [body, sig] = String(token).split(".");
   if (!body || !sig || !safeEqual(hmac("sha256", cookieKey(env), body), sig)) return null;
   try {
@@ -230,6 +236,7 @@ export default async function handler(req, res) {
   if (fields) {
     const verdict = verifyResult(fields, product);
     if (verdict.ok) {
+      if (verdict.reason === "ok_unverified") console.warn("[thanks] return accepted without signature check — WAYFORPAY_SECRET_KEY is not set");
       res.setHeader("Set-Cookie", `${COOKIE}=${makeToken(productKey, verdict.orderReference)}; Path=/thanks; Max-Age=${COOKIE_TTL_S}; HttpOnly; Secure; SameSite=Lax`);
     } else {
       console.warn("[thanks] return not verified", { product: productKey, reason: verdict.reason, fields: Object.keys(fields) });
