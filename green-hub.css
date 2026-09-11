@@ -306,7 +306,10 @@
   /* The profile disc fills in under the pointer — the one saturated moment
      in an otherwise pale card. */
   .gh-page .gh-aud__grid--3 .gh-aud:hover .gh-aud__ico{background:var(--gh-green-600);color:var(--gh-cream);transform:translateY(-2px)}
-  .gh-page .gh-step:hover .gh-step__ico{background:var(--gh-green-100);transform:translateY(-2px)}
+  /* Only the tiled marks (two-up / six-up cards) take the tint: on the
+     course-page ledger the icon is bare, and a square would appear behind it. */
+  .gh-page .gh-steps__list--2 .gh-step:hover .gh-step__ico,
+  .gh-page .gh-steps__list--6 .gh-step:hover .gh-step__ico{background:var(--gh-green-100);transform:translateY(-2px)}
   .gh-page .gh-bonus:hover .gh-bonus__ico{color:var(--gh-green-700);transform:translateY(-2px) scale(1.06)}
   .gh-page .gh-mentor__row:hover{background:rgba(249,249,245,.13);border-color:rgba(249,249,245,.26);transform:translateX(4px)}
   .gh-page .gh-mentor__row:hover .gh-launch__mark{transform:scale(1.08)}
