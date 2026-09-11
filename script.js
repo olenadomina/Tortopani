@@ -73,7 +73,6 @@
   var currentIntent = "consultation";
   var currentProduct = "";
   var currentPayUrl = "";
-  var currentPurchasePixelEvent = null;
   var submissionPending = false;
   var submissionSucceeded = false;
 
@@ -269,7 +268,6 @@
       prepareModal();
       setProduct(trigger && trigger.getAttribute("data-product"));
       setPayUrl(trigger && trigger.getAttribute("data-pay"));
-      currentPurchasePixelEvent = pixelEventData(trigger, "data-pixel-purchase-event");
     } else {
       prepareModal();
     }
@@ -305,14 +303,15 @@
   /* Every offer with a live checkout URL goes straight to WayForPay. The lead
      form used to sit in between, and its /api/lead round-trip left buyers
      staring at a busy popup — so it now opens only for triggers without
-     data-pay (manager-assisted offers). */
+     data-pay (manager-assisted offers). The click reports InitiateCheckout
+     only; Purchase is counted once, on /thanks, where WayForPay sends the
+     buyer after a successful payment. */
   document.querySelectorAll("[data-modal-open]").forEach(function (button) {
     button.addEventListener("click", function (event) {
       event.preventDefault(); /* href="#" must not jump the page to top */
       var pay = button.getAttribute("data-pay");
       if (/^https:\/\//.test(pay || "")) {
         trackPixelEvent(button);
-        trackPixelEventData(pixelEventData(button, "data-pixel-purchase-event"));
         window.location.href = pay;
         return;
       }
@@ -441,7 +440,6 @@
       var url = currentPayUrl;
       /* Let the success chrome paint before the new tab steals focus. */
       window.setTimeout(function () {
-        trackPixelEventData(currentPurchasePixelEvent);
         var payWindow = window.open(url, "_blank");
         if (payWindow) {
           payWindow.opener = null;

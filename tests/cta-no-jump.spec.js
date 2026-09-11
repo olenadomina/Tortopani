@@ -75,13 +75,12 @@ test("techcard buy CTA opens checkout", async ({ page }) => {
   expect(page.url()).toBe(checkoutUrl);
 });
 
-test("bento CTA fires InitiateCheckout and Purchase on the course pixel before checkout", async ({ page }) => {
+test("bento CTA fires InitiateCheckout only — Purchase belongs to the thank-you page", async ({ page }) => {
   await stubCheckout(page);
   await page.goto("/bento.html");
   // Hold the navigation so the pixel calls can be read from the page.
   await page.evaluate(() => {
     window.__pixelCalls = [];
-    window.__checkout = "";
     window.fbq = (...args) => window.__pixelCalls.push(args);
     window.addEventListener("beforeunload", (e) => { e.preventDefault(); });
   });
@@ -91,6 +90,7 @@ test("bento CTA fires InitiateCheckout and Purchase on the course pixel before c
   await expect(cta).toHaveAttribute("data-pixel-value", "489");
   await expect(cta).toHaveAttribute("data-pixel-currency", "UAH");
   await expect(cta).toHaveAttribute("data-pay", "https://secure.wayforpay.com/button/b21d9a9270cc5");
+  await expect(cta).not.toHaveAttribute("data-pixel-purchase-event", /.*/);
 
   page.on("dialog", (d) => d.dismiss());
   await cta.click();
@@ -100,7 +100,6 @@ test("bento CTA fires InitiateCheckout and Purchase on the course pixel before c
   const events = calls.map((call) => [call[1], call[2], call[3]]);
   expect(events).toEqual([
     ["4349939475317293", "InitiateCheckout", { content_name: "Курс «Бенто торти від А до Я»", value: 489, currency: "UAH" }],
-    ["4349939475317293", "Purchase", { content_name: "Курс «Бенто торти від А до Я»", value: 489, currency: "UAH" }],
   ]);
   await expect(page.locator("#modal.is-open")).toHaveCount(0);
 });

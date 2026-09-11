@@ -6,6 +6,25 @@
   "outputDirectory": ".",
   "cleanUrls": true,
   "redirects": [
-    { "source": "/la_kartople_bundle", "destination": "/", "permanent": false }
-  ]
+    {
+      "source": "/la_kartople_bundle",
+      "destination": "/",
+      "permanent": false
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/thanks",
+      "destination": "/api/thanks"
+    },
+    {
+      "source": "/thanks/:product",
+      "destination": "/api/thanks?p=:product"
+    }
+  ],
+  "functions": {
+    "api/thanks.mjs": {
+      "includeFiles": "api/_thanks.html"
+    }
+  }
 }

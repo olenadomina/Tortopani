@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>{{TITLE}}</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png?v=20260807" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/assets/favicon-192.png?v=20260807" />
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=20260807" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,600&amp;family=Montserrat:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/styles.css?v=20260807-hero2" />
+  <link rel="stylesheet" href="/green-hub.css?v=20260911-thanks" />
+  <style>
+    /* One dark panel filling the viewport between header and footer. */
+    .thanks{min-height:calc(100vh - var(--nav-h,72px) - 120px);display:flex;align-items:center}
+    .thanks .gh-coffer__inner{max-width:640px}
+    .thanks__kicker{margin:0 0 14px;font:700 .72rem/1 var(--gh-sans);letter-spacing:.1em;text-transform:uppercase;color:var(--gh-mint)}
+    .thanks .gh-lead{color:var(--gh-cream);margin-top:clamp(14px,1.8vw,20px)}
+    .thanks .gh-buy{margin-top:clamp(24px,3vw,34px);align-items:center}
+    .thanks .gh-buy .btn{align-self:center}
+    .thanks__note{margin:clamp(18px,2.4vw,26px) 0 0;color:var(--gh-cream);opacity:.78;font-size:.92rem}
+    .thanks__note a{color:var(--gh-amber);font-weight:600}
+  </style>
+  {{PIXEL}}
+</head>
+<body class="gh-page gh-course">
+  <header class="nav">
+    <div class="gh-shell nav__inner">
+      <a class="logo" href="/" aria-label="TORTOPANI — на головну">
+        <img src="/assets/logo_hor.png" alt="TORTOPANI" class="logo__img" />
+      </a>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="gh-band gh-band--dark gh-coffer thanks" aria-labelledby="thanks-title">
+      <div class="gh-shell gh-coffer__inner">
+        <p class="thanks__kicker">{{KICKER}}</p>
+        <h1 class="gh-h2 gh-h2--light" id="thanks-title">{{HEADING}}</h1>
+        <p class="gh-lead">{{LEAD}}</p>
+        <div class="gh-buy gh-buy--dark">
+          <a class="btn btn--lg" href="{{CTA_URL}}" target="_blank" rel="noopener">{{CTA_LABEL}}</a>
+        </div>
+        <p class="thanks__note">{{NOTE}}</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="gh-shell footer__inner">
+      <a class="logo logo--footer" href="/" aria-label="TORTOPANI">
+        <img src="/assets/logo_ver.png" alt="TORTOPANI" class="logo__img" />
+      </a>
+      <a class="footer__offer" href="/offer">Договір публічної оферти</a>
+    </div>
+  </footer>
+</body>
+</html>
