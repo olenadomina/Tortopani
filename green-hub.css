@@ -1732,6 +1732,10 @@
   column-gap:clamp(32px,5vw,88px);
   margin-top:clamp(32px,4vw,56px);border-top:1px solid var(--gh-line);
 }
+/* Three profiles (bento): one row of three, so no cell is left orphaned in a
+   two-column grid. The 980px and 640px rules below still stack it. */
+.gh-aud__grid--3{grid-template-columns:repeat(3,minmax(0,1fr));column-gap:clamp(24px,3.4vw,56px)}
+.gh-aud__grid--3 .gh-aud{align-items:flex-start}
 /* Six identical ticks said nothing the sentence did not already say. Each row
    takes the icon for its own claim instead, drawn on the same tinted disc the
    bonuses and reasons use, so the mark is a picture of the line rather than a
@@ -1751,6 +1755,7 @@
 .gh-aud__ico .icon{width:52%;height:52%;stroke-width:1.7}
 /* The two bottom cells would otherwise draw a rule under the last row. */
 .gh-aud:nth-last-child(-n+2){border-bottom:0}
+.gh-aud__grid--3 .gh-aud{border-bottom:0}
 
 /* ---------- Two-up steps, three-up flavour grid ---------- */
 .gh-steps__list--2{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -1998,6 +2003,7 @@
 
 @media (max-width:1024px){
   .gh-aud__grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .gh-aud__grid--3{grid-template-columns:repeat(3,minmax(0,1fr))}
 }
 @media (max-width:1100px){
   /* Below this the 44vw film starves the copy column. */
@@ -2059,8 +2065,14 @@
     max-height:min(70vw,420px);
   }
 }
+@media (max-width:760px){
+  .gh-aud__grid--3{grid-template-columns:1fr}
+  .gh-aud__grid--3 .gh-aud{border-bottom:1px solid var(--gh-line)}
+  .gh-aud__grid--3 .gh-aud:last-child{border-bottom:0}
+}
+
 @media (max-width:560px){
-  .gh-aud__grid{grid-template-columns:1fr}
+  .gh-aud__grid,.gh-aud__grid--3{grid-template-columns:1fr}
   /* Three-up flavour tiles — a single full-bleed card was oversized on a phone. */
   .gh-tc__grid--3{
     grid-template-columns:repeat(3,minmax(0,1fr));
