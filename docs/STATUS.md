@@ -8,7 +8,8 @@
 - Тема: `styles.css` + `green-hub.css`
 - Курсы: `frozen_cake.html`, `la_kartople.html`, `la_kartople_new.html`, `bento.html`
 - Оферта: `offer.html`
-- Оплата: каждая кнопка «Оформити замовлення» с `data-pay` ведёт сразу на свой WayForPay (без попапа). Lead-модалка (`script.js` → `POST /api/lead` → Google Sheets + optional Telegram) остаётся в разметке, но открывается только для кнопок без `data-pay` — сейчас таких нет
+- Сторінка подяки: `/thanks/<product>` → `api/thanks.mjs` + шаблон `api/_thanks.html` (функція, бо WayForPay повертає покупця POST-ом; статика відповіла б 405). Сюди WayForPay має редіректити після оплати (Approve URL у налаштуваннях кнопки). `bento` → інвайт у канал курсу + `PageView`/`Purchase` на піксель бенто; невідомий продукт → загальна подяка без події
+- Оплата: каждая кнопка «Оформити замовлення» с `data-pay` ведёт сразу на свой WayForPay (без попапа); клик шлёт только `InitiateCheckout`, `Purchase` считается один раз — на `/thanks/<product>`. Lead-модалка (`script.js` → `POST /api/lead` → Google Sheets + optional Telegram) остаётся в разметке, но открывается только для кнопок без `data-pay` — сейчас таких нет
 
 ## Удалено как legacy
 
