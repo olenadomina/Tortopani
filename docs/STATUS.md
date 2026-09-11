@@ -8,7 +8,7 @@
 - Тема: `styles.css` + `green-hub.css`
 - Курсы: `frozen_cake.html`, `la_kartople.html`, `la_kartople_new.html`, `bento.html`
 - Оферта: `offer.html`
-- Lead: `script.js` → `POST /api/lead` → Google Sheets (`source` = product) + optional Telegram
+- Оплата: каждая кнопка «Оформити замовлення» с `data-pay` ведёт сразу на свой WayForPay (без попапа). Lead-модалка (`script.js` → `POST /api/lead` → Google Sheets + optional Telegram) остаётся в разметке, но открывается только для кнопок без `data-pay` — сейчас таких нет
 
 ## Удалено как legacy
 

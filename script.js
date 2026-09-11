@@ -302,14 +302,15 @@
     }
   }
 
-  /* Techcards marked for direct checkout go straight to payment. Other offers
-     keep the lead modal even when they carry data-pay: that URL is used only
-     after the contact form succeeds. */
+  /* Every offer with a live checkout URL goes straight to WayForPay. The lead
+     form used to sit in between, and its /api/lead round-trip left buyers
+     staring at a busy popup — so it now opens only for triggers without
+     data-pay (manager-assisted offers). */
   document.querySelectorAll("[data-modal-open]").forEach(function (button) {
     button.addEventListener("click", function (event) {
       event.preventDefault(); /* href="#" must not jump the page to top */
       var pay = button.getAttribute("data-pay");
-      if (button.hasAttribute("data-direct-checkout") && /^https:\/\//.test(pay || "")) {
+      if (/^https:\/\//.test(pay || "")) {
         trackPixelEvent(button);
         trackPixelEventData(pixelEventData(button, "data-pixel-purchase-event"));
         window.location.href = pay;

@@ -32,7 +32,8 @@ python3 -m http.server 8755
 
 Чиста статика. **Vercel**: `vercel.json`, `.vercelignore`, `robots.txt` (прототип закритий від індексації).
 
-Заявки з модалки: `POST /api/lead` → **Google Sheets** (+ опційно Telegram).
+Кнопки «Оформити замовлення» ведуть одразу на WayForPay (`data-pay`), без попапа.
+Модалка заявки лишилася для кнопок без `data-pay`: `POST /api/lead` → **Google Sheets** (+ опційно Telegram).
 
 **Перший раз**
 1. Відкрий [таблицю лідів](https://docs.google.com/spreadsheets/d/1PcLyb7BDREFdqTRu7AhXuYtpmXXcdV7rsdm5UJfhl4I/edit) → **Extensions → Apps Script**.

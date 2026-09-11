@@ -124,7 +124,7 @@ test("no horizontal overflow at any supported width", async ({ page }) => {
   }
 });
 
-test("site stays Ukrainian; mobile menu and the lead modal keep working", async ({ page }) => {
+test("site stays Ukrainian; mobile menu works and buy CTAs open checkout", async ({ page }) => {
   const consoleErrors = [];
   page.on("console", (msg) => msg.type() === "error" && consoleErrors.push(msg.text()));
   page.on("pageerror", (error) => consoleErrors.push(String(error)));
@@ -143,15 +143,16 @@ test("site stays Ukrainian; mobile menu and the lead modal keep working", async 
   await page.keyboard.press("Escape");
   await expect(page.locator("#navLinks")).not.toHaveClass(/is-open/);
 
-  // A course CTA carries its product into the modal
+  // A course CTA goes straight to its own checkout — no lead popup in between
+  await page.route("https://secure.wayforpay.com/**", async (route) => {
+    await route.fulfill({ status: 200, contentType: "text/html", body: "Checkout" });
+  });
   const orderButton = page.locator("#courses .gh-card [data-modal-open]").first();
+  const checkoutUrl = await orderButton.getAttribute("data-pay");
+  expect(checkoutUrl).toMatch(/^https:\/\/secure\.wayforpay\.com\//);
   await orderButton.scrollIntoViewIfNeeded();
-  await orderButton.click();
-  const modal = page.locator("#modal");
-  await expect(modal).toHaveClass(/is-open/);
-  await expect(page.locator("#leadProduct")).toHaveValue(/Картопля|Kartoplia/);
-  await page.keyboard.press("Escape");
-  await expect(modal).not.toHaveClass(/is-open/);
+  await Promise.all([page.waitForURL(checkoutUrl), orderButton.click()]);
+  await expect(page.locator("#modal.is-open")).toHaveCount(0);
 
   expect(consoleErrors, "the page must not log runtime errors").toEqual([]);
 });
