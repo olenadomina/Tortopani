@@ -6,7 +6,7 @@
 
 - Главная: `index.html` (бывший `index_green_hub.html`)
 - Тема: `styles.css` + `green-hub.css`
-- Курсы: `frozen_cake.html`, `la_kartople.html`, `la_kartople_new.html`, `la_kartople_bundle.html`, `bento.html`
+- Курсы: `frozen_cake.html`, `la_kartople.html`, `la_kartople_new.html`, `bento.html`
 - Оферта: `offer.html`
 - Lead: `script.js` → `POST /api/lead` → Google Sheets (`source` = product) + optional Telegram
 

@@ -73,13 +73,13 @@ test("the hero proposition, lead and primary action fit the first mobile screen"
 test("the catalog is the first section after the hero and every course is reachable", async ({ page }) => {
   await openImplementedRoute(page);
 
-  // A hub's job is to let visitors pick, so only the hero, the figures band
-  // and the monthly offer may come before the catalog.
+  // A hub's job is to let visitors pick, so only the hero and the figures
+  // band may come before the catalog.
   const catalogIndex = await page.evaluate(() =>
     [...document.querySelectorAll("main > section")].findIndex((s) => s.id === "courses")
   );
   expect(catalogIndex, "the catalog must be found in main").toBeGreaterThan(-1);
-  expect(catalogIndex, "the catalog must stay near the top of the page").toBeLessThanOrEqual(3);
+  expect(catalogIndex, "the catalog must stay near the top of the page").toBeLessThanOrEqual(2);
 
   // The bento course sits in its own announcement panel above the grid rather
   // than in the buy-me cards, but it sells like them: a price, a checkout
@@ -144,7 +144,7 @@ test("site stays Ukrainian; mobile menu and the lead modal keep working", async 
   await expect(page.locator("#navLinks")).not.toHaveClass(/is-open/);
 
   // A course CTA carries its product into the modal
-  const orderButton = page.locator("#monthly [data-modal-open]").first();
+  const orderButton = page.locator("#courses .gh-card [data-modal-open]").first();
   await orderButton.scrollIntoViewIfNeeded();
   await orderButton.click();
   const modal = page.locator("#modal");

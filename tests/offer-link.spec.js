@@ -8,7 +8,6 @@ const ALL_PAGES = [
   "frozen_cake.html",
   "la_kartople.html",
   "la_kartople_new.html",
-  "la_kartople_bundle.html",
   "bento.html",
 ];
 

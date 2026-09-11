@@ -12,7 +12,6 @@
 | `frozen_cake.html` | Заморожені мусові торти / бенто |
 | `la_kartople.html` | Трендова «Картопля» |
 | `la_kartople_new.html` | «Картопля» 2.0 |
-| `la_kartople_bundle.html` | Пакет двох збірок «Картопля» |
 | `bento.html` | Бенто торти від А до Я (передзапис) |
 | `offer.html` | Публічний договір (оферта), `noindex` |
 

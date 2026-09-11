@@ -5,5 +5,7 @@
   "installCommand": null,
   "outputDirectory": ".",
   "cleanUrls": true,
-  "redirects": []
+  "redirects": [
+    { "source": "/la_kartople_bundle", "destination": "/", "permanent": false }
+  ]
 }

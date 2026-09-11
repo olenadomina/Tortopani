@@ -20,7 +20,7 @@
 
 ## Страницы
 
-`index.html`, `frozen_cake.html`, `la_kartople.html`, `la_kartople_new.html`, `la_kartople_bundle.html`, `bento.html`, `offer.html`.
+`index.html`, `frozen_cake.html`, `la_kartople.html`, `la_kartople_new.html`, `bento.html`, `offer.html`.
 
 ## Lead
 
