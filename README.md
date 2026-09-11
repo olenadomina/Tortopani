@@ -33,6 +33,7 @@ python3 -m http.server 8755
 Чиста статика. **Vercel**: `vercel.json`, `.vercelignore`, `robots.txt` (прототип закритий від індексації).
 
 Кнопки «Оформити замовлення» ведуть одразу на WayForPay (`data-pay`), без попапа.
+Після оплати WayForPay повертає покупця на `/thanks/<product>` (функція `api/thanks.mjs`): підпис результату перевіряється секретним ключем мерчанта — env `WAYFORPAY_SECRET_KEY` у Vercel; лише після цього сторінка показує інвайт у канал курсу і рахує `Purchase`.
 Модалка заявки лишилася для кнопок без `data-pay`: `POST /api/lead` → **Google Sheets** (+ опційно Telegram).
 
 **Перший раз**
