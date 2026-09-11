@@ -140,7 +140,7 @@
             <span class="gh-launch__media"><img src="assets/atelier/bento-birthday-berries-1000.webp?v=20260807c" srcset="assets/atelier/bento-birthday-berries-640.webp?v=20260807c 640w, assets/atelier/bento-birthday-berries-1000.webp?v=20260807c 1000w" sizes="(max-width: 980px) 88vw, 42vw" alt="Бенто-торт TORTOPANI у фірмовому боксі" loading="lazy" width="1000" height="953" /></span>
           </div>
           <div class="gh-launch__side">
-            <p class="gh-lead">Від першого бісквіта до готового бенто: начинки, креми, збірка, сучасний декор, техкарти та підтримка в одній послідовній програмі.</p>
+            <p class="gh-lead">Зробиш свій перший торт з&nbsp;нуля та почнеш на&nbsp;цьому заробляти. Начинки, креми, збірка, сучасний декор, техкарти та підтримка — в&nbsp;одній послідовній програмі.</p>
             <dl class="gh-facts">
               <div><dt>36+</dt><dd>відеоуроків</dd></div>
               <div><dt>12</dt><dd>авторських <br>рецептів</dd></div>
@@ -148,7 +148,7 @@
             </dl>
             <p class="gh-card__price gh-card__price--lg"><span class="ed-price__old">1200 грн</span><span class="ed-price__new">489 грн</span></p>
             <div class="gh-launch__actions">
-              <button class="btn btn--cream btn--lg" data-modal-open data-intent="assisted-order" data-product="Курс «Бенто торти від А до Я»" data-pay="https://secure.wayforpay.com/button/b21d9a9270cc5" data-pixel-event="InitiateCheckout" data-pixel-ids="4349939475317293" data-pixel-content-name="Курс «Бенто торти від А до Я»" data-pixel-value="489" data-pixel-currency="UAH" type="button">Оформити замовлення</button>
+              <button class="btn btn--cream btn--lg" data-modal-open data-intent="assisted-order" data-product="Курс «Бенто торти від А до Я»" data-pay="https://secure.wayforpay.com/button/b21d9a9270cc5" data-pixel-event="InitiateCheckout" data-pixel-ids="4349939475317293" data-pixel-content-name="Курс «Бенто торти від А до Я»" data-pixel-value="489" data-pixel-currency="UAH" type="button">Купити зі&nbsp;знижкою</button>
               <a class="btn btn--outline-cream btn--lg" href="bento.html">Детальніше</a>
             </div>
           </div>
@@ -375,32 +375,32 @@
         <!-- The same inverted panel the bento launch runs, so the two offers
              that are not yet a priced course read as one kind of object. -->
         <article class="gh-launch" data-reveal>
-          <!-- Title row, then full-bleed facts, then the two-column body.
-               Facts must be a direct grid child to span both columns. -->
-          <div class="gh-launch__head">
+          <!-- Copy | three programme rows. The rows are the old gold rail's
+               three words (Рецепти · Продажі · Система) with the four
+               programme lines folded under them, so the right half of the
+               panel carries the programme instead of empty green. -->
+          <div class="gh-launch__copy">
             <h2 class="gh-launch__title" id="gh-mentor-title">Cake <span class="gh-accent">&amp; Business</span></h2>
             <p class="gh-launch__kicker">Індивідуальне наставництво</p>
             <p class="gh-lead">Навчу не тільки готувати десерти, а й заробляти на улюбленій справі. Персональна робота зі мною — до перших стабільних замовлень.</p>
-          </div>
-          <dl class="gh-facts">
-            <div><dt>Рецепти</dt></div>
-            <div><dt>Продажі</dt></div>
-            <div><dt>Система</dt></div>
-          </dl>
-          <div class="gh-launch__copy">
-            <!-- Four Lucide marks from the same family as the sprite's existing whisk
-                 and cake, so the set reads as one system rather than four borrowed
-                 styles — the tell that made the source banner look generated. -->
-            <ul class="gh-launch__list">
-              <li><span class="gh-launch__mark"><svg class="icon" aria-hidden="true"><use href="#cake"></use></svg></span><span>Трендові десерти</span></li>
-              <li><span class="gh-launch__mark"><svg class="icon" aria-hidden="true"><use href="#trending-up"></use></svg></span><span>Прибутковий бізнес</span></li>
-              <li><span class="gh-launch__mark"><svg class="icon" aria-hidden="true"><use href="#megaphone"></use></svg></span><span>Маркетинг і просування</span></li>
-              <li><span class="gh-launch__mark"><svg class="icon" aria-hidden="true"><use href="#users"></use></svg></span><span>Підтримка та ком’юніті</span></li>
-            </ul>
-          </div>
-          <div class="gh-launch__side">
             <a class="btn btn--cream btn--lg" href="https://docs.google.com/forms/d/e/1FAIpQLSdn-w8K5_rRNfMOdV9IwAXose2SaGcRdNyWDq1c_zYrHPmM1A/viewform?usp=header" target="_blank" rel="noopener">Подати заявку</a>
           </div>
+          <!-- Lucide marks from the same family as the sprite's whisk and cake,
+               so the three read as one system. -->
+          <ul class="gh-mentor__rows">
+            <li class="gh-mentor__row">
+              <span class="gh-launch__mark"><svg class="icon" aria-hidden="true"><use href="#cake"></use></svg></span>
+              <span><span class="gh-mentor__row-kind">Рецепти</span><span class="gh-mentor__row-text">Трендові десерти, які продаються</span></span>
+            </li>
+            <li class="gh-mentor__row">
+              <span class="gh-launch__mark"><svg class="icon" aria-hidden="true"><use href="#trending-up"></use></svg></span>
+              <span><span class="gh-mentor__row-kind">Продажі</span><span class="gh-mentor__row-text">Прибутковий бізнес, маркетинг і&nbsp;просування</span></span>
+            </li>
+            <li class="gh-mentor__row gh-mentor__row--gold">
+              <span class="gh-launch__mark"><svg class="icon" aria-hidden="true"><use href="#users"></use></svg></span>
+              <span><span class="gh-mentor__row-kind">Система</span><span class="gh-mentor__row-text">Підтримка та&nbsp;ком’юніті</span></span>
+            </li>
+          </ul>
         </article>
       </div>
     </section>

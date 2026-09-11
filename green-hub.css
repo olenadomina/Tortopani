@@ -484,39 +484,11 @@
 .gh-launch .gh-facts{border-color:rgba(249,249,245,.22)}
 .gh-launch .gh-facts dt{color:var(--gh-amber-type)}
 .gh-launch .gh-facts dd{color:var(--on-green)}
-/* Mentorship title is the first ink in the panel — no top margin. */
-.gh-mentor .gh-launch__title{margin-top:0}
-/* Italic &amp; opens a hair more than a roman word space; pull it back so
-   Cake and & Business read as one title, not two islands. */
-.gh-mentor .gh-launch__title .gh-accent{margin-inline-start:-0.1em}
 /* Thin format label under the title (DOM order: h2, then kicker). Mint so it
    stays secondary to Cake & Business. */
 .gh-launch__kicker{
   margin:0;font-size:.72rem;font-weight:700;letter-spacing:.1em;
   text-transform:uppercase;color:var(--gh-mint);
-}
-.gh-mentor .gh-launch__kicker{
-  margin-top:clamp(4px,0.5vw,8px);
-}
-/* Title + kicker as their own full-width grid row above the gold rail. */
-.gh-mentor .gh-launch__head{
-  grid-column:1 / -1;
-  min-width:0;
-}
-/* Four lines of what the mentorship covers. Grid, not a bullet list, so a label
-   that wraps keeps its second line aligned with the first instead of tucking
-   under the medallion.
-   The row gap is deliberately well above the medallion-to-label gap: when the
-   two are equal the four rows stop reading as four items and blur into one
-   field. Inside a row must always be tighter than between rows. */
-.gh-launch__list{
-  display:grid;gap:clamp(15px,1.9vw,24px);
-  margin:clamp(22px,2.6vw,30px) 0 0;padding:0;list-style:none;
-}
-.gh-launch__list li{
-  display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;
-  column-gap:clamp(11px,1.1vw,14px);
-  color:var(--on-green);font-size:clamp(.95rem,1.05vw,1.02rem);line-height:1.4;
 }
 .gh-launch__mark{--mark-size:clamp(30px,3vw,36px)}
 .gh-launch__mark .icon{width:clamp(15px,1.5vw,18px);height:clamp(15px,1.5vw,18px)}
@@ -914,82 +886,64 @@
   padding-block:clamp(24px,3vw,48px);
 }
 .gh-about__copy .gh-lead{margin-top:14px}
-/* Second subject in the same column — spacing does the separating. */
 /* Mentorship reuses .gh-launch chrome (inverted green panel) but has no
-   product cut-out. The columns used to be sized to the type and centred, to
-   close the dead middle that left behind — but the left column now carries the
-   programme list, so it has real width and the shared grid fills the panel on
-   its own. Centring shrink-wrapped tracks would now pull both columns inward
-   and open a void along each edge instead. */
-/* Column gap under the panel's own padding: when the gap is the wider of the
-   two, each column reads as bound to the panel edge rather than to its pair. */
+   product cut-out: copy on the left, the three programme rows on the right.
+   The rows stretch to the copy's height so the panel squares itself — no
+   centring or pinned CTA needed, which is what the earlier layouts broke. */
 .gh-mentor .gh-launch{
-  /* Same three tracks as the facts rail so the lead's left edge shares a line
-     with Продажі. List takes the first third; lead + CTA span the other two.
-     max-content left the list ~90px short of a third and pulled the side early. */
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  column-gap:clamp(10px,1.6vw,22px);
-  /* Head + facts are full-bleed rows; body is copy | side under them. */
-  row-gap:0;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+  column-gap:clamp(24px,4vw,56px);row-gap:0;
+  align-items:stretch;
 }
-.gh-mentor .gh-launch__copy{grid-column:1}
-.gh-mentor .gh-launch__side{grid-column:2 / -1}
-/* Mentorship facts: three equal columns across the panel; each gold word
-   centred in its own cell (not clustered as one mid-card group). Hairlines
-   stay full-width. Three classes outrank the ≤640px .gh-launch .gh-facts
-   stack so the row does not collapse into a single max-content column. */
-.gh-mentor .gh-launch .gh-facts{
-  grid-column:1 / -1;
-  display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  justify-items:center;
-  width:100%;
-  /* Kicker → top hairline: open a clear step under the format label. */
-  margin-top:clamp(16px,1.6vw,22px);
-  text-align:center;
-  /* Rail sits under a thin kicker now — trim the old lead-sized top pad. */
-  padding-top:clamp(12px,1.4vw,16px);
-}
-.gh-mentor .gh-launch .gh-facts > div{
-  width:100%;
+/* Mentorship title is the first ink in the panel — no top margin. */
+.gh-mentor .gh-launch__title{margin-top:0}
+/* Italic & opens a hair more than a roman word space; pull it back so
+   Cake and & Business read as one title, not two islands. */
+.gh-mentor .gh-launch__title .gh-accent{margin-inline-start:-0.1em}
+.gh-mentor .gh-launch__kicker{margin-top:clamp(4px,0.5vw,8px)}
+.gh-mentor .gh-launch__copy{
   min-width:0;
-  text-align:center;
-  justify-content:center;
+  display:flex;flex-direction:column;justify-content:center;
 }
-.gh-mentor .gh-launch .gh-facts dt{
-  text-align:center;
-}
-/* Bottom hairline → programme list / lead: same offset so both columns start together. */
-.gh-mentor .gh-launch__list{margin-top:clamp(24px,2.6vw,34px)}
-/* The lead sits under the kicker now, above the gold rail: the panel says what
-   the offer is before it rails off what is inside it. Measured rather than
-   full-bleed — across all three tracks it would run past 100 characters. */
-.gh-mentor .gh-launch__head .gh-lead{
+.gh-mentor .gh-launch__copy .gh-lead{
   margin-top:clamp(14px,1.6vw,20px);
-  max-width:68ch;
+  max-width:52ch;
   color:var(--on-green);
 }
-/* CTA matches the lead column so the button finishes the same measure as
-   the copy above it rather than floating at its intrinsic pill width. */
-/* align-self:stretch is what gives the track a height to push against — the
-   panel grid is align-items:start, so without it justify-content has nothing
-   to work with and the button stays pinned to the top. */
-.gh-mentor .gh-launch__side{
-  align-self:stretch;
-  display:flex;flex-direction:column;
-  justify-content:flex-end;align-items:flex-start;
+.gh-mentor .gh-launch__copy .btn{
+  align-self:flex-start;width:auto;
+  margin-top:clamp(22px,2.6vw,32px);
 }
-.gh-mentor .gh-launch__side .btn{margin-top:0;width:auto}
-/* The columns are honestly different lengths — the programme list runs longer
-   than lead + strip + button. Top-aligning them left 86px of dead air under the
-   button; pinning the button to the floor instead tore it 84px from its own
-   strip. Both readings break the same rule, just in different places: a space
-   inside the panel grew past the panel's own 40px frame.
-   Centring the shorter column splits that surplus in two, so the air above and
-   below it is symmetric and small enough to stay outer. */
-/* Columns start together on the title's line and end within a few pixels of
-   each other, so neither centring nor a stretched CTA is needed to square the
-   panel — both of those broke a spacing relation elsewhere. */
+/* Three equal rows; the gap between them is wider than the icon-to-text gap
+   inside, so they read as three items rather than one striped field. */
+.gh-mentor__rows{
+  order:2; /* .gh-launch__copy is order:1 — copy left, rows right */
+  display:grid;grid-template-rows:repeat(3,minmax(0,1fr));gap:12px;
+  margin:0;padding:0;list-style:none;min-width:0;
+}
+.gh-mentor__row{
+  display:grid;grid-template-columns:auto minmax(0,1fr);align-items:center;
+  column-gap:clamp(14px,1.4vw,18px);
+  padding:clamp(14px,1.6vw,20px) clamp(16px,1.8vw,22px);
+  border-radius:16px;
+  background:rgba(249,249,245,.08);border:1px solid rgba(249,249,245,.14);
+}
+.gh-mentor__row .gh-launch__mark{--mark-size:clamp(40px,3.6vw,46px)}
+.gh-mentor__row .gh-launch__mark .icon{width:20px;height:20px}
+.gh-mentor__row-kind{
+  display:block;margin-bottom:5px;
+  font-size:.66rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--gh-amber-type);
+}
+.gh-mentor__row-text{
+  display:block;color:var(--on-green);font-weight:600;
+  font-size:clamp(.98rem,1.1vw,1.06rem);line-height:1.35;
+}
+/* The last row is the anchor: amber, like the panel's CTAs elsewhere. */
+.gh-mentor__row--gold{background:var(--gh-amber);border-color:transparent}
+.gh-mentor__row--gold .gh-mentor__row-kind{color:var(--gh-green-900);opacity:.8}
+.gh-mentor__row--gold .gh-mentor__row-text{color:var(--gh-green-900)}
+.gh-mentor__row--gold .gh-launch__mark{background:rgba(0,0,0,.12);color:var(--gh-green-900)}
 
 /* ===================================================================
    REVIEWS
@@ -1096,10 +1050,14 @@
   /* Full-width CTA on the phone column only; tablet keeps natural button width. */
   .gh-launch__side .btn{width:100%;align-self:stretch}
   .gh-launch__actions{flex-direction:column;align-items:stretch;width:100%}
-  /* Mentorship stacks like every other launch panel here. */
+  /* Mentorship stacks: title → lead → the three rows → CTA, so the ask comes
+     after the programme, not before it. The copy wrapper dissolves
+     (display:contents) so its children can be ordered against the rows;
+     the panel's own row-gap is 0, margins carry the rhythm. */
   .gh-mentor .gh-launch{grid-template-columns:1fr}
-  .gh-mentor .gh-launch__copy,
-  .gh-mentor .gh-launch__side{grid-column:auto}
+  .gh-mentor .gh-launch__copy{display:contents}
+  .gh-mentor__rows{order:2;grid-template-rows:none;margin-top:clamp(20px,5vw,26px)}
+  .gh-mentor .gh-launch__copy .btn{order:3;width:100%;align-self:stretch;margin-top:clamp(18px,4.5vw,24px)}
 }
 
 @media (max-width:1024px){
@@ -1732,10 +1690,23 @@
   column-gap:clamp(32px,5vw,88px);
   margin-top:clamp(32px,4vw,56px);border-top:1px solid var(--gh-line);
 }
-/* Three profiles (bento): one row of three, so no cell is left orphaned in a
-   two-column grid. The 980px and 640px rules below still stack it. */
-.gh-aud__grid--3{grid-template-columns:repeat(3,minmax(0,1fr));column-gap:clamp(24px,3.4vw,56px)}
-.gh-aud__grid--3 .gh-aud{align-items:flex-start}
+/* Three profiles (bento): one row of three cards. Rows with hairlines read
+   as a list of small print here; the cards give each profile the weight of
+   a panel — bigger mark, icon above the line, its own paper. */
+.gh-aud__grid--3{
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:clamp(14px,1.8vw,22px);
+  border-top:0;
+}
+.gh-aud__grid--3 .gh-aud{
+  flex-direction:column;align-items:flex-start;gap:clamp(18px,2vw,26px);
+  padding:clamp(24px,2.6vw,34px) clamp(22px,2.4vw,30px);
+  background:var(--gh-paper);border:1px solid var(--gh-line);border-radius:var(--radius-lg);
+  box-shadow:var(--shadow-sm);
+  font-size:clamp(1.05rem,1.3vw,1.18rem);line-height:1.4;
+}
+.gh-aud__grid--3 .gh-aud__ico{width:clamp(56px,4.6vw,64px);background:var(--gh-green-100)}
+.gh-aud__grid--3 .gh-aud__ico .icon{width:46%;height:46%}
 /* Six identical ticks said nothing the sentence did not already say. Each row
    takes the icon for its own claim instead, drawn on the same tinted disc the
    bonuses and reasons use, so the mark is a picture of the line rather than a
@@ -1755,7 +1726,6 @@
 .gh-aud__ico .icon{width:52%;height:52%;stroke-width:1.7}
 /* The two bottom cells would otherwise draw a rule under the last row. */
 .gh-aud:nth-last-child(-n+2){border-bottom:0}
-.gh-aud__grid--3 .gh-aud{border-bottom:0}
 
 /* ---------- Two-up steps, three-up flavour grid ---------- */
 .gh-steps__list--2{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -2067,8 +2037,7 @@
 }
 @media (max-width:760px){
   .gh-aud__grid--3{grid-template-columns:1fr}
-  .gh-aud__grid--3 .gh-aud{border-bottom:1px solid var(--gh-line)}
-  .gh-aud__grid--3 .gh-aud:last-child{border-bottom:0}
+  .gh-aud__grid--3 .gh-aud{flex-direction:row;align-items:center;gap:clamp(14px,3vw,18px)}
 }
 
 @media (max-width:560px){
