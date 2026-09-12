@@ -75,7 +75,36 @@ test("typing the URL by hand gets a neutral page: no invite, no pixel", async ()
   expect(res.body).not.toContain("t.me/+LRUUBqjgM9FkMDcy");
   expect(res.body).not.toContain("fbq(");
   expect(res.body).toContain('href="https://t.me/tortopamiinsade"');
-  expect(res.body).toContain('href="/bento"');
+  expect(res.body).not.toContain("до&nbsp;курсу");
+});
+
+test("return-only mode: a bare redirect from wayforpay.com unlocks; the same GET without the referer does not", async () => {
+  const saved = process.env.WAYFORPAY_SECRET_KEY;
+  delete process.env.WAYFORPAY_SECRET_KEY;
+  try {
+    const { default: handler } = await import("../api/thanks.mjs");
+    const res = fakeRes();
+    await handler({ method: "GET", url: "/api/thanks?p=bento", headers: { referer: "https://secure.wayforpay.com/page?vkh=abc", cookie: "" } }, res);
+    expect(res.statusCode).toBe(303);
+    expect(res.headers["set-cookie"]).toMatch(/^tp_paid=/);
+    const paid = await run("GET", "/api/thanks?p=bento", { cookie: cookieOf(res) });
+    expect(paid.body).toContain("t.me/+LRUUBqjgM9FkMDcy");
+
+    const typed = fakeRes();
+    await handler({ method: "GET", url: "/api/thanks?p=bento", headers: { referer: "https://t.me/", cookie: "" } }, typed);
+    expect(typed.statusCode).toBe(200);
+    expect(typed.body).not.toContain("t.me/+LRUUBqjgM9FkMDcy");
+  } finally {
+    process.env.WAYFORPAY_SECRET_KEY = saved;
+  }
+});
+
+test("with the key configured, a bare redirect from wayforpay.com proves nothing", async () => {
+  const { default: handler } = await import("../api/thanks.mjs");
+  const res = fakeRes();
+  await handler({ method: "GET", url: "/api/thanks?p=bento", headers: { referer: "https://secure.wayforpay.com/", cookie: "" } }, res);
+  expect(res.statusCode).toBe(200);
+  expect(res.body).not.toContain("t.me/+LRUUBqjgM9FkMDcy");
 });
 
 test("a tampered or foreign result sets no cookie", async () => {

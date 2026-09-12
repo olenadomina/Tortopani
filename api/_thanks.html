@@ -18,10 +18,11 @@
     .thanks{min-height:calc(100vh - var(--nav-h,72px) - 120px);display:flex;align-items:center}
     .thanks .gh-coffer__inner{max-width:640px}
     .thanks__kicker{margin:0 0 14px;font:700 .72rem/1 var(--gh-sans);letter-spacing:.1em;text-transform:uppercase;color:var(--gh-mint)}
-    .thanks .gh-lead{color:var(--gh-cream);margin-top:clamp(14px,1.8vw,20px)}
+    /* .gh-lead carries a max-width; centre the block itself, not just its lines. */
+    .thanks .gh-lead{color:var(--gh-cream);margin:clamp(14px,1.8vw,20px) auto 0;max-width:40ch}
     .thanks .gh-buy{margin-top:clamp(24px,3vw,34px);align-items:center}
     .thanks .gh-buy .btn{align-self:center}
-    .thanks__note{margin:clamp(18px,2.4vw,26px) 0 0;color:var(--gh-cream);opacity:.78;font-size:.92rem}
+    .thanks__note{margin:clamp(18px,2.4vw,26px) auto 0;max-width:52ch;color:var(--gh-cream);opacity:.78;font-size:.92rem;text-wrap:balance}
     .thanks__note a{color:var(--gh-amber);font-weight:600}
   </style>
   {{PIXEL}}

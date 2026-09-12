@@ -20,10 +20,13 @@
  * Env: WAYFORPAY_SECRET_KEY (merchant secret key, from the WayForPay
  * cabinet) turns the signature check on. Without it the function runs in
  * return-only mode: a result that arrives by POST/GET with Approved status
- * and a sufficient amount is trusted as-is — enough to keep a typed-in URL
- * from showing the invite, while the client screens joins in Telegram by
- * hand. Set the key and the same code verifies the signature; nothing else
- * changes. WAYFORPAY_MERCHANT (optional) pins the merchant login as well.
+ * and a sufficient amount is trusted as-is, and so is a bare redirect that
+ * arrives from wayforpay.com (the payment button's Approve URL may send a
+ * plain GET with no fields — the Referer is then the only trace). Enough to
+ * keep a typed-in URL from showing the invite, while the client screens
+ * joins in Telegram by hand. Set the key and the same code verifies the
+ * signature; nothing else changes. WAYFORPAY_MERCHANT (optional) pins the
+ * merchant login as well.
  */
 import { readFileSync } from "node:fs";
 import { createHmac, timingSafeEqual } from "node:crypto";
@@ -113,9 +116,7 @@ export function renderNeutral(productKey) {
     LEAD: "Доступ до&nbsp;каналу з&nbsp;матеріалами відкривається одразу після оплати — WayForPay сам поверне тебе на&nbsp;цю сторінку.",
     CTA_URL: SUPPORT_TG,
     CTA_LABEL: "Написати в&nbsp;Telegram",
-    NOTE: product
-      ? `Вже оплатила, а&nbsp;посилання не&nbsp;отримала — напиши нам, надішлемо. Ще&nbsp;не&nbsp;купила — <a href="${product.page}">до&nbsp;курсу</a>.`
-      : "Вже оплатила, а&nbsp;посилання не&nbsp;отримала — напиши нам, і&nbsp;ми все перевіримо.",
+    NOTE: "Вже оплатила, а&nbsp;посилання не&nbsp;отримала — напиши нам, і&nbsp;ми все перевіримо.",
     PIXEL: "",
   });
 }
@@ -226,10 +227,32 @@ function cleanPath(productKey) {
   return productKey ? `/thanks/${encodeURIComponent(productKey)}` : "/thanks";
 }
 
+/** True when the request was sent by a page on wayforpay.com. */
+export function cameFromWayForPay(req) {
+  const ref = (req.headers && (req.headers.referer || req.headers.referrer)) || "";
+  try {
+    const host = new URL(ref).hostname.toLowerCase();
+    return host === "wayforpay.com" || host.endsWith(".wayforpay.com");
+  } catch {
+    return false;
+  }
+}
+
+function stampAndBounce(res, productKey, orderReference) {
+  res.setHeader("Set-Cookie", `${COOKIE}=${makeToken(productKey, orderReference)}; Path=/thanks; Max-Age=${COOKIE_TTL_S}; HttpOnly; Secure; SameSite=Lax`);
+  res.setHeader("Location", cleanPath(productKey));
+  return res.status(303).end();
+}
+
 export default async function handler(req, res) {
   const productKey = productFromRequest(req);
   const product = PRODUCTS[productKey] || null;
   const fields = await readFields(req);
+  const fromWfp = cameFromWayForPay(req);
+  const hasCookie = Boolean(parseCookies(req.headers && req.headers.cookie)[COOKIE]);
+  // One line per visit, no values: enough to see how WayForPay actually
+  // returns buyers (method, fields or not, referer) without logging payments.
+  console.log("[thanks] visit", { method: req.method, product: productKey, fields: fields ? Object.keys(fields) : null, fromWfp, hasCookie });
 
   // A payment result arrived (WayForPay's return, by POST or GET): verify,
   // stamp the cookie on success, and bounce to the clean URL either way.
@@ -237,12 +260,19 @@ export default async function handler(req, res) {
     const verdict = verifyResult(fields, product);
     if (verdict.ok) {
       if (verdict.reason === "ok_unverified") console.warn("[thanks] return accepted without signature check — WAYFORPAY_SECRET_KEY is not set");
-      res.setHeader("Set-Cookie", `${COOKIE}=${makeToken(productKey, verdict.orderReference)}; Path=/thanks; Max-Age=${COOKIE_TTL_S}; HttpOnly; Secure; SameSite=Lax`);
-    } else {
-      console.warn("[thanks] return not verified", { product: productKey, reason: verdict.reason, fields: Object.keys(fields) });
+      return stampAndBounce(res, productKey, verdict.orderReference);
     }
+    console.warn("[thanks] return not verified", { product: productKey, reason: verdict.reason });
     res.setHeader("Location", cleanPath(productKey));
     return res.status(303).end();
+  }
+
+  // No result fields, but the buyer was sent here by wayforpay.com: in
+  // return-only mode that is the return. With a key configured a bare
+  // redirect proves nothing, so it falls through to the neutral page.
+  if (fromWfp && product && !process.env.WAYFORPAY_SECRET_KEY && !hasCookie) {
+    console.warn("[thanks] bare redirect from wayforpay.com accepted — no result fields, WAYFORPAY_SECRET_KEY is not set");
+    return stampAndBounce(res, productKey, "");
   }
 
   if (req.method === "POST") {
