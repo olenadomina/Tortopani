@@ -36,6 +36,22 @@ test("GET /thanks/bento renders the bento invite with Purchase on the course pix
   expect(res.body).toContain('<meta name="robots" content="noindex, nofollow"');
 });
 
+test("GET /thanks/la_kartople_bundle renders the bundle invite with Purchase on both of its pixels", async () => {
+  const res = await run("GET", "/api/thanks?p=la_kartople_bundle");
+  expect(res.statusCode).toBe(200);
+  expect(res.body).toContain("Дякуємо за&nbsp;покупку!");
+  expect(res.body).toContain('href="https://t.me/+LuiQDNMf8ME2ZWMy"');
+  // The bundle's buy buttons report InitiateCheckout to the home pixel and
+  // the bundle's own, so Purchase lands on the same two.
+  const params = '{"content_name":"Дві збірки «Картопля»","value":499,"currency":"UAH"}';
+  for (const id of ["1657768735391830", "2515900125583722"]) {
+    expect(res.body).toContain(`fbq('init', '${id}')`);
+    expect(res.body).toContain(`fbq('trackSingle', '${id}', 'PageView')`);
+    expect(res.body).toContain(`fbq('trackSingle', '${id}', 'Purchase', ${params})`);
+  }
+  expect(res.body).not.toContain("4349939475317293");
+});
+
 test("an unknown product falls back to the support chat and fires no Purchase", async () => {
   const res = await run("GET", "/api/thanks?p=nope");
   expect(res.statusCode).toBe(200);

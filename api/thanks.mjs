@@ -17,12 +17,24 @@ import { readFileSync } from "node:fs";
 
 const SUPPORT_TG = "https://t.me/tortopamiinsade";
 
+// Keyed by the course page's own slug, so /thanks/<slug> pairs with /<slug>.
+// pixelIds are the same pixels the page's buy buttons report InitiateCheckout
+// to, so a purchase closes the funnel on each of them.
 const PRODUCTS = {
   bento: {
     title: "Курс «Бенто торти від А до Я»",
     channel: "https://t.me/+LRUUBqjgM9FkMDcy",
-    pixelId: "4349939475317293",
+    pixelIds: ["4349939475317293"],
     value: 489,
+    currency: "UAH",
+  },
+  la_kartople_bundle: {
+    title: "Дві збірки «Картопля»",
+    channel: "https://t.me/+LuiQDNMf8ME2ZWMy",
+    // The home pixel plus the bundle's own — what la_kartople_bundle.html
+    // itself initialises.
+    pixelIds: ["1657768735391830", "2515900125583722"],
+    value: 499,
     currency: "UAH",
   },
 };
@@ -50,9 +62,9 @@ function pixelScript(product) {
   n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
   t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
   document,'script','https://connect.facebook.net/en_US/fbevents.js');
-  fbq('init', '${product.pixelId}');
-  fbq('trackSingle', '${product.pixelId}', 'PageView');
-  fbq('trackSingle', '${product.pixelId}', 'Purchase', ${params});
+${product.pixelIds.map((id) => `  fbq('init', '${id}');`).join("\n")}
+${product.pixelIds.map((id) => `  fbq('trackSingle', '${id}', 'PageView');`).join("\n")}
+${product.pixelIds.map((id) => `  fbq('trackSingle', '${id}', 'Purchase', ${params});`).join("\n")}
   </script>
   <!-- End Meta Pixel Code -->`;
 }
