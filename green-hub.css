@@ -1948,12 +1948,23 @@
      min-content height is its aspect-scaled height — so the rows refused to
      shrink and the grid ran past the plate. */
   display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
-  grid-template-rows:repeat(3,minmax(0,1fr));
+  grid-template-rows:repeat(4,minmax(0,1fr));
   gap:10px;
 }
 .gh-collage img{position:static;width:100%;height:100%;object-fit:cover;border-radius:14px}
-/* The piping close-up is the one that reads at any size, so it runs tall. */
+/* Two tiles run two rows tall and hold opposite corners: the piping close-up
+   opens the collage top-left, the cat cake closes it bottom-right. The cat
+   needs its column spelled out — a row-only span auto-places into the first
+   free column and would stack under the flowers instead. */
 .gh-collage img:first-child{grid-row:1 / span 2}
+.gh-collage img:last-child{grid-row:3 / span 2;grid-column:2}
+/* Four rows leave the single tiles a touch wider than tall, and the square
+   cuts were made for the old three-row cells. The two whose subject reaches
+   an edge say which edge to keep: the ruffle border and the blue lettering
+   both run to the foot of their frame, with only a half-cut word or the
+   piping bag above them to lose. */
+.gh-collage img:nth-child(2),
+.gh-collage img:nth-child(4){object-position:50% 100%}
 /* Narrow: one column, and the picture leads the list instead of trailing
    seven rows behind it. Must sit after the base rules — a media query adds
    no specificity, so source order is what decides. */
@@ -1962,7 +1973,8 @@
   .gh-decor__aside{order:-1;margin-top:clamp(24px,4vw,32px);min-height:0}
   .gh-decor__aside img,
   .gh-decor__aside video{position:static;aspect-ratio:16/10;height:auto}
-  .gh-collage{position:static;aspect-ratio:4/5;max-width:420px;margin-inline:auto}
+  /* 3/5 keeps the four-row cells at the proportions they have on desktop. */
+  .gh-collage{position:static;aspect-ratio:3/5;max-width:420px;margin-inline:auto}
   .gh-collage img{aspect-ratio:auto;height:100%}
 }
 .gh-decor-row{
