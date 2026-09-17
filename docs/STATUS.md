@@ -6,7 +6,7 @@
 
 - Главная: `index.html` (бывший `index_green_hub.html`)
 - Тема: `styles.css` + `green-hub.css`
-- Курсы: `frozen_cake.html`, `la_kartople.html`, `la_kartople_new.html`, `bento.html`
+- Курсы: `frozen_cake.html`, `la_kartople.html`, `la_kartople_new.html`, `la_kartople_bundle.html`, `bento.html`
 - Оферта: `offer.html`
 - Сторінка подяки: `/thanks/<product>` → `api/thanks.mjs` + шаблон `api/_thanks.html` (функція, бо WayForPay повертає покупця POST-ом на Approve URL; статика відповіла б 405 і Safari качає файл). POST → 303 → GET → сторінка з інвайтом у канал курсу + `PageView`/`Purchase` на піксель продукту. Сторінка **відкрита за прямим URL навмисно** (клієнтці й таргетологу треба відкривати її для налаштування пікселя); доступ у канал захищає ручне схвалення заявок у Telegram. `bento` → `t.me/+LRUUBqjgM9FkMDcy`; невідомий продукт → загальна подяка без події
 - Оплата: каждая кнопка «Оформити замовлення» с `data-pay` ведёт сразу на свой WayForPay (без попапа); клик шлёт только `InitiateCheckout`, `Purchase` считается один раз — на `/thanks/<product>`. Lead-модалка (`script.js` → `POST /api/lead` → Google Sheets + optional Telegram) остаётся в разметке, но открывается только для кнопок без `data-pay` — сейчас таких нет

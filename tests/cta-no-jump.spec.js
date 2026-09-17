@@ -10,6 +10,7 @@ const COURSE_PAGES = [
   "frozen_cake.html",
   "la_kartople.html",
   "la_kartople_new.html",
+  "la_kartople_bundle.html",
   "bento.html",
 ];
 
@@ -100,6 +101,36 @@ test("bento CTA fires InitiateCheckout only — Purchase belongs to the thank-yo
   const events = calls.map((call) => [call[1], call[2], call[3]]);
   expect(events).toEqual([
     ["4349939475317293", "InitiateCheckout", { content_name: "Курс «Бенто торти від А до Я»", value: 489, currency: "UAH" }],
+  ]);
+  await expect(page.locator("#modal.is-open")).toHaveCount(0);
+});
+
+test("bundle CTA fires InitiateCheckout on the home and bundle pixels only", async ({ page }) => {
+  await stubCheckout(page);
+  await page.goto("/la_kartople_bundle.html");
+  await page.evaluate(() => {
+    window.__pixelCalls = [];
+    window.fbq = (...args) => window.__pixelCalls.push(args);
+    window.addEventListener("beforeunload", (e) => { e.preventDefault(); });
+  });
+
+  const cta = page.locator("main [data-pixel-event]").first();
+  await expect(cta).toHaveAttribute("data-pixel-ids", "1657768735391830 2515900125583722");
+  await expect(cta).toHaveAttribute("data-pixel-value", "499");
+  await expect(cta).toHaveAttribute("data-pixel-currency", "UAH");
+  await expect(cta).toHaveAttribute("data-pay", "https://secure.wayforpay.com/button/baa7fa1e2c58f");
+  await expect(cta).not.toHaveAttribute("data-pixel-purchase-event", /.*/);
+
+  page.on("dialog", (d) => d.dismiss());
+  await cta.click();
+  await page.waitForTimeout(300);
+
+  const calls = await page.evaluate(() => window.__pixelCalls);
+  const events = calls.map((call) => [call[1], call[2], call[3]]);
+  const params = { content_name: "Дві збірки «Картопля»", value: 499, currency: "UAH" };
+  expect(events).toEqual([
+    ["1657768735391830", "InitiateCheckout", params],
+    ["2515900125583722", "InitiateCheckout", params],
   ]);
   await expect(page.locator("#modal.is-open")).toHaveCount(0);
 });
