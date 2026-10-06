@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Thank you for your order — Choco Bombs e-book</title>
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png?v=20260807" />
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=20260807" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,600;0,700;1,600&amp;family=Montserrat:wght@400;600;700&amp;display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/en.css" />
+  <!-- English thank-you page for the Choco Bombs e-book, served by
+       api/thanks.mjs at /thanks/choco_bombs. Purchase goes to the same home
+       pixel the landing reports InitiateCheckout to — but only once the
+       visitor has accepted cookies (cookie-consent.js loads the pixel). -->
+  <script src="/cookie-consent.js" data-pixel="1657768735391830" defer></script>
+  <script>
+    (function () {
+      var sent = false;
+      function purchase() {
+        if (sent || !window.tpTrack || !window.fbq) return;
+        sent = true;
+        tpTrack("Purchase", {"content_name":"E-book Choco Bombs","value":19,"currency":"USD"});
+      }
+      /* Consent given earlier: the pixel is up by DOMContentLoaded. Given
+         here, on the banner: cookie-consent.js announces it. */
+      document.addEventListener("tp-pixel-ready", purchase);
+      document.addEventListener("DOMContentLoaded", function () { setTimeout(purchase, 0); });
+    })();
+  </script>
+  <style>
+    @keyframes ty-up { from { opacity: 0; transform: translateY(16px); } }
+    @keyframes ty-pop { from { opacity: 0; transform: scale(.85); } }
+    .ty { min-height: calc(100vh - 170px); display: flex; align-items: center; padding: 64px 0; }
+    .ty__card { max-width: 620px; margin-inline: auto; text-align: center; }
+    .ty__icon { position: relative; isolation: isolate; width: 88px; aspect-ratio: 1; margin: 0 auto 26px; display: grid; place-items: center; color: var(--bg); animation: ty-pop .5s var(--ease-out) both; }
+    /* the landing's discount burst, here holding an envelope */
+    .ty__icon::before {
+      content: ""; position: absolute; inset: 0; z-index: -1; background: var(--gold);
+      -webkit-mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Cpath%20d%3D%22M50.00%208.00A9.35%209.35%200%200%201%2068.22%2012.16A9.35%209.35%200%200%201%2082.84%2023.81A9.35%209.35%200%200%201%2090.95%2040.65A9.35%209.35%200%200%201%2090.95%2059.35A9.35%209.35%200%200%201%2082.84%2076.19A9.35%209.35%200%200%201%2068.22%2087.84A9.35%209.35%200%200%201%2050.00%2092.00A9.35%209.35%200%200%201%2031.78%2087.84A9.35%209.35%200%200%201%2017.16%2076.19A9.35%209.35%200%200%201%209.05%2059.35A9.35%209.35%200%200%201%209.05%2040.65A9.35%209.35%200%200%201%2017.16%2023.81A9.35%209.35%200%200%201%2031.78%2012.16A9.35%209.35%200%200%201%2050.00%208.00Z%22%20fill%3D%22%23000%22%2F%3E%3C%2Fsvg%3E") center/100% 100% no-repeat;
+      mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Cpath%20d%3D%22M50.00%208.00A9.35%209.35%200%200%201%2068.22%2012.16A9.35%209.35%200%200%201%2082.84%2023.81A9.35%209.35%200%200%201%2090.95%2040.65A9.35%209.35%200%200%201%2090.95%2059.35A9.35%209.35%200%200%201%2082.84%2076.19A9.35%209.35%200%200%201%2068.22%2087.84A9.35%209.35%200%200%201%2050.00%2092.00A9.35%209.35%200%200%201%2031.78%2087.84A9.35%209.35%200%200%201%2017.16%2076.19A9.35%209.35%200%200%201%209.05%2059.35A9.35%209.35%200%200%201%209.05%2040.65A9.35%209.35%200%200%201%2017.16%2023.81A9.35%209.35%200%200%201%2031.78%2012.16A9.35%209.35%200%200%201%2050.00%208.00Z%22%20fill%3D%22%23000%22%2F%3E%3C%2Fsvg%3E") center/100% 100% no-repeat;
+      animation: ty-spin 12s linear infinite;
+    }
+    @keyframes ty-spin { to { transform: rotate(360deg); } }
+    .ty__icon .icon { width: 34px; height: 34px; }
+    .ty__kicker { margin: 0 0 12px; font-size: 13px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--gold); }
+    .ty h1 { margin: 0; font: 700 clamp(34px, 5vw, 52px)/1.1 "Lora", Georgia, serif; }
+    .ty h1 { text-wrap: balance; }
+    .ty h1 em { font-style: italic; font-weight: 600; color: var(--gold); white-space: nowrap; }
+    .ty__lead { margin: 18px auto 0; max-width: 34em; font-size: 18px; color: var(--cream-soft); }
+    .ty__steps { list-style: none; margin: 32px 0 0; padding: 0; display: grid; gap: 10px; text-align: left; }
+    .ty__steps li { display: flex; gap: 14px; align-items: baseline; padding: 16px 18px; border-radius: 14px; background: var(--card); border: 1px solid var(--line); }
+    .ty__steps b { flex: none; font: 700 18px/1 "Lora", serif; color: var(--gold); }
+    .ty__help { margin: 28px 0 0; color: var(--cream-soft); font-size: 15px; }
+    .ty__actions { margin-top: 14px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; }
+    .ty__btn { display: inline-flex; align-items: center; gap: 10px; min-height: 48px; padding: 0 22px; border-radius: 999px; border: 1px solid rgba(246, 234, 220, .4); color: var(--cream); text-decoration: none; font-weight: 600; font-size: 15px; transition: border-color .2s ease, transform .2s var(--ease-out); }
+    .ty__btn .icon { width: 18px; height: 18px; }
+    @media (hover: hover) and (pointer: fine) { .ty__btn:hover { border-color: var(--cream); transform: translateY(-2px); } }
+    .ty__btn:active { transform: scale(.97); }
+    .ty__kicker, .ty h1, .ty__lead, .ty__steps li, .ty__help, .ty__actions { animation: ty-up .6s var(--ease-out) both; }
+    .ty__kicker { animation-delay: .1s; } .ty h1 { animation-delay: .15s; } .ty__lead { animation-delay: .22s; }
+    .ty__steps li:nth-child(1) { animation-delay: .3s; } .ty__steps li:nth-child(2) { animation-delay: .36s; } .ty__steps li:nth-child(3) { animation-delay: .42s; }
+    .ty__help { animation-delay: .5s; } .ty__actions { animation-delay: .55s; }
+    @media (prefers-reduced-motion: reduce) {
+      .ty__kicker, .ty h1, .ty__lead, .ty__steps li, .ty__help, .ty__actions, .ty__icon { animation-name: ty-fade; }
+      .ty__icon::before { animation: none; }
+    }
+    @keyframes ty-fade { from { opacity: 0; } }
+  </style>
+</head>
+<body>
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" style="position:absolute;width:0;height:0;overflow:hidden">
+    <!-- Lucide Icons (ISC), https://lucide.dev -->
+    <symbol id="instagram" viewBox="0 0 24 24"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></symbol>
+    <symbol id="send-horizontal" viewBox="0 0 24 24"><path d="M3.714 3.048a.498.498 0 0 0-.683.627l2.843 7.627a2 2 0 0 1 0 1.396l-2.842 7.627a.498.498 0 0 0 .682.627l18-8.5a.5.5 0 0 0 0-.904z"/><path d="M6 12h16"/></symbol>
+    <symbol id="arrow-up" viewBox="0 0 24 24"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></symbol>
+    <symbol id="mail" viewBox="0 0 24 24"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></symbol>
+  </svg>
+
+  <header class="cb-top">
+    <div class="cb-shell">
+      <a class="cb-logo" href="/" aria-label="TORTOPANI"><img src="/assets/logo_hor.png" alt="TORTOPANI" height="42" /></a>
+    </div>
+  </header>
+
+  <main class="ty" id="content">
+    <div class="cb-shell ty__card">
+      <div class="ty__icon" aria-hidden="true"><svg class="icon"><use href="#mail"></use></svg></div>
+      <p class="ty__kicker">E-book Choco Bombs</p>
+      <h1>Thank you for <em>your order!</em></h1>
+      <p class="ty__lead">Your payment went through. We will send the e-book with all 18 recipe cards to the email address you entered at checkout.</p>
+      <ol class="ty__steps">
+        <li><b>1</b><span>Look for an email from us in the inbox you used at checkout.</span></li>
+        <li><b>2</b><span>Nothing there yet? Check your spam or promotions folder too.</span></li>
+        <li><b>3</b><span>Open the e-book and start with any flavor you like.</span></li>
+      </ol>
+      <p class="ty__help">No email, or a question about the recipes? Write to us:</p>
+      <div class="ty__actions">
+        <a class="ty__btn" href="https://t.me/tortopamiinsade" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="#send-horizontal"></use></svg>Telegram</a>
+        <a class="ty__btn" href="https://www.instagram.com/tortopani" target="_blank" rel="noopener"><svg class="icon" aria-hidden="true"><use href="#instagram"></use></svg>Instagram</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="cb-shell footer__inner">
+      <a class="footer__logo" href="/" aria-label="TORTOPANI"><img src="/assets/logo_ver.png" alt="TORTOPANI" /></a>
+      <div class="footer__socials">
+        <a href="https://www.instagram.com/tortopani" target="_blank" rel="noopener" aria-label="Instagram"><svg class="icon" aria-hidden="true"><use href="#instagram"></use></svg></a>
+        <a href="https://t.me/tortopamiinsade" target="_blank" rel="noopener" aria-label="Telegram"><svg class="icon" aria-hidden="true"><use href="#send-horizontal"></use></svg></a>
+      </div>
+      <nav class="footer__links" aria-label="Legal">
+        <a href="/offer_en">Public offer agreement</a>
+        <a href="/privacy">Privacy &amp; Cookie Policy</a>
+      </nav>
+      <a class="footer__top" href="#content" aria-label="Back to top"><svg class="icon" aria-hidden="true"><use href="#arrow-up"></use></svg></a>
+    </div>
+  </footer>
+</body>
+</html>

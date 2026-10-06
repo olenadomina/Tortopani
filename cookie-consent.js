@@ -29,6 +29,9 @@
     document,'script','https://connect.facebook.net/en_US/fbevents.js');
     fbq("init", pixelId);
     fbq("trackSingle", pixelId, "PageView");
+    /* Lets a page send its own event (the thank-you page's Purchase) the
+       moment consent arrives, not only on the next visit. */
+    document.dispatchEvent(new Event("tp-pixel-ready"));
   }
 
   var banner;
@@ -38,8 +41,7 @@
     banner.className = "cookie";
     banner.setAttribute("aria-label", "Cookie consent");
     banner.innerHTML =
-      '<p class="cookie__text">We use cookies (Meta Pixel) to measure our ads. ' +
-      'They load only if you accept. <a href="privacy.html#cookies">Learn more</a></p>' +
+      '<p class="cookie__text">We use cookies to measure our ads. <a href="/privacy.html#cookies">Learn more</a></p>' +
       '<div class="cookie__actions">' +
       '<button type="button" class="cookie__btn cookie__btn--ghost" data-consent="denied">Decline</button>' +
       '<button type="button" class="cookie__btn" data-consent="granted">Accept</button>' +

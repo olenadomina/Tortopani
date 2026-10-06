@@ -40,6 +40,12 @@ const PRODUCTS = {
 };
 
 const template = readFileSync(new URL("./_thanks.html", import.meta.url), "utf8");
+// The English e-book has its own page: English chrome, the landing's dark
+// look, delivery by email, and Purchase gated on cookie consent (EU buyers).
+// It is complete as is — nothing to fill.
+const EN_PAGES = {
+  choco_bombs: readFileSync(new URL("./_thanks_en.html", import.meta.url), "utf8"),
+};
 
 function escapeHtml(value) {
   return String(value == null ? "" : value)
@@ -78,6 +84,7 @@ function fill(fields) {
 }
 
 export function renderThanks(productKey) {
+  if (EN_PAGES[productKey]) return EN_PAGES[productKey];
   const product = PRODUCTS[productKey] || null;
   if (product) {
     return fill({

@@ -18,7 +18,7 @@
       "permanent": false
     },
     {
-      "source": "/((?!choco_bombs|privacy|offer_en|assets/|en\\.css|cookie-consent\\.js|favicon|apple-touch-icon|robots\\.txt).+)",
+      "source": "/((?!choco_bombs|thanks/choco_bombs$|privacy|offer_en|assets/|en\\.css|cookie-consent\\.js|favicon|apple-touch-icon|robots\\.txt).+)",
       "has": [
         {
           "type": "host",
@@ -63,7 +63,7 @@
   ],
   "functions": {
     "api/thanks.mjs": {
-      "includeFiles": "api/_thanks.html"
+      "includeFiles": "api/_thanks*.html"
     }
   }
 }

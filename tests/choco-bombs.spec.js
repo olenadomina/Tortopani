@@ -135,6 +135,6 @@ test("the English pages never link back to the Ukrainian site", async ({ page })
   for (const p of ["/choco_bombs.html", "/privacy.html", "/offer_en.html"]) {
     await page.goto(p);
     const local = await page.$$eval("a[href]", (as) => as.map((a) => a.getAttribute("href")).filter((h) => !/^(https?:|#|mailto:)/.test(h)));
-    for (const h of local) expect(["choco_bombs.html", "privacy.html", "offer_en.html"], `${p} → ${h}`).toContain(h.split(/[?#]/)[0]);
+    for (const h of local) expect(["choco_bombs.html", "privacy.html", "offer_en.html"], `${p} → ${h}`).toContain(h.split(/[?#]/)[0].replace(/^\//, ""));
   }
 });
