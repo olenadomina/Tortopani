@@ -27,6 +27,28 @@
       ],
       "destination": "/",
       "permanent": false
+    },
+    {
+      "source": "/choco_bombs",
+      "has": [
+        {
+          "type": "host",
+          "value": "^(www\\.)?tortopani\\.com$"
+        }
+      ],
+      "destination": "https://en.tortopani.com/",
+      "permanent": false
+    },
+    {
+      "source": "/:page(privacy|offer_en)",
+      "has": [
+        {
+          "type": "host",
+          "value": "^(www\\.)?tortopani\\.com$"
+        }
+      ],
+      "destination": "https://en.tortopani.com/:page",
+      "permanent": false
     }
   ],
   "rewrites": [
