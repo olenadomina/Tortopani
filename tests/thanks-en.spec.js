@@ -25,6 +25,7 @@ test("GET /thanks/choco_bombs is an English page that promises the e-book by ema
   expect(res.statusCode).toBe(200);
   expect(res.body).toContain('<html lang="en">');
   expect(res.body).toMatch(/email/i);
+  expect(res.body).toContain("Within 24 hours");
   const text = res.body.replace(/<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>|<[^>]+>/g, " ");
   expect(text).not.toMatch(/[Ѐ-ӿ]/);
   expect(res.body).toContain('<meta name="robots" content="noindex, nofollow"');
