@@ -12,6 +12,8 @@
   var KEY = "tp-cookie-consent";
   var script = document.currentScript;
   var pixelId = script && script.getAttribute("data-pixel");
+  /* Each page set links its own policy (the green variant has privacy_gr). */
+  var privacyHref = (script && script.getAttribute("data-privacy")) || "/privacy.html";
 
   function read() {
     try { return localStorage.getItem(KEY); } catch (e) { return null; }
@@ -41,7 +43,7 @@
     banner.className = "cookie";
     banner.setAttribute("aria-label", "Cookie consent");
     banner.innerHTML =
-      '<p class="cookie__text">We use cookies to measure our ads. <a href="/privacy.html#cookies">Learn more</a></p>' +
+      '<p class="cookie__text">We use cookies to measure our ads. <a href="' + privacyHref + '#cookies">Learn more</a></p>' +
       '<div class="cookie__actions">' +
       '<button type="button" class="cookie__btn cookie__btn--ghost" data-consent="denied">Decline</button>' +
       '<button type="button" class="cookie__btn" data-consent="granted">Accept</button>' +

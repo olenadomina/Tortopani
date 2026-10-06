@@ -7,18 +7,7 @@
   "cleanUrls": true,
   "redirects": [
     {
-      "source": "/choco_bombs",
-      "has": [
-        {
-          "type": "host",
-          "value": "en.tortopani.com"
-        }
-      ],
-      "destination": "/",
-      "permanent": false
-    },
-    {
-      "source": "/((?!choco_bombs|thanks/choco_bombs$|privacy|offer_en|assets/|en\\.css|cookie-consent\\.js|favicon|apple-touch-icon|robots\\.txt).+)",
+      "source": "/((?!choco_bombs|thanks/choco_bombs$|privacy|offer_en|assets/|en\\.css|en-green\\.css|cookie-consent\\.js|favicon|apple-touch-icon|robots\\.txt).+)",
       "has": [
         {
           "type": "host",
@@ -36,11 +25,11 @@
           "value": "^(www\\.)?tortopani\\.com$"
         }
       ],
-      "destination": "https://en.tortopani.com/",
+      "destination": "https://en.tortopani.com/choco_bombs",
       "permanent": false
     },
     {
-      "source": "/:page(privacy|offer_en)",
+      "source": "/:page(privacy|offer_en|choco_bombs_gr|privacy_gr|offer_en_gr)",
       "has": [
         {
           "type": "host",

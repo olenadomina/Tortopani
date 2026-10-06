@@ -22,3 +22,6 @@ _compare*.html
 compare_*.jpeg
 old_*.jpeg
 new_*.jpeg
+
+# Static preview of the green thank-you page; the live one is api/_thanks_en.html.
+thanks_green.html
