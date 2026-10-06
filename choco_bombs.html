@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Choco Bombs e-book — 18 truffle cake recipes by Tortopani</title>
+  <meta name="description" content="E-book by pastry chef Liliia Poliakova: 18 chocolate truffle cakes, one recipe card per flavor. No special ingredients, beginner friendly, instant lifetime access. $19 instead of $70." />
+  <meta property="og:title" content="Choco Bombs e-book — 18 flavors by Tortopani" />
+  <meta property="og:description" content="18 recipe cards, instant access, lifetime access. $19 instead of $70." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="assets/chocobombs/hero-dark-cut.jpg" />
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32.png?v=20260807" />
+  <link rel="icon" type="image/png" sizes="192x192" href="assets/favicon-192.png?v=20260807" />
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png?v=20260807" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,500;0,600;0,700;1,600&amp;family=Montserrat:wght@400;500;600;700&amp;display=swap" rel="stylesheet" />
+  <script>document.documentElement.classList.add("js")</script>
+  <link rel="stylesheet" href="en.css" />
+  <!-- The Meta Pixel (home pixel) loads only after cookie consent — EU audience. -->
+  <script src="cookie-consent.js" data-pixel="1657768735391830" defer></script>
+  <!-- A one-offer page for the English-speaking audience, so it carries its
+       own small stylesheet instead of the hub's: dark chocolate ground to
+       match the studio shoot, the brand's Lora + Montserrat pair. -->
+  <style>
+    h1, h2 { font-family: "Lora", Georgia, serif; font-weight: 700; line-height: 1.12; margin: 0; letter-spacing: -.01em; }
+    .cb-accent { font-style: italic; font-weight: 600; color: var(--gold); }
+    .cb-h2 { font-size: clamp(28px, 4.2vw, 44px); text-align: center; }
+    .cb-sub { color: var(--cream-soft); text-align: center; max-width: 560px; margin: 12px auto 0; }
+
+
+    /* ---- button ---- */
+    .cb-btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      min-height: 58px; padding: 0 34px; border-radius: 999px;
+      background: var(--cherry); color: #fff; text-decoration: none;
+      font: 700 17px/1 "Montserrat", sans-serif; letter-spacing: .02em;
+      box-shadow: 0 10px 24px -12px rgba(0, 0, 0, .6);
+      position: relative; overflow: hidden; isolation: isolate;
+      transition: background .2s ease, transform .2s var(--ease-out), box-shadow .2s ease;
+    }
+    /* A slow light sweep across the cherry buttons — the one "look here" cue. */
+    .cb-btn::after {
+      content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+      background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, .28) 50%, transparent 65%);
+      transform: translateX(-120%);
+      animation: cb-sheen 5s var(--ease-in-out) 2.2s infinite;
+    }
+    @keyframes cb-sheen { 0% { transform: translateX(-120%); } 22%, 100% { transform: translateX(120%); } }
+    @media (hover: hover) and (pointer: fine) {
+      .cb-btn:hover { background: var(--cherry-hover); transform: translateY(-2px); box-shadow: 0 14px 28px -12px rgba(0, 0, 0, .7); }
+    }
+    .cb-btn:active { transform: scale(.97); transition-duration: .12s; }
+    .cb-btn--block { width: 100%; }
+
+    /* ---- hero ---- */
+    .cb-hero { padding: 32px 0 72px; background: linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%); }
+    .cb-hero__grid { display: grid; grid-template-columns: 1.05fr 1fr; gap: 56px; align-items: center; }
+    .cb-hero h1 { font-size: clamp(36px, 4.4vw, 50px); }
+    .cb-hero__lead { margin: 14px 0 0; font-size: 18px; color: var(--cream-soft); max-width: 30em; }
+    .cb-buy { margin-top: 22px; padding: 22px 26px; border: 1px solid var(--line); border-radius: var(--radius); background: rgba(46, 27, 24, .7); max-width: 460px; }
+    .cb-price { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; margin: 0; }
+    /* The old price is struck by a drawn line (not text-decoration) so the strike can animate. */
+    .cb-price s { position: relative; font-size: 24px; color: var(--cream-soft); text-decoration: none; }
+    .cb-price s::after { content: ""; position: absolute; left: -3px; right: -3px; top: 52%; height: 2px; background: var(--cherry); transform: rotate(-8deg); transform-origin: left; }
+    .cb-price strong { font: 700 56px/1 "Lora", serif; color: var(--cream); }
+    /* The discount burst from the main site (green-hub.css --gh-burst): the
+       scalloped disc spins behind the label, so the text stays upright. */
+    .cb-price__save {
+      --burst: clamp(64px, 5.4vw, 80px);
+      position: relative; isolation: isolate; flex: none; align-self: flex-start;
+      margin-top: calc(var(--burst) * -.4);
+      display: grid; place-items: center; width: var(--burst); aspect-ratio: 1;
+      color: var(--bg); font-size: clamp(.82rem, 1vw, .95rem); font-weight: 800; line-height: 1;
+    }
+    .cb-price__save::before {
+      content: ""; position: absolute; inset: 0; z-index: -1; background: var(--gold);
+      -webkit-mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Cpath%20d%3D%22M50.00%208.00A9.35%209.35%200%200%201%2068.22%2012.16A9.35%209.35%200%200%201%2082.84%2023.81A9.35%209.35%200%200%201%2090.95%2040.65A9.35%209.35%200%200%201%2090.95%2059.35A9.35%209.35%200%200%201%2082.84%2076.19A9.35%209.35%200%200%201%2068.22%2087.84A9.35%209.35%200%200%201%2050.00%2092.00A9.35%209.35%200%200%201%2031.78%2087.84A9.35%209.35%200%200%201%2017.16%2076.19A9.35%209.35%200%200%201%209.05%2059.35A9.35%209.35%200%200%201%209.05%2040.65A9.35%209.35%200%200%201%2017.16%2023.81A9.35%209.35%200%200%201%2031.78%2012.16A9.35%209.35%200%200%201%2050.00%208.00Z%22%20fill%3D%22%23000%22%2F%3E%3C%2Fsvg%3E") center/100% 100% no-repeat;
+      mask: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%20100%20100%22%3E%3Cpath%20d%3D%22M50.00%208.00A9.35%209.35%200%200%201%2068.22%2012.16A9.35%209.35%200%200%201%2082.84%2023.81A9.35%209.35%200%200%201%2090.95%2040.65A9.35%209.35%200%200%201%2090.95%2059.35A9.35%209.35%200%200%201%2082.84%2076.19A9.35%209.35%200%200%201%2068.22%2087.84A9.35%209.35%200%200%201%2050.00%2092.00A9.35%209.35%200%200%201%2031.78%2087.84A9.35%209.35%200%200%201%2017.16%2076.19A9.35%209.35%200%200%201%209.05%2059.35A9.35%209.35%200%200%201%209.05%2040.65A9.35%209.35%200%200%201%2017.16%2023.81A9.35%209.35%200%200%201%2031.78%2012.16A9.35%209.35%200%200%201%2050.00%208.00Z%22%20fill%3D%22%23000%22%2F%3E%3C%2Fsvg%3E") center/100% 100% no-repeat;
+      animation: cb-burst-spin 12s linear infinite;
+    }
+    @keyframes cb-burst-spin { to { transform: rotate(360deg); } }
+    .cb-checks { list-style: none; padding: 0; margin: 18px 0 22px; display: grid; gap: 8px; }
+    .cb-checks li { position: relative; padding-left: 28px; }
+    .cb-checks li::before { content: ""; position: absolute; left: 2px; top: .45em; width: 14px; height: 8px; border-left: 2px solid var(--gold); border-bottom: 2px solid var(--gold); transform: rotate(-45deg); }
+
+    .cb-timer { margin: 0 0 18px; }
+    .cb-timer__label { margin: 0 0 8px; font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--cream-soft); }
+    .cb-timer__row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin: 0; }
+    .cb-timer__row div { padding: 12px 8px 10px; border-radius: 12px; background: var(--bg); border: 1px solid var(--line); text-align: center; }
+    .cb-timer__row dt { font: 700 28px/1 "Lora", serif; font-variant-numeric: tabular-nums; }
+    .cb-timer__row dd { margin: 4px 0 0; font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--cream-soft); }
+    .cb-pay-note { margin: 12px 0 0; font-size: 13px; color: var(--cream-soft); text-align: center; }
+
+    .cb-hero__media { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: start; }
+    .cb-hero__media img { width: 100%; aspect-ratio: 2 / 3; object-fit: cover; border-radius: var(--radius); box-shadow: 0 30px 60px -24px rgba(0, 0, 0, .8); }
+    .cb-hero__float:last-child img { margin-top: 56px; }
+
+    /* ---- flavors ---- */
+    .cb-flavors { padding: 88px 0; background: var(--bg-2); }
+    .cb-grid { list-style: none; padding: 0; margin: 44px 0 0; display: grid; grid-template-columns: repeat(6, 1fr); gap: 16px; }
+    .cb-flavor { margin: 0; }
+    .cb-flavor__media { display: block; overflow: hidden; border-radius: 16px; }
+    .cb-flavor img { width: 100%; aspect-ratio: 1; object-fit: cover; transition: transform .6s var(--ease-out); }
+    .cb-flavor figcaption { margin-top: 10px; font-weight: 600; font-size: 15px; line-height: 1.3; transition: color .2s ease; }
+    @media (hover: hover) and (pointer: fine) {
+      .cb-flavor:hover img { transform: scale(1.06); }
+      .cb-flavor:hover figcaption { color: var(--gold); }
+    }
+    .cb-mid-cta { margin-top: 48px; text-align: center; }
+
+    /* ---- studio gallery rail ---- */
+    .cb-gallery { padding: 72px 0; background: var(--bg); }
+    .cb-rail { overflow-x: auto; overflow-y: hidden; scrollbar-width: none; cursor: grab; touch-action: pan-x pan-y; overscroll-behavior-x: contain; }
+    .cb-rail::-webkit-scrollbar { display: none; }
+    .cb-rail.is-dragging { cursor: grabbing; user-select: none; }
+    .cb-rail__track { display: flex; width: max-content; gap: 16px; align-items: flex-start; padding: 0 16px; }
+    .cb-rail img {
+      flex: none; width: clamp(200px, 21vw, 290px); height: auto; aspect-ratio: 2 / 3;
+      object-fit: cover; border-radius: var(--radius); user-select: none; -webkit-user-drag: none;
+      transition: transform .5s var(--ease-out);
+    }
+    /* staircase rhythm, as on the home gallery */
+    .cb-rail img:nth-child(2n) { margin-top: clamp(28px, 4vw, 64px); }
+    @media (hover: hover) and (pointer: fine) { .cb-rail img:hover { transform: scale(1.02); } }
+    /* ---- about ---- */
+    .cb-about { padding: 96px 0; }
+    .cb-about__grid { display: grid; grid-template-columns: .8fr 1fr; gap: 64px; align-items: center; }
+    .cb-about__photo img { width: 100%; border-radius: var(--radius); aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 45%; }
+    .cb-about__kicker { margin: 0 0 10px; font-size: 13px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--gold); }
+    .cb-about h2 { font-size: clamp(32px, 4.4vw, 48px); }
+    .cb-about ul { list-style: none; padding: 0; margin: 26px 0 0; display: grid; gap: 14px; }
+    .cb-about li { padding: 16px 18px; border-radius: 14px; background: var(--card); border: 1px solid var(--line); transition: border-color .2s ease, transform .25s var(--ease-out); }
+    @media (hover: hover) and (pointer: fine) { .cb-about li:hover { border-color: rgba(226, 185, 121, .45); transform: translateX(4px); } }
+    .cb-about li strong { color: var(--gold); }
+
+    /* ---- final ---- */
+    .cb-final { padding: 88px 0; text-align: center; background: var(--bg-2); }
+    .cb-final .cb-price { justify-content: center; margin: 26px 0 24px; }
+
+    /* ---- sticky bar ---- */
+    .cb-sticky { position: fixed; left: 0; right: 0; bottom: 0; z-index: 40; padding: 12px 0; background: rgba(28, 17, 16, .94); backdrop-filter: blur(10px); border-top: 1px solid var(--line); transform: translateY(100%); transition: transform .3s var(--ease-out); }
+    .cb-sticky.is-on { transform: none; }
+    .has-cookie-banner .cb-sticky { transform: translateY(100%); }
+    .cb-sticky .cb-shell { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .cb-sticky__info { margin: 0; display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+    .cb-sticky__info s { color: var(--cream-soft); }
+    .cb-sticky__info strong { font: 700 24px/1 "Lora", serif; }
+    .cb-sticky__time { font-size: 13px; color: var(--gold); font-variant-numeric: tabular-nums; }
+    .cb-sticky .cb-btn { min-height: 48px; padding: 0 26px; font-size: 15px; }
+
+    @media (max-width: 960px) {
+      .cb-hero__grid, .cb-about__grid { grid-template-columns: 1fr; gap: 36px; }
+      .cb-hero__media { order: -1; }
+      .cb-hero__float:last-child img { margin-top: 32px; }
+      .cb-buy { max-width: none; }
+      .cb-grid { grid-template-columns: repeat(3, 1fr); }
+      .cb-about__photo { max-width: 460px; }
+    }
+    @media (max-width: 560px) {
+      .cb-hero { padding-top: 24px; }
+      .cb-hero__media { gap: 10px; }
+      .cb-hero__media img { aspect-ratio: 1; }
+      .cb-hero__float:last-child img { margin-top: 20px; }
+      .cb-buy { padding: 20px; }
+      .cb-price strong { font-size: 48px; }
+      .cb-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+      .cb-sticky__time { display: none; }
+    }
+
+    /* ================= MOTION =================
+       Marketing page seen once, so entrances get the delight budget; hover and
+       press stay fast. Everything is transform/opacity (+ clip-path for the
+       portrait). Entrances are CSS animations so they stay smooth while the
+       photos load. Scroll reveals hide content only once JS has marked the
+       page (.js), so nothing is lost without it. */
+
+    /* -- hero entrance: copy rises in a 70ms stagger, photos settle in -- */
+    @keyframes cb-up { from { opacity: 0; transform: translateY(18px); } }
+    @keyframes cb-settle { from { opacity: 0; transform: translateY(28px) scale(.96); } }
+    @keyframes cb-strike { from { transform: rotate(-8deg) scaleX(0); } }
+    @keyframes cb-pop { from { opacity: 0; transform: scale(.88); } }
+    .cb-hero h1, .cb-hero__lead, .cb-buy { animation: cb-up .7s var(--ease-out) both; }
+    .cb-hero h1 { animation-delay: .05s; }
+    .cb-hero__lead { animation-delay: .12s; }
+    .cb-buy { animation-delay: .19s; }
+    .cb-hero__media img { animation: cb-settle 1s var(--ease-out) both; }
+    .cb-hero__float:first-child img { animation-delay: .1s; }
+    .cb-hero__float:last-child img { animation-delay: .22s; }
+    /* the old price is struck through, then the new one lands */
+    .cb-hero .cb-price s::after { animation: cb-strike .45s var(--ease-out) .65s both; }
+    .cb-hero .cb-price strong { display: inline-block; animation: cb-pop .5s var(--ease-out) .9s both; }
+    .cb-hero .cb-price__save { animation: cb-pop .4s var(--ease-out) 1.05s both; }
+
+    /* -- hero photos float gently once they have landed -- */
+    @keyframes cb-float { 50% { transform: translateY(-8px); } }
+    .cb-hero__float { display: block; animation: cb-float 7s var(--ease-in-out) 1.3s infinite; }
+    .cb-hero__float + .cb-hero__float { animation-duration: 8s; animation-delay: 1.8s; }
+
+    /* -- timer: a changed digit drops in -- */
+    @keyframes cb-tick { from { opacity: .2; transform: translateY(-35%); } }
+    .cb-timer__row dt { display: block; }
+    .cb-timer__row dt.is-tick { animation: cb-tick .35s var(--ease-out); }
+
+    /* -- scroll reveals -- */
+    .js [data-reveal] { opacity: 0; transform: translateY(24px); transition: opacity .7s var(--ease-out), transform .7s var(--ease-out); transition-delay: calc(var(--i, 0) * 50ms); }
+    .js [data-reveal].is-in { opacity: 1; transform: none; }
+    .js .cb-about__photo[data-reveal] { transform: none; clip-path: inset(12% 0 12% 0 round var(--radius)); transition: opacity .8s var(--ease-out), clip-path 1s var(--ease-out); }
+    .js .cb-about__photo[data-reveal].is-in { clip-path: inset(0 0 0 0 round var(--radius)); }
+    .js .cb-final [data-reveal] .cb-price s::after { transform: rotate(-8deg) scaleX(0); transition: transform .45s var(--ease-out) .35s; }
+    .js .cb-final [data-reveal].is-in .cb-price s::after { transform: rotate(-8deg); }
+
+    @media (prefers-reduced-motion: reduce) {
+      .cb-hero h1, .cb-hero__lead, .cb-buy, .cb-hero__media img,
+      .cb-hero .cb-price strong, .cb-hero .cb-price__save { animation-name: cb-fade; }
+      .cb-hero .cb-price s::after, .cb-hero__float, .cb-btn::after, .cb-price__save::before { animation: none; }
+      .cb-timer__row dt.is-tick { animation: none; }
+      .js [data-reveal], .js .cb-about__photo[data-reveal] { transform: none; clip-path: none; }
+      .cb-btn:active { transform: none; }
+    }
+    @keyframes cb-fade { from { opacity: 0; } }
+  </style>
+</head>
+<body>
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" style="position:absolute;width:0;height:0;overflow:hidden">
+    <!-- Lucide Icons (ISC), https://lucide.dev -->
+    <symbol id="instagram" viewBox="0 0 24 24"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></symbol>
+    <symbol id="send-horizontal" viewBox="0 0 24 24"><path d="M3.714 3.048a.498.498 0 0 0-.683.627l2.843 7.627a2 2 0 0 1 0 1.396l-2.842 7.627a.498.498 0 0 0 .682.627l18-8.5a.5.5 0 0 0 0-.904z"/><path d="M6 12h16"/></symbol>
+    <symbol id="arrow-up" viewBox="0 0 24 24"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></symbol>
+    <symbol id="icon-menu" viewBox="0 0 24 24"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></symbol>
+    <symbol id="icon-x" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol>
+  </svg>
+  <a class="skip" href="#buy">Skip to the offer</a>
+
+  <header class="cb-top">
+    <div class="cb-shell">
+      <a class="cb-logo" href="#top" aria-label="TORTOPANI"><img src="assets/logo_hor.png" alt="TORTOPANI" height="40" /></a>
+      <nav class="cb-nav" aria-label="Page sections">
+        <ul class="cb-nav__links" id="cbNavLinks">
+          <li><a href="#flavors">Flavors</a></li>
+          <li><a href="#about">About the author</a></li>
+          <li><a href="#offer">Price</a></li>
+        </ul>
+        <button class="cb-burger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="cbNavLinks">
+          <svg class="icon icon--menu" aria-hidden="true"><use href="#icon-menu"></use></svg>
+          <svg class="icon icon--close" aria-hidden="true"><use href="#icon-x"></use></svg>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- ============ HERO ============ -->
+    <section class="cb-hero" aria-labelledby="cb-title">
+      <div class="cb-shell cb-hero__grid">
+        <div>
+          <h1 id="cb-title">Perfect <span class="cb-accent">Choco Bombs</span>: learn all the flavors in&nbsp;just 3&nbsp;days</h1>
+          <p class="cb-hero__lead">No special ingredients required — the recipes are perfect even for beginners.</p>
+
+          <div class="cb-buy" id="buy">
+            <p class="cb-price" aria-label="Price: was 70 dollars, now 19 dollars">
+              <s>$70</s>
+              <strong>$19</strong>
+              <span class="cb-price__save">−73%</span>
+            </p>
+            <ul class="cb-checks">
+              <li>18 recipe cards — one for each flavor</li>
+              <li>Instant access</li>
+              <li>Unlimited lifetime access</li>
+            </ul>
+            <div class="cb-timer" data-deadline="2026-10-31T23:59:59+02:00">
+              <p class="cb-timer__label">Offer ends in</p>
+              <dl class="cb-timer__row" role="timer">
+                <div><dt data-count="d">00</dt><dd>days</dd></div>
+                <div><dt data-count="h">00</dt><dd>hours</dd></div>
+                <div><dt data-count="m">00</dt><dd>min</dd></div>
+                <div><dt data-count="s">00</dt><dd>sec</dd></div>
+              </dl>
+            </div>
+            <a class="cb-btn cb-btn--block" href="https://secure.wayforpay.com/button/b0c4d81fa7e62" data-pay="https://secure.wayforpay.com/button/b0c4d81fa7e62">Buy now</a>
+            <p class="cb-pay-note">Secure card payment via WayForPay</p>
+          </div>
+        </div>
+
+        <div class="cb-hero__media">
+          <span class="cb-hero__float"><img src="assets/chocobombs/hero-dark-whole.jpg" width="1000" height="1500" alt="Eight Choco Bombs on a steel tray over dark silk: red glaze with cherries, milk chocolate, white chocolate with lace" fetchpriority="high" /></span>
+          <span class="cb-hero__float"><img src="assets/chocobombs/hero-dark-cut.jpg" width="1000" height="1500" alt="Choco Bombs cut open on a steel tray, showing coconut, cherry and chocolate centres" fetchpriority="high" /></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ FLAVORS ============ -->
+    <section class="cb-flavors" id="flavors" aria-labelledby="cb-flavors-title">
+      <div class="cb-shell">
+        <h2 class="cb-h2" id="cb-flavors-title" data-reveal>18 flavors <span class="cb-accent">inside</span></h2>
+        <p class="cb-sub" data-reveal style="--i:1">Every flavor comes with its own step-by-step recipe card.</p>
+
+        <ul class="cb-grid">
+          <li data-reveal style="--i:0"><figure class="cb-flavor"><span class="cb-flavor__media"><img src="assets/chocobombs/a-f1.jpg" width="560" height="560" alt="Cherry Brownie cut in half" loading="lazy" /></span><figcaption>Cherry Brownie</figcaption></figure></li>
+          <li data-reveal style="--i:1"><figure class="cb-flavor"><span class="cb-flavor__media"><img src="assets/chocobombs/a-f2.jpg" width="560" height="560" alt="Caramel Baileys cut in half" loading="lazy" /></span><figcaption>Caramel Baileys</figcaption></figure></li>
+          <li data-reveal style="--i:2"><figure class="cb-flavor"><span class="cb-flavor__media"><img src="assets/chocobombs/a-f3.jpg" width="560" height="560" alt="Coconut Bounty cut in half" loading="lazy" /></span><figcaption>Coconut Bounty</figcaption></figure></li>
+          <li data-reveal style="--i:3"><figure class="cb-flavor"><span class="cb-flavor__media"><img src="assets/chocobombs/a-f4.jpg" width="560" height="560" alt="Strawberry Honey Cake cut in half" loading="lazy" /></span><figcaption>Strawberry Honey Cake</figcaption></figure></li>
+          <li data-reveal style="--i:4"><figure class="cb-flavor"><span class="cb-flavor__media"><img src="assets/chocobombs/a-f5.jpg" width="560" height="560" alt="Tiramisu cut in half" loading="lazy" /></span><figcaption>Tiramisu</figcaption></figure></li>
+          <li data-reveal style="--i:5"><figure class="cb-flavor"><span class="cb-flavor__media"><img src="assets/chocobombs/a-f6.jpg" width="560" height="560" alt="Lotus Biscoff cut in half" loading="lazy" /></span><figcaption>Lotus Biscoff</figcaption></figure></li>
+          <li data-reveal style="--i:0"><figure class="cb-flavor"><span class="cb-flavor__media"><img src="assets/chocobombs/a-f7.jpg" width="560" height="560" alt="Red Velvet cut in half" loading="lazy" /></span><figcaption>Red Velvet</figcaption></figure></li>
+          <li data-reveal style="--i:1"><figure class="cb-flavor"><span class="cb-flavor__media"><img src="assets/chocobombs/a-f8.jpg" width="560" height="560" alt="Kinder Country cut in half" loading="lazy" /></span><figcaption>Kinder Country</figcaption></figure></li>
+          <li data-reveal style="--i:2"><figure class="cb-flavor"><span class="cb-flavor__media"><img src="assets/chocobombs/a-f9.jpg" width="560" height="560" alt="Oreo cut in half" loading="lazy" /></span><figcaption>Oreo</figcaption></figure></li>
+          <li data-reveal style="--i:3"><figure class="cb-flavor"><span class="cb-flavor__media"><img src="assets/chocobombs/b-f1.jpg" width="560" height="560" alt="Lemon Poppy Seed cut in half" loading="lazy" /></span><figcaption>Lemon Poppy Seed</figcaption></figure></li>
+          <li data-reveal style="--i:4"><figure class="cb-flavor"><span class="cb-flavor__media"><img src="assets/chocobombs/b-f2.jpg" width="560" height="560" alt="Honey Cake with Sour Cream cut in half" loading="lazy" /></span><figcaption>Honey Cake with Sour Cream</figcaption></figure></li>
+          <li data-reveal style="--i:5"><figure class="cb-flavor"><span class="cb-flavor__media"><img src="assets/chocobombs/b-f3.jpg" width="560" height="560" alt="Ferrero cut in half" loading="lazy" /></span><figcaption>Ferrero</figcaption></figure></li>
+          <li data-reveal style="--i:0"><figure class="cb-flavor"><span class="cb-flavor__media"><img src="assets/chocobombs/b-f4.jpg" width="560" height="560" alt="Anthill caramel crumb cake cut in half" loading="lazy" /></span><figcaption>Anthill Caramel Crumb</figcaption></figure></li>
+          <li data-reveal style="--i:1"><figure class="cb-flavor"><span class="cb-flavor__media"><img src="assets/chocobombs/b-f5.jpg" width="560" height="560" alt="Coffee Orange cut in half" loading="lazy" /></span><figcaption>Coffee Orange</figcaption></figure></li>
+          <li data-reveal style="--i:2"><figure class="cb-flavor"><span class="cb-flavor__media"><img src="assets/chocobombs/b-f6.jpg" width="560" height="560" alt="Raffaello cut in half" loading="lazy" /></span><figcaption>Raffaello</figcaption></figure></li>
+          <li data-reveal style="--i:3"><figure class="cb-flavor"><span class="cb-flavor__media"><img src="assets/chocobombs/b-f7.jpg" width="560" height="560" alt="Piña Colada cut in half" loading="lazy" /></span><figcaption>Piña Colada</figcaption></figure></li>
+          <li data-reveal style="--i:4"><figure class="cb-flavor"><span class="cb-flavor__media"><img src="assets/chocobombs/b-f8.jpg" width="560" height="560" alt="Pistachio Raspberry cut in half" loading="lazy" /></span><figcaption>Pistachio Raspberry</figcaption></figure></li>
+          <li data-reveal style="--i:5"><figure class="cb-flavor"><span class="cb-flavor__media"><img src="assets/chocobombs/b-f9.jpg" width="560" height="560" alt="Apple Honey Cake cut in half" loading="lazy" /></span><figcaption>Apple Honey Cake</figcaption></figure></li>
+        </ul>
+
+        <div class="cb-mid-cta" data-reveal>
+          <a class="cb-btn" href="https://secure.wayforpay.com/button/b0c4d81fa7e62" data-pay="https://secure.wayforpay.com/button/b0c4d81fa7e62">Get all 18 recipes</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Studio shoot, as an endless rail like the home page's gallery:
+         drag / swipe / scroll by hand, drifts on its own when left alone. -->
+    <section class="cb-gallery" aria-label="Choco Bombs from the studio shoot">
+      <div class="cb-rail" tabindex="0">
+        <div class="cb-rail__track">
+          <img src="assets/chocobombs/g02.jpg" width="600" height="900" alt="Choco Bombs cut open: coconut, cherry and chocolate centres" loading="lazy" decoding="async" />
+          <img src="assets/chocobombs/g03.jpg" width="600" height="900" alt="Milk chocolate bombs with strawberries in a silver coupe" loading="lazy" decoding="async" />
+          <img src="assets/chocobombs/g04.jpg" width="600" height="900" alt="Cherry-red Choco Bomb with a brownie cube and a cherry" loading="lazy" decoding="async" />
+          <img src="assets/chocobombs/g05.jpg" width="600" height="900" alt="A tray of whole and halved Choco Bombs from above" loading="lazy" decoding="async" />
+          <img src="assets/chocobombs/g06.jpg" width="600" height="900" alt="Red glazed bombs topped with cherries in a silver coupe" loading="lazy" decoding="async" />
+          <img src="assets/chocobombs/g07.jpg" width="600" height="900" alt="Lilia's Choco Bombs, close-up on the glaze" loading="lazy" decoding="async" />
+          <img src="assets/chocobombs/g08.jpg" width="600" height="900" alt="Halves showing raspberry, caramel and coconut fillings" loading="lazy" decoding="async" />
+          <img src="assets/chocobombs/g09.jpg" width="600" height="900" alt="Strawberry-topped milk chocolate bombs in a coupe" loading="lazy" decoding="async" />
+          <img src="assets/chocobombs/g10.jpg" width="600" height="900" alt="Choco Bombs on a steel tray, side view" loading="lazy" decoding="async" />
+          <img src="assets/chocobombs/g11.jpg" width="600" height="900" alt="White chocolate bombs with lace decoration in a coupe" loading="lazy" decoding="async" />
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ ABOUT ============ -->
+    <section class="cb-about" id="about" aria-labelledby="cb-about-title">
+      <div class="cb-shell cb-about__grid">
+        <figure class="cb-about__photo" style="margin:0" data-reveal>
+          <img src="assets/chocobombs/lilia.jpg" width="1200" height="2101" alt="Liliia Poliakova holding a tray of Choco Bombs" loading="lazy" />
+        </figure>
+        <div>
+          <p class="cb-about__kicker" data-reveal style="--i:2">Course creator</p>
+          <h2 id="cb-about-title" data-reveal style="--i:3">Liliia <span class="cb-accent">Poliakova</span></h2>
+          <ul>
+            <li data-reveal style="--i:4">Professional pastry chef and founder of <strong>Tortopani</strong></li>
+            <li data-reveal style="--i:5">Over <strong>2,000 students</strong> trained in pastry and the confectionery business</li>
+            <li data-reveal style="--i:6">Creator of online courses for confectioners and the <strong>Cake &amp; Business</strong> mentorship</li>
+            <li data-reveal style="--i:7">Shares practical pastry techniques, recipes and business know-how to help confectioners turn their skills into income</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ FINAL OFFER ============ -->
+    <section class="cb-final" id="offer" aria-labelledby="cb-final-title">
+      <div class="cb-shell" data-reveal>
+        <h2 class="cb-h2" id="cb-final-title">All 18 Choco Bombs, <span class="cb-accent">yours today</span></h2>
+        <p class="cb-price" aria-label="Price: was 70 dollars, now 19 dollars">
+          <s>$70</s>
+          <strong>$19</strong>
+          <span class="cb-price__save">−73%</span>
+        </p>
+        <a class="cb-btn" href="https://secure.wayforpay.com/button/b0c4d81fa7e62" data-pay="https://secure.wayforpay.com/button/b0c4d81fa7e62">Buy now</a>
+        <p class="cb-pay-note">Start baking today — the recipes stay yours forever</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="cb-shell footer__inner">
+      <a class="footer__logo" href="#top" aria-label="TORTOPANI"><img src="assets/logo_ver.png" alt="TORTOPANI" /></a>
+      <div class="footer__socials">
+        <a href="https://www.instagram.com/tortopani" target="_blank" rel="noopener" aria-label="Instagram"><svg class="icon" aria-hidden="true"><use href="#instagram"></use></svg></a>
+        <a href="https://t.me/tortopamiinsade" target="_blank" rel="noopener" aria-label="Telegram"><svg class="icon" aria-hidden="true"><use href="#send-horizontal"></use></svg></a>
+      </div>
+      <nav class="footer__links" aria-label="Legal">
+        <a href="offer_en.html">Public offer agreement</a>
+        <a href="privacy.html">Privacy &amp; Cookie Policy</a>
+      </nav>
+      <a class="footer__top" href="#top" aria-label="Back to top"><svg class="icon" aria-hidden="true"><use href="#arrow-up"></use></svg></a>
+    </div>
+  </footer>
+
+  <div class="cb-sticky" id="cbSticky" aria-hidden="true">
+    <div class="cb-shell">
+      <p class="cb-sticky__info"><s>$70</s> <strong>$19</strong> <span class="cb-sticky__time" data-sticky-time></span></p>
+      <a class="cb-btn" href="https://secure.wayforpay.com/button/b0c4d81fa7e62" data-pay="https://secure.wayforpay.com/button/b0c4d81fa7e62" tabindex="-1">Buy now</a>
+    </div>
+  </div>
+
+  <script>
+  (function () {
+    /* Buy: report InitiateCheckout, then follow the link. Purchase is not
+       counted here — only after a confirmed payment. */
+    document.querySelectorAll("[data-pay]").forEach(function (a) {
+      a.addEventListener("click", function () {
+        if (window.tpTrack) tpTrack("InitiateCheckout", {
+          content_name: "E-book Choco Bombs", value: 19, currency: "USD"
+        });
+      });
+    });
+
+    /* Countdown to one fixed instant (ISO with offset, so every visitor's
+       clock agrees); clamps at zero instead of counting up. */
+    var root = document.querySelector("[data-deadline]");
+    var endsAt = root && Date.parse(root.getAttribute("data-deadline"));
+    var slots = {};
+    ["d", "h", "m", "s"].forEach(function (k) { slots[k] = root && root.querySelector("[data-count='" + k + "']"); });
+    var stickyTime = document.querySelector("[data-sticky-time]");
+    function pad(n) { return (n < 10 ? "0" : "") + n; }
+    function tick() {
+      if (!endsAt) return;
+      var left = Math.max(0, Math.floor((endsAt - Date.now()) / 1000));
+      var v = { d: Math.floor(left / 86400), h: Math.floor(left / 3600) % 24, m: Math.floor(left / 60) % 60, s: left % 60 };
+      Object.keys(v).forEach(function (k) {
+        var el = slots[k], text = pad(v[k]);
+        if (!el || el.textContent === text) return;
+        el.textContent = text;
+        /* restart the drop-in on each change */
+        el.classList.remove("is-tick"); void el.offsetWidth; el.classList.add("is-tick");
+      });
+      if (stickyTime) stickyTime.textContent = "Ends in " + v.d + "d " + pad(v.h) + ":" + pad(v.m) + ":" + pad(v.s);
+    }
+    tick();
+    setInterval(tick, 1000);
+
+    /* Scroll reveals: each [data-reveal] fades up once, staggered by --i. */
+    var reveals = document.querySelectorAll("[data-reveal]");
+    if ("IntersectionObserver" in window) {
+      var rio = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (!e.isIntersecting) return;
+          e.target.classList.add("is-in");
+          rio.unobserve(e.target);
+        });
+      }, { rootMargin: "0px 0px -8% 0px" });
+      reveals.forEach(function (el) { rio.observe(el); });
+    } else {
+      reveals.forEach(function (el) { el.classList.add("is-in"); });
+    }
+
+    /* Gallery rail: the set is doubled so scrolling can wrap seamlessly at half
+       width. It drifts on its own only while on screen and left alone — any
+       touch, wheel or drag pauses it for a moment. Off for reduced motion. */
+    var rail = document.querySelector(".cb-rail");
+    if (rail) {
+      var track = rail.querySelector(".cb-rail__track");
+      Array.prototype.slice.call(track.children).forEach(function (n) {
+        var c = n.cloneNode(true); c.alt = ""; c.setAttribute("aria-hidden", "true"); track.appendChild(c);
+      });
+      var still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      var pausedUntil = 0, onScreen = false, last = 0, pos = 0;
+      function half() { return track.scrollWidth / 2; }
+      function wrap() {
+        var h = half();
+        if (rail.scrollLeft >= h) rail.scrollLeft -= h;
+        else if (rail.scrollLeft <= 0) rail.scrollLeft += h;
+        pos = rail.scrollLeft;
+      }
+      function pause() { pausedUntil = performance.now() + 2500; }
+      ["pointerdown", "wheel", "touchstart", "keydown"].forEach(function (t) { rail.addEventListener(t, pause, { passive: true }); });
+      rail.addEventListener("scroll", function () { if (performance.now() < pausedUntil) wrap(); }, { passive: true });
+
+      /* mouse drag (touch already scrolls natively) */
+      var dragX = null;
+      rail.addEventListener("pointerdown", function (e) {
+        if (e.pointerType !== "mouse") return;
+        dragX = e.clientX; rail.classList.add("is-dragging"); rail.setPointerCapture(e.pointerId);
+      });
+      rail.addEventListener("pointermove", function (e) {
+        if (dragX === null) return;
+        rail.scrollLeft -= e.clientX - dragX; dragX = e.clientX; pause(); wrap();
+      });
+      ["pointerup", "pointercancel"].forEach(function (t) {
+        rail.addEventListener(t, function () { dragX = null; rail.classList.remove("is-dragging"); });
+      });
+
+      if ("IntersectionObserver" in window) {
+        new IntersectionObserver(function (es) { onScreen = es[0].isIntersecting; }).observe(rail);
+      } else onScreen = true;
+
+      function drift(ts) {
+        var dt = last ? Math.min(ts - last, 64) / 1000 : 0;
+        last = ts;
+        if (!still && onScreen && ts > pausedUntil) {
+          pos += 30 * dt;               /* px per second */
+          if (pos >= half()) pos -= half();
+          rail.scrollLeft = pos;
+        }
+        requestAnimationFrame(drift);
+      }
+      requestAnimationFrame(function () { rail.scrollLeft = pos = 1; requestAnimationFrame(drift); });
+    }
+
+    /* Phone menu: the burger toggles the links; picking one closes it. */
+    var burger = document.querySelector(".cb-burger");
+    var navLinks = document.getElementById("cbNavLinks");
+    function setMenu(open) {
+      burger.setAttribute("aria-expanded", open ? "true" : "false");
+      navLinks.classList.toggle("is-open", open);
+    }
+    if (burger && navLinks) {
+      burger.addEventListener("click", function () { setMenu(burger.getAttribute("aria-expanded") !== "true"); });
+      navLinks.addEventListener("click", function (e) { if (e.target.closest("a")) setMenu(false); });
+      document.addEventListener("keydown", function (e) { if (e.key === "Escape") setMenu(false); });
+    }
+
+    /* Sticky bar once the hero buy box has scrolled away. */
+    var sticky = document.getElementById("cbSticky");
+    var buy = document.getElementById("buy");
+    /* ...and hidden again over the final offer and the footer, which carry their own. */
+    var ends = [document.querySelector(".cb-final"), document.querySelector(".footer")].filter(Boolean);
+    if (sticky && buy && "IntersectionObserver" in window) {
+      var visible = new Set([buy]);
+      var io = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) { visible[e.isIntersecting ? "add" : "delete"](e.target); });
+        var on = visible.size === 0 && buy.getBoundingClientRect().top < 0;
+        sticky.classList.toggle("is-on", on);
+        sticky.setAttribute("aria-hidden", on ? "false" : "true");
+        sticky.querySelector("a").tabIndex = on ? 0 : -1;
+      });
+      io.observe(buy);
+      ends.forEach(function (el) { io.observe(el); });
+    }
+  })();
+  </script>
+</body>
+</html>

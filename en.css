@@ -1,0 +1,133 @@
+/* Shared chrome for the English pages (choco_bombs.html, privacy.html):
+   tokens, header with the brand logo, the main site's footer, and the
+   cookie banner. Page-specific sections stay in each page's own <style>. */
+:root {
+  --bg: #1c1110;
+  --bg-2: #261614;
+  --card: #2e1b18;
+  --line: rgba(246, 234, 220, .12);
+  --cream: #f6eadc;
+  --cream-soft: #cdb9a6;
+  --cherry: #d8283a;
+  --cherry-hover: #bf1f30;
+  --gold: #e2b979;
+  --ink: #16190F; /* the main site's footer ink */
+  --radius: 20px;
+  --shell: 1120px;
+  /* Motion tokens (shared by both English pages). */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+}
+*, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--cream);
+  font: 400 16px/1.6 "Montserrat", system-ui, sans-serif;
+  overflow-x: clip;
+  -webkit-font-smoothing: antialiased;
+}
+img { display: block; max-width: 100%; height: auto; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
+.cb-shell { width: min(var(--shell), 100% - 32px); margin-inline: auto; }
+.skip { position: absolute; left: -9999px; }
+.skip:focus { left: 16px; top: 16px; z-index: 70; background: var(--cream); color: var(--bg); padding: 8px 14px; border-radius: 8px; }
+.icon { display: block; width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex: none; }
+
+/* ---- header: the main site's horizontal logo, turned light for the dark ground ---- */
+.cb-top { padding: 14px 0; border-bottom: 1px solid var(--line); }
+.cb-top .cb-shell { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.cb-logo { display: block; }
+.cb-logo img { height: 42px; width: auto; filter: brightness(0) invert(1); }
+.cb-top__note { font-size: 13px; color: var(--cream-soft); }
+.cb-top { position: sticky; top: 0; z-index: 45; background: rgba(28, 17, 16, .92); backdrop-filter: blur(10px); }
+section[id] { scroll-margin-top: 80px; }
+
+/* ---- header menu (choco_bombs.html) ---- */
+.cb-nav { display: flex; align-items: center; gap: 8px; }
+.cb-nav__links { list-style: none; margin: 0; padding: 0; display: flex; gap: 4px; }
+.cb-nav__links a { position: relative; display: block; padding: 10px 14px; border-radius: 10px; font-weight: 600; font-size: .95rem; text-decoration: none; color: var(--cream); transition: color .2s ease; }
+.cb-nav__links a::after { content: ""; position: absolute; left: 14px; right: 14px; bottom: 6px; height: 1px; background: currentColor; transform: scaleX(0); transform-origin: left; transition: transform .25s var(--ease-out); }
+@media (hover: hover) and (pointer: fine) {
+  .cb-nav__links a:hover { color: var(--gold); }
+  .cb-nav__links a:hover::after { transform: scaleX(1); }
+}
+.cb-burger { display: none; width: 44px; height: 44px; padding: 0; border: 0; border-radius: 10px; background: none; color: var(--cream); cursor: pointer; align-items: center; justify-content: center; }
+.cb-burger .icon--close, .cb-burger[aria-expanded="true"] .icon--menu { display: none; }
+.cb-burger[aria-expanded="true"] .icon--close { display: block; }
+@media (max-width: 760px) {
+  .cb-burger { display: flex; }
+  .cb-nav__links {
+    position: absolute; left: 0; right: 0; top: 100%;
+    flex-direction: column; gap: 2px; padding: 12px 16px 20px;
+    background: var(--bg); border-bottom: 1px solid var(--line);
+    box-shadow: 0 18px 30px -16px rgba(0, 0, 0, .6);
+    /* Slides down from under the bar; visibility keeps it out of the tab order when shut. */
+    opacity: 0; visibility: hidden; transform: translateY(-8px);
+    transition: opacity .2s var(--ease-out), transform .25s var(--ease-out), visibility 0s linear .25s;
+  }
+  .cb-nav__links.is-open { opacity: 1; visibility: visible; transform: none; transition-delay: 0s; }
+  .cb-nav__links a { padding: 14px 12px; }
+  }
+
+/* ---- footer: same row as the main site — logo, socials, legal links, up arrow ---- */
+.footer { background: var(--ink); color: #fff; }
+.footer__inner { display: flex; align-items: center; gap: 16px; padding: 24px 0; }
+.footer__logo img { height: 44px; width: auto; filter: brightness(0) invert(1); }
+.footer__socials { display: flex; gap: 10px; align-items: center; margin-right: auto; }
+.footer__socials a { width: 40px; height: 40px; display: grid; place-items: center; color: #fff; transition: transform .2s var(--ease-out), opacity .2s ease; }
+@media (hover: hover) and (pointer: fine) { .footer__socials a:hover { opacity: .7; transform: translateY(-2px); } }
+.footer__socials .icon { width: 22px; height: 22px; }
+.footer__links { display: flex; align-items: center; gap: 24px; }
+.footer__links a { color: rgba(255, 255, 255, .7); font-size: .9rem; text-decoration: none; border-bottom: 1px solid transparent; white-space: nowrap; }
+.footer__links a:hover { color: #fff; border-color: rgba(255, 255, 255, .5); }
+.footer__top { width: 44px; height: 44px; display: inline-flex; align-items: center; justify-content: center; color: #fff; transition: opacity .18s; }
+.footer__top { transition: opacity .2s ease, transform .2s var(--ease-out); }
+@media (hover: hover) and (pointer: fine) { .footer__top:hover { opacity: .7; transform: translateY(-3px); } }
+.footer__top .icon { width: 20px; height: 20px; }
+
+/* ---- cookie banner ---- */
+.cookie {
+  position: fixed; left: 16px; right: 16px; bottom: 16px; z-index: 60;
+  max-width: 720px; margin-inline: auto; padding: 18px 20px;
+  display: flex; align-items: center; gap: 16px 24px; flex-wrap: wrap;
+  background: var(--card); color: var(--cream);
+  border: 1px solid var(--line); border-radius: 16px;
+  box-shadow: 0 18px 40px -16px rgba(0, 0, 0, .7);
+  animation: tp-rise .4s var(--ease-out) .6s both;
+}
+@keyframes tp-rise { from { opacity: 0; transform: translateY(16px); } }
+.cookie__text { margin: 0; flex: 1 1 320px; font-size: 14px; line-height: 1.5; }
+.cookie__text a { color: var(--gold); }
+.cookie__actions { display: flex; gap: 10px; flex: none; }
+.cookie__btn {
+  min-height: 44px; padding: 0 22px; border-radius: 999px; cursor: pointer;
+  font: 600 14px/1 "Montserrat", sans-serif;
+  background: var(--cream); color: var(--bg); border: 1px solid var(--cream);
+}
+.cookie__btn--ghost { background: transparent; color: var(--cream); border-color: rgba(246, 234, 220, .4); }
+.cookie__btn { transition: opacity .15s ease, transform .12s var(--ease-out); }
+.cookie__btn:hover { opacity: .85; }
+.cookie__btn:active { transform: scale(.97); }
+
+@media (max-width: 680px) {
+  .footer__inner { flex-wrap: wrap; row-gap: 12px; }
+  .footer__logo img { height: 36px; }
+  .footer__links { order: 3; width: 100%; gap: 20px; }
+  .footer__links a { font-size: .8rem; }
+  .footer__top { margin-left: auto; }
+  .cb-logo img { height: 34px; }
+  .cookie { left: 12px; right: 12px; bottom: 12px; }
+  .cookie__actions { width: 100%; }
+  .cookie__btn { flex: 1; }
+}
+/* Reduced motion: keep fades, drop movement. */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .cookie { animation-name: tp-fade; }
+  .cb-nav__links, .cb-nav__links.is-open { transform: none; }
+}
+@keyframes tp-fade { from { opacity: 0; } }
