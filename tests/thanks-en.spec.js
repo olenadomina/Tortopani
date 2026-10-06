@@ -30,7 +30,12 @@ test("GET /thanks/choco_bombs is an English page that promises the e-book by ema
   expect(res.body).toContain('<meta name="robots" content="noindex, nofollow"');
   // Only English pages are linked — never the Ukrainian site.
   const hrefs = [...res.body.matchAll(/href="([^"]+)"/g)].map((m) => m[1]).filter((h) => !/^(https?:|#)/.test(h) && !/\.(css|png)/.test(h));
-  for (const h of hrefs) expect(["/", "/privacy", "/offer_en"]).toContain(h);
+  expect(hrefs).toEqual([]);
+  // Every page link is absolute to the English host, so the logo cannot land on
+  // the Ukrainian home even when this page is opened on tortopani.com.
+  const pageLinks = [...res.body.matchAll(/href="(https:\/\/[^"]*tortopani\.com[^"]*)"/g)].map((m) => m[1]);
+  expect(pageLinks.length).toBeGreaterThanOrEqual(4);
+  for (const h of pageLinks) expect(h).toMatch(/^https:\/\/en\.tortopani\.com\//);
 });
 
 test("the English thank-you page counts Purchase only through cookie consent", async () => {

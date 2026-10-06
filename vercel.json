@@ -49,6 +49,17 @@
       ],
       "destination": "https://en.tortopani.com/:page",
       "permanent": false
+    },
+    {
+      "source": "/thanks/choco_bombs",
+      "has": [
+        {
+          "type": "host",
+          "value": "^(www\\.)?tortopani\\.com$"
+        }
+      ],
+      "destination": "https://en.tortopani.com/thanks/choco_bombs",
+      "permanent": false
     }
   ],
   "rewrites": [
