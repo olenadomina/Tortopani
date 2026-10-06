@@ -7,7 +7,7 @@
   "cleanUrls": true,
   "redirects": [
     {
-      "source": "/((?!choco_bombs|thanks/choco_bombs(_gr)?$|privacy|offer_en|assets/|en\\.css|en-green\\.css|cookie-consent\\.js|favicon|apple-touch-icon|robots\\.txt).+)",
+      "source": "/((?!choco_bombs|thanks/choco_bombs$|thanks/choco_bombs_gr$|privacy|offer_en|assets/|en\\.css|en-green\\.css|cookie-consent\\.js|favicon|apple-touch-icon|robots\\.txt).+)",
       "has": [
         {
           "type": "host",
