@@ -5,7 +5,30 @@
   "installCommand": null,
   "outputDirectory": ".",
   "cleanUrls": true,
-  "redirects": [],
+  "redirects": [
+    {
+      "source": "/choco_bombs",
+      "has": [
+        {
+          "type": "host",
+          "value": "en.tortopani.com"
+        }
+      ],
+      "destination": "/",
+      "permanent": false
+    },
+    {
+      "source": "/((?!choco_bombs|privacy|offer_en|assets/|en\\.css|cookie-consent\\.js|favicon|apple-touch-icon|robots\\.txt).+)",
+      "has": [
+        {
+          "type": "host",
+          "value": "en.tortopani.com"
+        }
+      ],
+      "destination": "/",
+      "permanent": false
+    }
+  ],
   "rewrites": [
     {
       "source": "/thanks",
