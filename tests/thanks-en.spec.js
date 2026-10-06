@@ -62,3 +62,29 @@ test("en.tortopani.com does not bounce /thanks/choco_bombs back to the landing",
   expect(re.test("/thanks/bento")).toBe(true);
   expect(re.test("/bento")).toBe(true);
 });
+
+test("GET /thanks/choco_bombs_gr is the same thank-you page in the green palette", async () => {
+  const res = await run("GET", "/api/thanks?p=choco_bombs_gr");
+  expect(res.statusCode).toBe(200);
+  expect(res.body).toContain('<link rel="stylesheet" href="/en-green.css" />');
+  expect(res.body).toContain("Within 24 hours");
+  expect(res.body).toContain('href="https://en.tortopani.com/choco_bombs_gr"');
+  expect(res.body).toContain('href="https://en.tortopani.com/privacy_gr"');
+  expect(res.body).toContain('href="https://en.tortopani.com/offer_en_gr"');
+  expect(res.body).toContain('data-privacy="/privacy_gr"');
+  expect(res.body).toContain('{"content_name":"E-book Choco Bombs","value":19,"currency":"USD"}');
+  // the green page must not send itself anywhere
+  expect(res.body).not.toContain("location.replace");
+});
+
+test("the shared /thanks/choco_bombs hands green-page buyers to the green thank-you", async () => {
+  const res = await run("GET", "/api/thanks?p=choco_bombs");
+  expect(res.body).toContain("location.replace(\"/thanks/choco_bombs_gr\")");
+  expect(res.body).not.toContain("en-green.css");
+});
+
+test("en.tortopani.com lets /thanks/choco_bombs_gr through", () => {
+  const cfg = JSON.parse(fs.readFileSync(require.resolve("../vercel.json"), "utf8"));
+  const catchAll = cfg.redirects.find((r) => r.has && r.has[0].value === "en.tortopani.com" && r.source.includes("?!"));
+  expect(new RegExp("^" + catchAll.source + "$").test("/thanks/choco_bombs_gr")).toBe(false);
+});

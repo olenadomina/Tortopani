@@ -404,6 +404,9 @@
        counted here — only after a confirmed payment. */
     document.querySelectorAll("[data-pay]").forEach(function (a) {
       a.addEventListener("click", function () {
+        /* WayForPay returns every buyer to one thank-you URL; this tells it
+           which landing they came from, so it can show the matching page. */
+        try { localStorage.setItem("tp-variant", "dark"); } catch (e) {}
         if (window.tpTrack) tpTrack("InitiateCheckout", {
           content_name: "E-book Choco Bombs", value: 19, currency: "USD"
         });

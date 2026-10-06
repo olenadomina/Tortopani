@@ -42,3 +42,14 @@ test("en.tortopani.com serves both /choco_bombs and /choco_bombs_gr", () => {
   }
   expect(catchAll.test("/bento")).toBe(true);
 });
+
+test("each landing remembers its variant when the buyer leaves for WayForPay", async ({ page }) => {
+  await page.route("https://secure.wayforpay.com/**", (r) => r.fulfill({ status: 200, body: "pay" }));
+  for (const [p, v] of [["/choco_bombs_gr.html", "gr"], ["/choco_bombs.html", "dark"]]) {
+    await page.goto(p);
+    await page.locator(".cb-buy [data-pay]").click();
+    await page.waitForURL(/wayforpay/);
+    await page.goto(p);
+    expect(await page.evaluate(() => localStorage.getItem("tp-variant"))).toBe(v);
+  }
+});

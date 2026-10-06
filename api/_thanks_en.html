@@ -4,6 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="robots" content="noindex, nofollow" />
+  <!-- One WayForPay button serves both landings and returns every buyer
+       here. A buyer who came from the green landing (/choco_bombs_gr, which
+       remembers it on the buy click) is handed to the green thank-you before
+       anything else on this page runs, so Purchase is counted only there. -->
+  <script>try{if(localStorage.getItem("tp-variant")==="gr")location.replace("/thanks/choco_bombs_gr")}catch(e){}</script>
   <title>Thank you for your order — Choco Bombs e-book</title>
   <link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon-32.png?v=20260807" />
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png?v=20260807" />
