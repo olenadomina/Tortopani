@@ -7,11 +7,15 @@
  * (on privacy.html) reopen the banner so it can be changed.
  *
  * Usage: <script src="cookie-consent.js" data-pixel="<id>" defer></script>
+ * A page that also reports to a campaign's own pixel lists it, space-separated
+ * if there are several, in data-pixel-extra — every event goes to all of them.
  */
 (function () {
   var KEY = "tp-cookie-consent";
   var script = document.currentScript;
-  var pixelId = script && script.getAttribute("data-pixel");
+  var pixelIds = ["data-pixel", "data-pixel-extra"]
+    .map(function (a) { return (script && script.getAttribute(a)) || ""; })
+    .join(" ").split(/\s+/).filter(Boolean);
   /* Each page set links its own policy (the green variant has privacy_gr). */
   var privacyHref = (script && script.getAttribute("data-privacy")) || "/privacy.html";
 
@@ -23,14 +27,14 @@
   }
 
   function loadPixel() {
-    if (!pixelId || window.fbq) return;
+    if (!pixelIds.length || window.fbq) return;
     !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
     n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
     n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
     t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
     document,'script','https://connect.facebook.net/en_US/fbevents.js');
-    fbq("init", pixelId);
-    fbq("trackSingle", pixelId, "PageView");
+    pixelIds.forEach(function (id) { fbq("init", id); });
+    pixelIds.forEach(function (id) { fbq("trackSingle", id, "PageView"); });
     /* Lets a page send its own event (the thank-you page's Purchase) the
        moment consent arrives, not only on the next visit. */
     document.dispatchEvent(new Event("tp-pixel-ready"));
@@ -72,7 +76,7 @@
 
   /* Pages call this on a buy click; it is a no-op without consent. */
   window.tpTrack = function (event, params) {
-    if (window.fbq && pixelId) fbq("trackSingle", pixelId, event, params);
+    if (window.fbq) pixelIds.forEach(function (id) { fbq("trackSingle", id, event, params); });
   };
 
   function init() {

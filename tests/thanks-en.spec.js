@@ -44,6 +44,9 @@ test("the English thank-you page counts Purchase only through cookie consent", a
   // No pixel bootstrapped inline: cookie-consent.js loads it after Accept.
   expect(res.body).not.toContain("fbq('init'");
   expect(res.body).toContain('src="/cookie-consent.js" data-pixel="1657768735391830"');
+  // The chocolate landing also reports to the «Картопля» bundle pixel, so the
+  // Purchase closes the funnel there too.
+  expect(res.body).toContain('data-pixel-extra="2515900125583722"');
   expect(res.body).toContain('"Purchase"');
   expect(res.body).toContain('{"content_name":"E-book Choco Bombs","value":19,"currency":"USD"}');
 });
@@ -71,7 +74,9 @@ test("GET /thanks/choco_bombs_gr is the same thank-you page in the green palette
   expect(res.body).toContain('href="https://en.tortopani.com/choco_bombs_gr"');
   expect(res.body).toContain('href="https://en.tortopani.com/privacy_gr"');
   expect(res.body).toContain('href="https://en.tortopani.com/offer_en_gr"');
-  expect(res.body).toContain('data-privacy="/privacy_gr"');
+  expect(res.body).toContain('data-pixel="1657768735391830" data-privacy="/privacy_gr"');
+  // the bundle pixel belongs to the chocolate landing only
+  expect(res.body).not.toContain("2515900125583722");
   expect(res.body).toContain('{"content_name":"E-book Choco Bombs","value":19,"currency":"USD"}');
   // the green page must not send itself anywhere
   expect(res.body).not.toContain("location.replace");

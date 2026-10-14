@@ -53,3 +53,12 @@ test("each landing remembers its variant when the buyer leaves for WayForPay", a
     expect(await page.evaluate(() => localStorage.getItem("tp-variant"))).toBe(v);
   }
 });
+
+test("the green landing stays on the home pixel only — the bundle pixel is the chocolate one's", async ({ page }) => {
+  await page.route("**/fbevents.js", (r) => r.fulfill({ contentType: "text/javascript", body: "" }));
+  await page.goto("/choco_bombs_gr.html");
+  await page.locator("#cookieBanner").getByRole("button", { name: /accept/i }).click();
+  const calls = await page.evaluate(() => window.fbq.queue.map((a) => [...a]));
+  expect(calls).toContainEqual(["init", "1657768735391830"]);
+  expect(JSON.stringify(calls)).not.toContain("2515900125583722");
+});
