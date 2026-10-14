@@ -23,3 +23,10 @@ compare_*.jpeg
 old_*.jpeg
 new_*.jpeg
 
+# The green English landing (choco_bombs_gr) is off the site since 2026-10-14.
+# Its sources stay here; vercel.json sends its old URLs to the chocolate pages.
+choco_bombs_gr.html
+privacy_gr.html
+offer_en_gr.html
+en-green.css
+assets/chocobombs/green

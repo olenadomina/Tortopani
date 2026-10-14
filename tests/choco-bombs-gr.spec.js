@@ -1,64 +1,43 @@
-// The green variant of the English landing (en.tortopani.com/choco_bombs_gr):
-// the same page in tortopani.com's palette, with its own privacy and offer
-// pages, living beside the dark one at /choco_bombs.
+// The green variant of the English landing (en.tortopani.com/choco_bombs_gr)
+// is off the site since 2026-10-14. Its sources stay in the repo but are not
+// deployed, and its old URLs land on the chocolate pages instead of a 404.
 const { test, expect } = require("@playwright/test");
 const fs = require("fs");
 
-const SET = ["choco_bombs_gr.html", "privacy_gr.html", "offer_en_gr.html"];
+const cfg = JSON.parse(fs.readFileSync(require.resolve("../vercel.json"), "utf8"));
 
-test("the green pages load en-green.css and link only within the green set", async ({ page }) => {
-  for (const p of SET) {
-    await page.goto("/" + p);
-    await expect(page.locator("html")).toHaveAttribute("lang", "en");
-    await expect(page.locator('link[href="en-green.css"]')).toHaveCount(1);
-    const text = await page.evaluate(() => document.body.innerText);
-    expect(text).not.toMatch(/[Ѐ-ӿ]/);
-    const local = await page.$$eval("a[href]", (as) => as.map((a) => a.getAttribute("href")).filter((h) => !/^(https?:|#|mailto:)/.test(h)));
-    for (const h of local) expect(SET, `${p} → ${h}`).toContain(h.split(/[?#]/)[0]);
+test("the green pages are kept out of the deployment", () => {
+  const ignored = fs.readFileSync(require.resolve("../.vercelignore"), "utf8").split("\n");
+  for (const f of ["choco_bombs_gr.html", "privacy_gr.html", "offer_en_gr.html", "en-green.css", "assets/chocobombs/green"]) {
+    expect(ignored, f).toContain(f);
   }
 });
 
-test("the green landing keeps its own gallery and pays through the same invoice", async ({ page }) => {
-  await page.goto("/choco_bombs_gr.html");
-  const uniq = await page.locator(".cb-rail").evaluate((r) => new Set([...r.querySelectorAll("img")].map((i) => i.getAttribute("src"))).size);
-  expect(uniq).toBe(9);
-  for (const href of await page.locator("[data-pay]").evaluateAll((els) => els.map((e) => e.getAttribute("data-pay")))) {
-    expect(href).toBe("https://secure.wayforpay.com/button/b0c4d81fa7e62");
-  }
-  const srcs = await page.evaluate(() => [...new Set([...document.images].map((i) => i.src))]);
-  for (const src of srcs) expect((await page.request.get(src)).status(), src).toBe(200);
-  // the cookie banner's "Learn more" points at the green privacy page
-  await expect(page.locator("#cookieBanner a")).toHaveAttribute("href", "privacy_gr.html#cookies");
-});
-
-test("en.tortopani.com serves both /choco_bombs and /choco_bombs_gr", () => {
-  const cfg = JSON.parse(fs.readFileSync(require.resolve("../vercel.json"), "utf8"));
-  const en = cfg.redirects.filter((r) => r.has && r.has[0].value === "en.tortopani.com");
-  // nothing on the en host sends /choco_bombs away any more
-  expect(en.find((r) => r.source === "/choco_bombs")).toBeUndefined();
-  const catchAll = new RegExp("^" + en.find((r) => r.source.includes("?!")).source + "$");
-  for (const p of ["/choco_bombs", "/choco_bombs_gr", "/privacy_gr", "/offer_en_gr", "/en-green.css"]) {
-    expect(catchAll.test(p), p).toBe(false);
-  }
-  expect(catchAll.test("/bento")).toBe(true);
-});
-
-test("each landing remembers its variant when the buyer leaves for WayForPay", async ({ page }) => {
-  await page.route("https://secure.wayforpay.com/**", (r) => r.fulfill({ status: 200, body: "pay" }));
-  for (const [p, v] of [["/choco_bombs_gr.html", "gr"], ["/choco_bombs.html", "dark"]]) {
-    await page.goto(p);
-    await page.locator(".cb-buy [data-pay]").click();
-    await page.waitForURL(/wayforpay/);
-    await page.goto(p);
-    expect(await page.evaluate(() => localStorage.getItem("tp-variant"))).toBe(v);
+test("old green URLs redirect to their chocolate twins on every host", () => {
+  const twins = {
+    "/choco_bombs_gr": "https://en.tortopani.com/",
+    "/privacy_gr": "https://en.tortopani.com/privacy",
+    "/offer_en_gr": "https://en.tortopani.com/offer_en",
+    "/thanks/choco_bombs_gr": "https://en.tortopani.com/thanks/choco_bombs",
+  };
+  for (const [from, to] of Object.entries(twins)) {
+    const rule = cfg.redirects.find((r) => !r.has && r.source === from);
+    expect(rule, from).toBeTruthy();
+    expect(rule.destination).toBe(to);
+    // ahead of the en host's catch-all, which would send them all to "/"
+    expect(cfg.redirects.indexOf(rule)).toBeLessThan(cfg.redirects.findIndex((r) => r.source.includes("?!")));
   }
 });
 
-test("the green landing stays on the home pixel only — the bundle pixel is the chocolate one's", async ({ page }) => {
-  await page.route("**/fbevents.js", (r) => r.fulfill({ contentType: "text/javascript", body: "" }));
-  await page.goto("/choco_bombs_gr.html");
-  await page.locator("#cookieBanner").getByRole("button", { name: /accept/i }).click();
-  const calls = await page.evaluate(() => window.fbq.queue.map((a) => [...a]));
-  expect(calls).toContainEqual(["init", "1657768735391830"]);
-  expect(JSON.stringify(calls)).not.toContain("2515900125583722");
+test("nothing on the live English pages still points at the green variant", async () => {
+  const { default: handler } = await import("../api/thanks.mjs");
+  const res = { headers: {}, body: "" };
+  res.setHeader = () => res;
+  res.status = () => res;
+  res.send = (b) => { res.body = String(b); return res; };
+  res.end = () => res;
+  await handler({ method: "GET", url: "/api/thanks?p=choco_bombs", headers: {} }, res);
+  for (const body of [res.body, fs.readFileSync("choco_bombs.html", "utf8"), fs.readFileSync("privacy.html", "utf8"), fs.readFileSync("offer_en.html", "utf8")]) {
+    expect(body).not.toMatch(/_gr\b|en-green|tp-variant/);
+  }
 });

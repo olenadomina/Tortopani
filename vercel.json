@@ -7,7 +7,27 @@
   "cleanUrls": true,
   "redirects": [
     {
-      "source": "/((?!choco_bombs|thanks/choco_bombs$|thanks/choco_bombs_gr$|privacy|offer_en|assets/|en\\.css|en-green\\.css|cookie-consent\\.js|favicon|apple-touch-icon|robots\\.txt).+)",
+      "source": "/choco_bombs_gr",
+      "destination": "https://en.tortopani.com/",
+      "permanent": false
+    },
+    {
+      "source": "/privacy_gr",
+      "destination": "https://en.tortopani.com/privacy",
+      "permanent": false
+    },
+    {
+      "source": "/offer_en_gr",
+      "destination": "https://en.tortopani.com/offer_en",
+      "permanent": false
+    },
+    {
+      "source": "/thanks/choco_bombs_gr",
+      "destination": "https://en.tortopani.com/thanks/choco_bombs",
+      "permanent": false
+    },
+    {
+      "source": "/((?!choco_bombs|thanks/choco_bombs$|privacy|offer_en|assets/|en\\.css|cookie-consent\\.js|favicon|apple-touch-icon|robots\\.txt).+)",
       "has": [
         {
           "type": "host",
@@ -29,7 +49,7 @@
       "permanent": false
     },
     {
-      "source": "/:page(privacy|offer_en|choco_bombs_gr|privacy_gr|offer_en_gr)",
+      "source": "/:page(privacy|offer_en)",
       "has": [
         {
           "type": "host",
@@ -40,7 +60,7 @@
       "permanent": false
     },
     {
-      "source": "/thanks/:p(choco_bombs|choco_bombs_gr)",
+      "source": "/thanks/:p(choco_bombs)",
       "has": [
         {
           "type": "host",

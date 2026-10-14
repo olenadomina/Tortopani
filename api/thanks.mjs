@@ -45,23 +45,8 @@ const template = readFileSync(new URL("./_thanks.html", import.meta.url), "utf8"
 // It is complete as is — nothing to fill.
 const thanksEn = readFileSync(new URL("./_thanks_en.html", import.meta.url), "utf8");
 
-// The green landing (/choco_bombs_gr) gets the same page in its palette:
-// en-green.css on top, its own logo / privacy / offer links, no hand-off
-// script (that one only ever sends buyers here), and only the home pixel —
-// the bundle pixel is on the chocolate landing alone.
-function greenThanks(page) {
-  return page
-    .replace(/  <!-- One WayForPay button[\s\S]*?<\/script>\n/, "")
-    .replace("</head>", '  <link rel="stylesheet" href="/en-green.css" />\n</head>')
-    .replace('data-pixel="1657768735391830" data-pixel-extra="2515900125583722"', 'data-pixel="1657768735391830" data-privacy="/privacy_gr"')
-    .replaceAll('href="https://en.tortopani.com/"', 'href="https://en.tortopani.com/choco_bombs_gr"')
-    .replaceAll('href="https://en.tortopani.com/privacy"', 'href="https://en.tortopani.com/privacy_gr"')
-    .replaceAll('href="https://en.tortopani.com/offer_en"', 'href="https://en.tortopani.com/offer_en_gr"');
-}
-
 const EN_PAGES = {
   choco_bombs: thanksEn,
-  choco_bombs_gr: greenThanks(thanksEn),
 };
 
 function escapeHtml(value) {
