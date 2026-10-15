@@ -70,14 +70,14 @@ test("the Meta Pixel waits for cookie consent, and Accept loads it", async ({ pa
   expect(await page.evaluate(() => typeof window.fbq)).toBe("function");
 });
 
-test("Accept starts the home and the «Картопля» bundle pixels, and a buy reports to both", async ({ page }) => {
+test("Accept starts the home and the English landing's own pixels, and a buy reports to both", async ({ page }) => {
   // An empty fbevents.js keeps the stub, so its queue shows every call.
   await page.route("**/fbevents.js", (r) => r.fulfill({ contentType: "text/javascript", body: "" }));
   await page.goto("/choco_bombs.html");
   await page.locator("#cookieBanner").getByRole("button", { name: /accept/i }).click();
   await page.evaluate(() => window.tpTrack("InitiateCheckout", { value: 19, currency: "USD" }));
   const calls = await page.evaluate(() => window.fbq.queue.map((a) => [...a]));
-  for (const id of ["1657768735391830", "2515900125583722"]) {
+  for (const id of ["1657768735391830", "976057918882776"]) {
     expect(calls).toContainEqual(["init", id]);
     expect(calls).toContainEqual(["trackSingle", id, "PageView"]);
     expect(calls).toContainEqual(["trackSingle", id, "InitiateCheckout", { value: 19, currency: "USD" }]);

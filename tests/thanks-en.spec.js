@@ -44,9 +44,9 @@ test("the English thank-you page counts Purchase only through cookie consent", a
   // No pixel bootstrapped inline: cookie-consent.js loads it after Accept.
   expect(res.body).not.toContain("fbq('init'");
   expect(res.body).toContain('src="/cookie-consent.js" data-pixel="1657768735391830"');
-  // The chocolate landing also reports to the «Картопля» bundle pixel, so the
+  // The chocolate landing also reports to its own English pixel, so the
   // Purchase closes the funnel there too.
-  expect(res.body).toContain('data-pixel-extra="2515900125583722"');
+  expect(res.body).toContain('data-pixel-extra="976057918882776"');
   expect(res.body).toContain('"Purchase"');
   expect(res.body).toContain('{"content_name":"E-book Choco Bombs","value":19,"currency":"USD"}');
 });
